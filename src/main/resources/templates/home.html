@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+</head>
+<body>
+    <div>Home</div>
+    <hr>
+    <div>PET</div>
+    <br>
+    <div>Add pet</div>
+    <form action="/pet/form/add" method="post" id="add_pet">
+        <input type="text" name="name" placeholder="Pet name">
+        <button type="submit" id="submit_add_pet">ADD</button>
+    </form>
+    <br>
+    <div>Search pet by ID</div>
+    <form action="/pet/form/getbyid" method="get" id="get_pet_by_id">
+        <input type="text" name="id" placeholder="Pet ID">
+        <button type="submit" id="submit_get_pet_by_id">SEARCH</button>
+    </form>
+    <br>
+    <div>List all pets</div>
+    <form action="/pet/form/getall" method="get" id="get_all_pets">
+        <button type="submit" id="submit_get_all_pets">LIST</button>
+    </form>
+    <br>
+    <div>Update pet</div>
+    <form action="/pet/form/update" method="get" id="update_pet_with_form">
+        <input type="number" name="id" placeholder="Pet ID">
+        <input type="text" name="name" placeholder="Pet name">
+        <input type="text" name="status" placeholder="Status">
+        <button type="submit" id="submit_update_pet_with_form">UPDATE</button>
+    </form>
+    <br>
+    <div>Delete pet</div>
+    <form action="/pet/form/delete" method="get" id="delete_pet">
+        <input type="number" name="id" placeholder="Pet ID">
+        <button type="submit" id="submit_delete_pet">DELETE</button>
+    </form>
+    <br>
+    <hr>
+    <div>ORDER</div>
+    <br>
+    <div>Place order</div>
+    <form action="/order/form/add" method="post" id="add_order">
+        <input type="number" name="quantity" placeholder="Quantity">
+        <input type="date" name="ship_date" placeholder="Ship date">
+        <button type="submit" id="submit_add_order">PLACE</button>
+    </form>
+    <br>
+    <div>Search order by ID</div>
+    <form action="/order/form/getbyid" method="get" id="get_order_by_id">
+        <input type="text" name="id" placeholder="Order ID">
+        <button type="submit" id="submit_get_order_by_id">SEARCH</button>
+    </form>
+    <br>
+    <div>List all orders</div>
+    <form action="/order/form/getall" method="get" id="get_all_orders">
+        <button type="submit" id="submit_get_all_orders">LIST</button>
+    </form>
+    <br>
+    <div>Update order</div>
+    <form action="/order/form/update" method="get" id="update_order_with_form">
+        <input type="number" name="id" placeholder="Order ID">
+        <input type="number" name="quantity" placeholder="Quantity">
+        <input type="date" name="ship_date" placeholder="Ship date">
+        <input type="text" name="status" placeholder="Status">
+        <input type="text" name="complete" placeholder="Complete">
+        <button type="submit" id="submit_update_order_with_form">UPDATE</button>
+    </form>
+    <br>
+    <div>Delete order</div>
+    <form action="/order/form/delete" method="get" id="delete_order">
+        <input type="number" name="id" placeholder="Order ID">
+        <button type="submit" id="submit_delete_orde r">DELETE</button>
+    </form>
+    <br>
+    <hr>
+    <p th:inline="text">Logged in as <span th:remove="tag" sec:authentication="name">username</span></p>
+    <form th:action="@{/logout}" method="post">
+        <input type="submit" value="LOGOUT"/>
+    </form>
+</body>
+</html>
