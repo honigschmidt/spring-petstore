@@ -20,7 +20,8 @@ public class Pet {
 //    }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pet_generator")
+    @SequenceGenerator(name="pet_generator", sequenceName = "pet_seq", allocationSize=50)
     @Column(name = "id", nullable = false)
     private Long id;
 
