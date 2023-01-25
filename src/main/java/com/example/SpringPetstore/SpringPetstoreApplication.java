@@ -33,15 +33,15 @@ public class SpringPetstoreApplication {
 	}
 
 	public void prepDB() {
-		orderRepository.save(Order.builder().quantity(0).shipDate(LocalDate.EPOCH).status("NEW").complete(false).build());
-		orderRepository.save(Order.builder().quantity(0).shipDate(LocalDate.EPOCH).status("NEW").complete(false).build());
-		orderRepository.save(Order.builder().quantity(0).shipDate(LocalDate.EPOCH).status("NEW").complete(false).build());
 
-		petRepository.save(Pet.builder().name("Alex").status("AVAILABLE").build());
-		petRepository.save(Pet.builder().name("Benny").status("AVAILABLE").build());
-		petRepository.save(Pet.builder().name("Ceasar").status("AVAILABLE").build());
+		Order savedOrder;
 
-		Order savedOrder = orderRepository.save(Order.builder().quantity(1).shipDate(LocalDate.EPOCH).status("PLACED").complete(false).build());
+		savedOrder = orderRepository.save(Order.builder().quantity(0).shipDate(LocalDate.EPOCH).status("DUMMY").complete(false).build());
+		petRepository.save(Pet.builder().name("Alex").status("AVAILABLE").order(savedOrder).build());
+		petRepository.save(Pet.builder().name("Benny").status("AVAILABLE").order(savedOrder).build());
+		petRepository.save(Pet.builder().name("Ceasar").status("AVAILABLE").order(savedOrder).build());
+
+		savedOrder = orderRepository.save(Order.builder().quantity(1).shipDate(LocalDate.EPOCH).status("PLACED").complete(false).build());
 		petRepository.save(Pet.builder().name("Dalvik").status("PENDING").order(savedOrder).build());
 	}
 }

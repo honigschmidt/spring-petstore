@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.util.Set;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -29,7 +29,7 @@ public class Order {
     private Long id;
 
     @OneToMany(mappedBy = "order")
-    private Set<Pet> pets;
+    private List<Pet> petList;
 
     @Column(name = "quantity", nullable = false)
     private Integer quantity;

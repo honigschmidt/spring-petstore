@@ -1,6 +1,5 @@
 package com.example.SpringPetstore.model;
 
-import com.fasterxml.jackson.annotation.JsonView;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -32,6 +31,6 @@ public class Pet {
     private String status;
 
     @ManyToOne
-    @JoinColumn(name = "order_id", referencedColumnName = "id", nullable = true)
+    @JoinColumn(name = "order_id", nullable = false)
     private Order order;
 }
