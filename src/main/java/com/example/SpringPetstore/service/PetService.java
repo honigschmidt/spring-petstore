@@ -40,7 +40,7 @@ public class PetService {
             Pet updatedPet = searchResult.get();
             updatedPet.setName(pet.getName());
             updatedPet.setStatus(pet.getStatus());
-//            updatedPet.setOrder(pet.getOrder());
+            updatedPet.setOrder(pet.getOrder());
             return Optional.of(petRepository.save(updatedPet));
         } else return Optional.empty();
     }

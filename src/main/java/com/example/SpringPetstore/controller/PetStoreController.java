@@ -42,11 +42,14 @@ public class PetStoreController {
 
     @GetMapping(path = "/pet/form/getbyid")
     @ResponseBody
-    public ResponseEntity<JsonPet> getPetById(@RequestParam Long id) {
-        Optional<Pet> result = petService.getPetById(id);
-        if (result.isPresent()) {
-            return ResponseEntity.ok(new JsonPet(result.get()));
-        } else return ResponseEntity.notFound().build();
+//    public ResponseEntity<JsonPet> getPetById(@RequestParam Long id) {
+//        Optional<Pet> result = petService.getPetById(id);
+//        if (result.isPresent()) {
+//            return ResponseEntity.ok(new JsonPet(result.get()));
+//        } else return ResponseEntity.notFound().build();
+//    }
+    public Pet getPetById(@RequestParam Long id) {
+        return petService.getPetById(id).get();
     }
 
     @GetMapping(path = "/pet/form/getall")
@@ -81,9 +84,10 @@ public class PetStoreController {
     public void Order (@RequestParam Long petId, @RequestParam Integer quantity, @RequestParam LocalDate ship_date) {
         Optional<Pet> orderedPet = petService.getPetById(petId);
         if (orderedPet.isPresent()) {
-            List<Pet> newOrderList = new ArrayList<>();
-            newOrderList.add((petService.getPetById(petId)).get());
-            orderService.addOrder(Order.builder().petList(newOrderList).quantity(quantity).shipDate(ship_date).status("PLACED").complete(false).build());
+            Order newOrder = orderService.addOrder(Order.builder().quantity(quantity).shipDate(ship_date).status("PLACED").complete(false).build());
+            Pet updatedPet = orderedPet.get();
+            updatedPet.setOrder(newOrder);
+            petService.updatePetWithForm(updatedPet.getId(), updatedPet);
         }
     }
 
