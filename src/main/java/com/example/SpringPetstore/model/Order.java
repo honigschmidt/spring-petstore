@@ -14,15 +14,8 @@ import java.util.List;
 @ToString
 @Builder
 @Entity
-@Table(name = "order_table")
+@Table(name = "orders")
 public class Order {
-
-//    enum Status {
-//        DUMMY,
-//        PLACED,
-//        APPROVED,
-//        DELIVERED
-//    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "order_generator")
@@ -30,8 +23,9 @@ public class Order {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @OneToMany(mappedBy = "order")
-    private List<Pet> petList = new ArrayList<>();
+    @OneToOne
+    @JoinColumn(name = "pet_id", referencedColumnName = "id", nullable = false)
+    private Pet pet;
 
     @Column(name = "quantity", nullable = false)
     private Integer quantity;
@@ -40,7 +34,7 @@ public class Order {
     private LocalDate shipDate;
 
     @Column(name = "status", nullable = false)
-    private String status;
+    private OrderStatus status;
 
     @Column(name = "complete", nullable = false)
     private Boolean complete;

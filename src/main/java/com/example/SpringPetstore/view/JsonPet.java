@@ -1,5 +1,6 @@
-package com.example.SpringPetstore.model;
+package com.example.SpringPetstore.view;
 
+import com.example.SpringPetstore.model.Pet;
 import lombok.*;
 
 @AllArgsConstructor
@@ -18,7 +19,9 @@ public class JsonPet {
     public JsonPet(Pet pet) {
         this.id = pet.getId();
         this.name = pet.getName();
-        this.status = pet.getStatus();
-        this.order_id = pet.getOrder().getId();
+//        this.status = pet.getStatus();
+        if (pet.getOrder() != null) {
+            this.order_id = pet.getOrder().getId();
+        }
     }
 }

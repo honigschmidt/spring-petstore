@@ -31,26 +31,25 @@ public class SpringPetstoreApplication {
 
 	@PostConstruct
 	public void init() {
-		prepDB();
+//		prepDB();
 	}
 
 	public void prepDB() {
 
-		Pet savedPet;
-		Order savedOrder;
-		List<Pet> petList = new ArrayList<>();
-
-		savedOrder = orderRepository.save(Order.builder().quantity(0).shipDate(LocalDate.EPOCH).status("DUMMY").complete(false).build());
-
-		petRepository.save(Pet.builder().name("Alex").status("AVAILABLE").order(savedOrder).build());
-		petRepository.save(Pet.builder().name("Benny").status("AVAILABLE").order(savedOrder).build());
-		savedPet = petRepository.save(Pet.builder().name("Ceasar").status("AVAILABLE").order(savedOrder).build());
-
+//		Pet savedPet;
+//		Order savedOrder;
+//
+//		savedOrder = orderRepository.save(Order.builder().quantity(0).shipDate(LocalDate.EPOCH).status("DUMMY").complete(false).build());
+//
+//		petRepository.save(Pet.builder().name("Alex").status("AVAILABLE").order(savedOrder).build());
+//		petRepository.save(Pet.builder().name("Benny").status("AVAILABLE").order(savedOrder).build());
+//		savedPet = petRepository.save(Pet.builder().name("Ceasar").status("AVAILABLE").order(savedOrder).build());
+//
 //		savedOrder = orderRepository.save(Order.builder().quantity(1).shipDate(LocalDate.EPOCH).status("PLACED").complete(false).build());
 //		petRepository.save(Pet.builder().name("Dalvik").status("PENDING").order(savedOrder).build());
 //
-		petList.add(savedPet);
-		System.out.println(petList);
-		orderRepository.save(Order.builder().petList(petList).quantity(0).shipDate(LocalDate.EPOCH).status("PLACED").complete(false).build());
+//		petList.add(savedPet);
+//		System.out.println(petList);
+//		orderRepository.save(Order.builder().petList(petList).quantity(0).shipDate(LocalDate.EPOCH).status("PLACED").complete(false).build());
 	}
 }

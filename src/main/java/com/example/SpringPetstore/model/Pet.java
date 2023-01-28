@@ -10,14 +10,8 @@ import lombok.*;
 @ToString
 @Builder
 @Entity
-@Table(name = "pet_table")
+@Table(name = "pets")
 public class Pet {
-
-//    public enum Status {
-//        AVAILABLE,
-//        PENDING,
-//        SOLD
-//    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pet_generator")
@@ -25,22 +19,14 @@ public class Pet {
     @Column(name = "id", nullable = false)
     private Long id;
 
+    // category
+
     @Column(name = "name", nullable = false)
     private String name;
 
     @Column(name = "status", nullable = false)
-    private String status;
+    private PetStatus status;
 
-    @ManyToOne
-    @JoinColumn(name = "order_id", nullable = false)
+    @OneToOne
     private Order order;
-
-    @Override
-    public String toString() {
-        return "Pet{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", status='" + status + '\'' +
-                '}';
-    }
 }

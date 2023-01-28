@@ -10,13 +10,11 @@
     <td>Id</td>
     <td>Name</td>
     <td>Status</td>
-    <td>Order ID</td>
   </tr>
   <tr th:each="pet:${allPets}">
     <td th:text="${pet.id}"></td>
     <td th:text="${pet.name}"></td>
     <td th:text="${pet.status}"></td>
-    <td th:text="${pet.order_id}"></td>
   </tr>
 </table>
 </body>
