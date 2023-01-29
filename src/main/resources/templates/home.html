@@ -11,7 +11,11 @@
     <br>
     <div>Add pet</div>
     <form action="/pet/form/add" method="post" id="add_pet">
-        <input type="text" name="name" placeholder="Pet name">
+        <select id="category_id" name="category_id" th:size="${#lists.size(categories)}"multiple>-->
+            <option th:each="category : ${categories}"
+                    th:value="${category.id}"
+                    th:text="${category.name}">
+        </select>
         <button type="submit" id="submit_add_pet">ADD</button>
     </form>
     <br>

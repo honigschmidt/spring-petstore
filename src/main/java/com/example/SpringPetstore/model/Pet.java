@@ -28,8 +28,12 @@ public class Pet {
     @Column(name = "name", nullable = false)
     private String name;
 
-    // TODO: Set up this relationship
     @ManyToMany
+    @JoinTable(
+            name = "pet_tags",
+            joinColumns = @JoinColumn(name = "pet_id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id")
+    )
     private Set<Tag> tagSet;
 
     @Column(name = "status", nullable = false)

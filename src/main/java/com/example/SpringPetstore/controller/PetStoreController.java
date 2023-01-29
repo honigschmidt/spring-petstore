@@ -1,10 +1,7 @@
 package com.example.SpringPetstore.controller;
 
-import com.example.SpringPetstore.model.OrderStatus;
-import com.example.SpringPetstore.model.PetStatus;
+import com.example.SpringPetstore.model.*;
 import com.example.SpringPetstore.view.JsonPet;
-import com.example.SpringPetstore.model.Order;
-import com.example.SpringPetstore.model.Pet;
 import com.example.SpringPetstore.service.OrderService;
 import com.example.SpringPetstore.service.PetService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,21 +22,24 @@ public class PetStoreController {
     @Autowired
     PetService petService;
     OrderService orderService;
+    CategoryRepository categoryRepository;
 
-    public PetStoreController(PetService petService, OrderService orderService) {
+    public PetStoreController(PetService petService, OrderService orderService, CategoryRepository categoryRepository) {
         this.petService = petService;
         this.orderService = orderService;
+        this.categoryRepository = categoryRepository;
     }
 
     @GetMapping(path = "/")
-    public String getHome() {
+    public String getHome(Model model) {
+        model.addAttribute("categories", categoryRepository.findAll());
         return "home";
     }
 
     // TODO: Add list of available tags and statuses to the form
     @PostMapping(path = "/pet/form/add")
     @ResponseBody
-    public ResponseEntity<Pet> addPet(@RequestParam String name) {
+    public ResponseEntity<Pet> addPet(@RequestParam Long categoryId, @RequestParam String name, @RequestParam List<Long> tagIdList, @RequestParam String status) {
         return ResponseEntity.ok(petService.addPet(Pet.builder().name(name).status(PetStatus.AVAILABLE).build()));
     }
 

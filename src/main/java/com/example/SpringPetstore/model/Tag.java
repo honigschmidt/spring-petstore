@@ -25,6 +25,6 @@ public class Tag {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "tagSet")
     private Set<Pet> petSet;
 }

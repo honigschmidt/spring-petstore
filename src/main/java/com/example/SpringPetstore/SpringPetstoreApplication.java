@@ -1,9 +1,6 @@
 package com.example.SpringPetstore;
 
-import com.example.SpringPetstore.model.Order;
-import com.example.SpringPetstore.model.OrderRepository;
-import com.example.SpringPetstore.model.Pet;
-import com.example.SpringPetstore.model.PetRepository;
+import com.example.SpringPetstore.model.*;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -19,10 +16,14 @@ public class SpringPetstoreApplication {
 	@Autowired
 	PetRepository petRepository;
 	OrderRepository orderRepository;
+	TagRepository tagRepository;
+	CategoryRepository categoryRepository;
 
-	public SpringPetstoreApplication(PetRepository petRepository, OrderRepository orderRepository) {
+	public SpringPetstoreApplication(PetRepository petRepository, OrderRepository orderRepository, TagRepository tagRepository, CategoryRepository categoryRepository) {
 		this.petRepository = petRepository;
 		this.orderRepository = orderRepository;
+		this.tagRepository = tagRepository;
+		this.categoryRepository = categoryRepository;
 	}
 
 	public static void main(String[] args) {
@@ -31,25 +32,17 @@ public class SpringPetstoreApplication {
 
 	@PostConstruct
 	public void init() {
-//		prepDB();
+		prepDB();
 	}
 
 	public void prepDB() {
 
-//		Pet savedPet;
-//		Order savedOrder;
-//
-//		savedOrder = orderRepository.save(Order.builder().quantity(0).shipDate(LocalDate.EPOCH).status("DUMMY").complete(false).build());
-//
-//		petRepository.save(Pet.builder().name("Alex").status("AVAILABLE").order(savedOrder).build());
-//		petRepository.save(Pet.builder().name("Benny").status("AVAILABLE").order(savedOrder).build());
-//		savedPet = petRepository.save(Pet.builder().name("Ceasar").status("AVAILABLE").order(savedOrder).build());
-//
-//		savedOrder = orderRepository.save(Order.builder().quantity(1).shipDate(LocalDate.EPOCH).status("PLACED").complete(false).build());
-//		petRepository.save(Pet.builder().name("Dalvik").status("PENDING").order(savedOrder).build());
-//
-//		petList.add(savedPet);
-//		System.out.println(petList);
-//		orderRepository.save(Order.builder().petList(petList).quantity(0).shipDate(LocalDate.EPOCH).status("PLACED").complete(false).build());
+		tagRepository.save(Tag.builder().name("Tag_1").build());
+		tagRepository.save(Tag.builder().name("Tag_2").build());
+		tagRepository.save(Tag.builder().name("Tag_3").build());
+
+		categoryRepository.save(Category.builder().name("Category_1").build());
+		categoryRepository.save(Category.builder().name("Category_2").build());
+		categoryRepository.save(Category.builder().name("Category_3").build());
 	}
 }
