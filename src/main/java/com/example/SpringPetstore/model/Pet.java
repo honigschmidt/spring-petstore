@@ -3,6 +3,8 @@ package com.example.SpringPetstore.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.Set;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -19,10 +21,15 @@ public class Pet {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    // category
+    @ManyToOne
+    @JoinColumn(name = "category_id", referencedColumnName = "id")
+    Category category;
 
     @Column(name = "name", nullable = false)
     private String name;
+
+    @ManyToMany
+    private Set<Tag> tagSet;
 
     @Column(name = "status", nullable = false)
     private PetStatus status;

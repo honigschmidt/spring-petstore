@@ -63,7 +63,7 @@ public class PetStoreController {
 
     @GetMapping(path = "/pet/form/update")
     @ResponseBody
-    public ResponseEntity<JsonPet> updatePetWithForm(@RequestParam Long id, @RequestParam String name, @RequestParam String status) {
+    public ResponseEntity<Pet> updatePetWithForm(@RequestParam Long id, @RequestParam String name, @RequestParam String status) {
         Pet pet = Pet.builder().name(name).build();
         Optional<Pet> result = petService.updatePetWithForm(id, pet);
         if (result.isPresent()) {

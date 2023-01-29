@@ -19,7 +19,7 @@ public class JsonPet {
     public JsonPet(Pet pet) {
         this.id = pet.getId();
         this.name = pet.getName();
-//        this.status = pet.getStatus();
+        this.status = pet.getStatus().toString();
         if (pet.getOrder() != null) {
             this.order_id = pet.getOrder().getId();
         }
