@@ -36,6 +36,7 @@ public class PetStoreController {
         return "home";
     }
 
+    // TODO: Add list of available tags and statuses to the form
     @PostMapping(path = "/pet/form/add")
     @ResponseBody
     public ResponseEntity<Pet> addPet(@RequestParam String name) {
@@ -67,7 +68,7 @@ public class PetStoreController {
         Pet pet = Pet.builder().name(name).build();
         Optional<Pet> result = petService.updatePetWithForm(id, pet);
         if (result.isPresent()) {
-            return ResponseEntity.ok(new JsonPet(result.get()));
+            return ResponseEntity.ok(result.get());
         } else return ResponseEntity.notFound().build();
     }
 

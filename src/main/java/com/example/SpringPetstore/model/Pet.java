@@ -28,6 +28,7 @@ public class Pet {
     @Column(name = "name", nullable = false)
     private String name;
 
+    // TODO: Set up this relationship
     @ManyToMany
     private Set<Tag> tagSet;
 
