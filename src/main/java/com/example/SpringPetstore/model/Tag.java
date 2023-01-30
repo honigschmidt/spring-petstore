@@ -1,5 +1,6 @@
 package com.example.SpringPetstore.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -26,5 +27,6 @@ public class Tag {
     private String name;
 
     @ManyToMany(mappedBy = "tagSet")
+    @JsonBackReference
     private Set<Pet> petSet;
 }

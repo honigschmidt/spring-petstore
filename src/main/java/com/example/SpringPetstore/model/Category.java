@@ -1,6 +1,7 @@
 package com.example.SpringPetstore.model;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -26,5 +27,6 @@ public class Category {
     private String name;
 
     @OneToMany(mappedBy = "category")
+    @JsonBackReference
     private Set<Pet> petSet;
 }

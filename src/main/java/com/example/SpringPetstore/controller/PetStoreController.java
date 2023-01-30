@@ -1,9 +1,9 @@
 package com.example.SpringPetstore.controller;
 
 import com.example.SpringPetstore.model.*;
-import com.example.SpringPetstore.view.JsonPet;
 import com.example.SpringPetstore.service.OrderService;
 import com.example.SpringPetstore.service.PetService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -23,36 +23,47 @@ public class PetStoreController {
     PetService petService;
     OrderService orderService;
     CategoryRepository categoryRepository;
+    TagRepository tagRepository;
 
-    public PetStoreController(PetService petService, OrderService orderService, CategoryRepository categoryRepository) {
+    public PetStoreController(PetService petService, OrderService orderService, CategoryRepository categoryRepository, TagRepository tagRepository) {
         this.petService = petService;
         this.orderService = orderService;
         this.categoryRepository = categoryRepository;
+        this.tagRepository = tagRepository;
     }
 
     @GetMapping(path = "/")
     public String getHome(Model model) {
         model.addAttribute("categories", categoryRepository.findAll());
+        model.addAttribute("tags", tagRepository.findAll());
+        model.addAttribute("pet_status_list", PetStatus.getPetStatusList());
+        model.addAttribute("pet_list", petService.getAllPets());
         return "home";
     }
 
-    // TODO: Add list of available tags and statuses to the form
+    // TODO: Add default selectors
+    // TODO: Add default pet name
     @PostMapping(path = "/pet/form/add")
     @ResponseBody
-    public ResponseEntity<Pet> addPet(@RequestParam Long categoryId, @RequestParam String name, @RequestParam List<Long> tagIdList, @RequestParam String status) {
-        return ResponseEntity.ok(petService.addPet(Pet.builder().name(name).status(PetStatus.AVAILABLE).build()));
+    public ResponseEntity<Pet> addPet(@RequestParam Long category_id_add, @RequestParam String name, @RequestParam(value = "tag_id_list_add") String[] tag_id_list_add) {
+        Set<Tag> newTagList = new HashSet<>();
+        for (String tag_id : tag_id_list_add) {
+            newTagList.add((tagRepository.findById(Long.valueOf(tag_id))).get());
+        }
+        return ResponseEntity.ok(petService.addPet(Pet.builder().category((categoryRepository.findById(category_id_add)).get()).name(name).tagSet(newTagList).status(PetStatus.AVAILABLE).build()));
     }
 
     @GetMapping(path = "/pet/form/getbyid")
     @ResponseBody
     public ResponseEntity<Pet> getPetById(@RequestParam Long id) {
-        Optional<Pet> result = petService.getPetById(id);
-        if (result.isPresent()) {
+        Optional<Pet> searchedPet = petService.getPetById(id);
+        if (searchedPet.isPresent()) {
+            ObjectMapper objectMapper = new ObjectMapper();
             return ResponseEntity.ok(petService.getPetById(id).get());
         } else return ResponseEntity.notFound().build();
     }
 
-    @GetMapping(path = "/pet/form/getall")
+    @GetMapping(path = "/pet/form/getallhtml")
     public String getAllPets(Model model) {
         List<Pet> allPets = new ArrayList<>();
         for (Pet pet : petService.getAllPets()) {
@@ -62,13 +73,41 @@ public class PetStoreController {
         return ("pet_list");
     }
 
+    @GetMapping(path = "/pet/form/getalljson")
+    public ResponseEntity getAllPets() {
+        return ResponseEntity.ok(petService.getAllPets());
+    }
+
     @GetMapping(path = "/pet/form/update")
     @ResponseBody
-    public ResponseEntity<Pet> updatePetWithForm(@RequestParam Long id, @RequestParam String name, @RequestParam String status) {
-        Pet pet = Pet.builder().name(name).build();
-        Optional<Pet> result = petService.updatePetWithForm(id, pet);
-        if (result.isPresent()) {
-            return ResponseEntity.ok(result.get());
+    public ResponseEntity<Pet> updatePetWithForm(@RequestParam Long pet_id_update, @RequestParam Long category_id_update, @RequestParam String name, @RequestParam(value = "tag_id_list_update") String[] tag_id_list_update, @RequestParam String pet_status) {
+        Pet newPet = (petService.getPetById(pet_id_update)).get();
+        // Set pet category
+        newPet.setCategory(categoryRepository.findById(category_id_update).get());
+        // Set pet name
+        newPet.setName(name);
+        // Set pet tags
+        Set<Tag> newTagSet = new HashSet<>();
+        for (String tag_id : tag_id_list_update) {
+            newTagSet.add((tagRepository.findById(Long.valueOf(tag_id))).get());
+        }
+        newPet.setTagSet(newTagSet);
+        // Set pet status
+        switch (pet_status) {
+            case "AVAILABLE":
+                newPet.setStatus(PetStatus.AVAILABLE);
+                break;
+            case "PENDING":
+                newPet.setStatus(PetStatus.PENDING);
+                break;
+            case "SOLD":
+                newPet.setStatus(PetStatus.SOLD);
+                break;
+        }
+        // Send updated pet to DB
+        Optional<Pet> updateResult = petService.updatePetWithForm(pet_id_update, newPet);
+        if (updateResult.isPresent()) {
+            return ResponseEntity.ok(updateResult.get());
         } else return ResponseEntity.notFound().build();
     }
 
@@ -81,7 +120,7 @@ public class PetStoreController {
 
     @PostMapping(path = "/order/form/add")
     @ResponseBody
-    public void Order (@RequestParam Long petId, @RequestParam Integer quantity, @RequestParam LocalDate ship_date) {
+    public void Order(@RequestParam Long petId, @RequestParam Integer quantity, @RequestParam LocalDate ship_date) {
         Optional<Pet> orderedPet = petService.getPetById(petId);
         if (orderedPet.isPresent()) {
             Order newOrder = orderService.addOrder(Order.builder().pet(orderedPet.get()).quantity(quantity).shipDate(ship_date).status(OrderStatus.DUMMY).complete(false).build());

@@ -44,5 +44,7 @@ public class SpringPetstoreApplication {
 		categoryRepository.save(Category.builder().name("Category_1").build());
 		categoryRepository.save(Category.builder().name("Category_2").build());
 		categoryRepository.save(Category.builder().name("Category_3").build());
+
+		petRepository.save(Pet.builder().name("Alex").build());
 	}
 }

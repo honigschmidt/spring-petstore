@@ -1,5 +1,6 @@
 package com.example.SpringPetstore.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -23,9 +24,10 @@ public class Pet {
 
     @ManyToOne
     @JoinColumn(name = "category_id", referencedColumnName = "id")
+    @JsonManagedReference
     Category category;
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "name")
     private String name;
 
     @ManyToMany
@@ -34,9 +36,10 @@ public class Pet {
             joinColumns = @JoinColumn(name = "pet_id"),
             inverseJoinColumns = @JoinColumn(name = "tag_id")
     )
+    @JsonManagedReference
     private Set<Tag> tagSet;
 
-    @Column(name = "status", nullable = false)
+    @Column(name = "status")
     private PetStatus status;
 
     @OneToOne
