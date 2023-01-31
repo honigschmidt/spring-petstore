@@ -35,21 +35,10 @@ public class PetService {
     }
 
     public Optional<Pet> updatePetWithForm(Long id, Pet pet) {
-        Optional<Pet> searchResult = petRepository.findById(id);
-        if (searchResult.isPresent()) {
-            Pet updatedPet = searchResult.get();
-            updatedPet.setName(pet.getName());
-            updatedPet.setStatus(pet.getStatus());
-            updatedPet.setOrder(pet.getOrder());
-            return Optional.of(petRepository.save(updatedPet));
-        } else return Optional.empty();
+        return Optional.of(petRepository.save(pet));
     }
 
-    public String deletePet(Long id) {
-        Optional<Pet> searchResult = petRepository.findById(id);
-        if (searchResult.isPresent()) {
-            petRepository.deleteById(id);
-            return ("Pet deleted.");
-        } else return ("Pet ID not found.");
+    public void deletePet(Long id) {
+        petRepository.deleteById(id);
     }
 }

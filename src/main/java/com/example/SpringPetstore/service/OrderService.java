@@ -44,11 +44,7 @@ public class OrderService {
         } else return Optional.empty();
     }
 
-    public String deleteOrder(Long id) {
-        Optional<Order> searchResult = orderRepository.findById(id);
-        if (searchResult.isPresent()) {
-            orderRepository.deleteById(id);
-            return ("Order deleted.");
-        } else return ("Order ID not found.");
+    public void deleteOrder(Long id) {
+        orderRepository.deleteById(id);
     }
 }

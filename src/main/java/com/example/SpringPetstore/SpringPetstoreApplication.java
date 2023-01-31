@@ -1,6 +1,7 @@
 package com.example.SpringPetstore;
 
 import com.example.SpringPetstore.model.*;
+import com.example.SpringPetstore.service.OrderService;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -45,6 +46,12 @@ public class SpringPetstoreApplication {
 		categoryRepository.save(Category.builder().name("Category_2").build());
 		categoryRepository.save(Category.builder().name("Category_3").build());
 
-		petRepository.save(Pet.builder().name("Alex").build());
+		Pet savedPet = petRepository.save(Pet.builder().name("Alex").status(PetStatus.PENDING).build());
+		Order newOrder = orderRepository.save(Order.builder().quantity(0).shipDate(LocalDate.EPOCH).status(OrderStatus.DUMMY).complete(Boolean.FALSE).build());
+		newOrder.setPet(savedPet);
+		savedPet.setOrder(newOrder);
+		orderRepository.save(newOrder);
+
+		petRepository.save(Pet.builder().name("Billy").status(PetStatus.AVAILABLE).build());
 	}
 }

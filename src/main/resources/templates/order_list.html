@@ -16,7 +16,7 @@
   </tr>
   <tr th:each="order:${allOrders}">
     <td th:text="${order.id}"></td>
-    <td th:text="${order.pet}"></td>
+    <td th:text="${order.pet.name}"></td>
     <td th:text="${order.quantity}"></td>
     <td th:text="${order.shipDate}"></td>
     <td th:text="${order.status}"></td>

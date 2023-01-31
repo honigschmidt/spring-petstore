@@ -42,7 +42,6 @@
     <br>
     <div>Update pet</div>
     <form action="/pet/form/update" method="get" id="update_pet_with_form">
-<!--        <input type="number" name="pet_id" placeholder="Pet ID">-->
         <select id="pet_id_update" name="pet_id_update" th:size=1>
             <option th:each="pet : ${pet_list}"
                     th:value="${pet.id}"
@@ -69,7 +68,11 @@
     <br>
     <div>Delete pet</div>
     <form action="/pet/form/delete" method="get" id="delete_pet">
-        <input type="number" name="id" placeholder="Pet ID">
+        <select id="pet_id_delete" name="pet_id_delete" th:size="${#lists.size(pet_list)}" multiple>-->
+            <option th:each="pet : ${pet_list}"
+                    th:value="${pet.id}"
+                    th:text="${pet.name}">
+        </select>
         <button type="submit" id="submit_delete_pet">DELETE</button>
     </form>
     <br>
@@ -78,7 +81,11 @@
     <br>
     <div>Place order</div>
     <form action="/order/form/add" method="post" id="add_order">
-        <input type="number" name="petId" placeholder="Pet ID">
+        <select id="pet_id_add_order" name="pet_id_add_order" th:size=1>
+            <option th:each="pet : ${available_pet_list}"
+                    th:value="${pet.id}"
+                    th:text="${pet.name}">
+        </select>
         <input type="number" name="quantity" placeholder="Quantity">
         <input type="date" name="ship_date" placeholder="Ship date">
         <button type="submit" id="submit_add_order">PLACE</button>
@@ -91,24 +98,41 @@
     </form>
     <br>
     <div>List all orders</div>
-    <form action="/order/form/getall" method="get" id="get_all_orders">
-        <button type="submit" id="submit_get_all_orders">LIST</button>
+    <form action="/order/form/getallhtml" method="get" id="get_all_orders_html">
+        <button type="submit" id="submit_get_all_orders_html">LIST AS HTML</button>
+    </form>
+    <br>
+    <form action="/order/form/getalljson" method="get" id="get_all_orders_json">
+        <button type="submit" id="submit_get_all_orders_json">LIST AS JSON</button>
     </form>
     <br>
     <div>Update order</div>
     <form action="/order/form/update" method="get" id="update_order_with_form">
-        <input type="number" name="id" placeholder="Order ID">
-        <input type="number" name="quantity" placeholder="Quantity">
-        <input type="date" name="ship_date" placeholder="Ship date">
-        <input type="text" name="status" placeholder="Status">
-        <input type="text" name="complete" placeholder="Complete">
+        <select id="order_id_update_order" name="order_id_update_order" th:size=1>
+            <option th:each="order : ${order_list}"
+                    th:value="${order.id}"
+                    th:text="${order.id}">
+        </select>
+        <select id="order_status_update_order" name="order_status_update_order" th:size=1>
+            <option th:each="order_status : ${order_status_list}"
+                    th:value="${order_status}"
+                    th:text="${order_status}">
+        </select>
+        <select id="order_iscomplete_update_order" name="order_iscomplete_update_order" size=2>
+            <option value="true">Completed</option>
+            <option value="false">Not completed</option>
+        </select>
         <button type="submit" id="submit_update_order_with_form">UPDATE</button>
     </form>
     <br>
     <div>Delete order</div>
     <form action="/order/form/delete" method="get" id="delete_order">
-        <input type="number" name="id" placeholder="Order ID">
-        <button type="submit" id="submit_delete_orde r">DELETE</button>
+        <select id="order_id_delete" name="order_id_delete" th:size="${#lists.size(order_list)}" multiple>-->
+            <option th:each="order : ${order_list}"
+                    th:value="${order.id}"
+                    th:text="${order.id}">
+        </select>
+        <button type="submit" id="submit_delete_order">DELETE</button>
     </form>
 <!--    <br>-->
 <!--    <hr>-->

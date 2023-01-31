@@ -1,5 +1,6 @@
 package com.example.SpringPetstore.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
@@ -10,7 +11,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString
+//@ToString
 @Builder
 @Entity
 @Table(name = "pets")
@@ -42,6 +43,20 @@ public class Pet {
     @Column(name = "status")
     private PetStatus status;
 
-    @OneToOne
+    // TODO: Check cascading
+    @OneToOne(cascade = CascadeType.ALL)
+    @JsonBackReference
     private Order order;
+
+    @Override
+    public String toString() {
+        return "Pet{" +
+                "id=" + id +
+                ", category=" + category +
+                ", name='" + name + '\'' +
+                ", tagSet=" + tagSet +
+                ", status=" + status +
+                ", order=" + order.getId() +
+                '}';
+    }
 }

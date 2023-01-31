@@ -9,10 +9,14 @@
   <tr>
     <td>Id</td>
     <td>Name</td>
+<!--    <td>Order Id</td>-->
+    <td>Pet status</td>
   </tr>
   <tr th:each="pet:${allPets}">
     <td th:text="${pet.id}"></td>
     <td th:text="${pet.name}"></td>
+<!--    <td th:text="${pet.order.id}"></td>-->
+    <td th:text="${pet.status}"></td>
   </tr>
 </table>
 </body>
