@@ -22,9 +22,8 @@ public class Order {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    // TODO: Check cascading
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "pet_id", referencedColumnName = "id")
+    @OneToOne
+    @JoinColumn(name = "pet_id")
     @JsonManagedReference
     private Pet pet;
 

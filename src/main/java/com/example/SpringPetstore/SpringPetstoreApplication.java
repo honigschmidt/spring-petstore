@@ -46,11 +46,8 @@ public class SpringPetstoreApplication {
 		categoryRepository.save(Category.builder().name("Category_2").build());
 		categoryRepository.save(Category.builder().name("Category_3").build());
 
-		Pet savedPet = petRepository.save(Pet.builder().name("Alex").status(PetStatus.PENDING).build());
-		Order newOrder = orderRepository.save(Order.builder().quantity(0).shipDate(LocalDate.EPOCH).status(OrderStatus.DUMMY).complete(Boolean.FALSE).build());
-		newOrder.setPet(savedPet);
-		savedPet.setOrder(newOrder);
-		orderRepository.save(newOrder);
+		Pet newPet = petRepository.save(Pet.builder().name("Alex").status(PetStatus.PENDING).build());
+		Order newOrder = orderRepository.save(Order.builder().quantity(0).pet(newPet).shipDate(LocalDate.EPOCH).status(OrderStatus.DUMMY).complete(Boolean.FALSE).build());
 
 		petRepository.save(Pet.builder().name("Billy").status(PetStatus.AVAILABLE).build());
 	}

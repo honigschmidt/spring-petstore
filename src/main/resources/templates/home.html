@@ -79,7 +79,7 @@
     <hr>
     <div>ORDER</div>
     <br>
-    <div>Place order</div>
+    <div>Add order</div>
     <form action="/order/form/add" method="post" id="add_order">
         <select id="pet_id_add_order" name="pet_id_add_order" th:size=1>
             <option th:each="pet : ${available_pet_list}"
@@ -118,7 +118,7 @@
                     th:value="${order_status}"
                     th:text="${order_status}">
         </select>
-        <select id="order_iscomplete_update_order" name="order_iscomplete_update_order" size=2>
+        <select id="order_iscomplete_update_order" name="order_iscomplete_update_order" size=1>
             <option value="true">Completed</option>
             <option value="false">Not completed</option>
         </select>

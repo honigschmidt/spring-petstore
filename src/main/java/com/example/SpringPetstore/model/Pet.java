@@ -43,8 +43,7 @@ public class Pet {
     @Column(name = "status")
     private PetStatus status;
 
-    // TODO: Check cascading
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "pet", cascade = CascadeType.ALL)
     @JsonBackReference
     private Order order;
 
