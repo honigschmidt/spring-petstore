@@ -122,8 +122,8 @@ public class PetStoreController {
 
     @GetMapping(path = "/pet/form/delete")
     @ResponseBody
-    public void deletePet(@RequestParam(value = "pet_id_delete") Long[] pet_id_list_update) {
-        for (Long pet_id : pet_id_list_update) {
+    public void deletePet(@RequestParam(value = "pet_id") Long[] pet_id_list) {
+        for (Long pet_id : pet_id_list) {
             petService.deletePet(pet_id);
         }
     }
@@ -131,15 +131,10 @@ public class PetStoreController {
     @PostMapping(path = "/order/form/add")
     @ResponseBody
     public ResponseEntity<Order> addOrder(@RequestParam Long pet_id_add_order, @RequestParam Integer quantity, @RequestParam LocalDate ship_date) {
-        // Get ordered pet
         Pet orderedPet = (petService.getPetById(pet_id_add_order)).get();
-        // Build new order
         Order newOrder = Order.builder().pet(orderedPet).quantity(quantity).shipDate(ship_date).status(OrderStatus.PLACED).complete(Boolean.FALSE).build();
-        // Set order on ordered pet
         orderedPet.setOrder(newOrder);
-        // Set status on ordered pet
         orderedPet.setStatus(PetStatus.PENDING);
-        // Save order & pet
         return ResponseEntity.ok(orderService.addOrder(newOrder));
         }
 
@@ -166,9 +161,7 @@ public class PetStoreController {
     @GetMapping(path = "/order/form/update")
     @ResponseBody
     public ResponseEntity<Order> updateOrderWithForm(@RequestParam Long order_id_update_order, @RequestParam String order_status_update_order, @RequestParam String order_iscomplete_update_order) {
-        // Get order to update
-        Order updatedOrder = (orderService.getOrderById(new Long(order_id_update_order))).get();
-        // Set order status
+        Order updatedOrder = (orderService.getOrderById(order_id_update_order)).get();
         switch (order_status_update_order) {
             case "DUMMY":
                 updatedOrder.setStatus(OrderStatus.DUMMY);
@@ -183,7 +176,6 @@ public class PetStoreController {
                 updatedOrder.setStatus(OrderStatus.DELIVERED);
                 break;
         }
-        // Set order complete
         switch (order_iscomplete_update_order) {
             case "true":
                 updatedOrder.setComplete(Boolean.TRUE);
@@ -192,7 +184,6 @@ public class PetStoreController {
                 updatedOrder.setComplete(Boolean.FALSE);
                 break;
         }
-        // Send updated order to the DB
         Optional<Order> result = orderService.updateOrderWithForm(order_id_update_order, updatedOrder);
         if (result.isPresent()) {
             return ResponseEntity.ok(result.get());
@@ -200,9 +191,8 @@ public class PetStoreController {
     }
 
     @GetMapping(path = "/order/form/delete")
-    @ResponseBody
-    public void deleteOrder(@RequestParam(value = "order_id_delete") Long[] order_id_list_delete) {
-        for (Long order_id : order_id_list_delete) {
+    public void deleteOrder(@RequestParam(value = "order_id") Long[] order_id_list) {
+        for (Long order_id : order_id_list) {
             orderService.deleteOrder(order_id);
         }
     }

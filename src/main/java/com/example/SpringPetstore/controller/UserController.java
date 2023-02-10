@@ -71,4 +71,12 @@ public class UserController {
             return ResponseEntity.ok(userService.updateUserWithForm(user_id, updatedUser).get());
         } else return ResponseEntity.notFound().build();
     }
+
+    // TODO:
+    @GetMapping(path = "/user/form/delete")
+    public void deleteUser(@RequestParam(value = "user_id") Long[] user_id_list) {
+        for (Long user_id : user_id_list) {
+            userService.deleteUser(user_id);
+        }
+    }
 }
