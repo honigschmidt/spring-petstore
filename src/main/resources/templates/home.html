@@ -40,32 +40,34 @@
         <button type="submit" id="submit_get_all_pets_json">LIST AS JSON</button>
     </form>
     <br>
+
     <div>Update pet</div>
-    <form action="/pet/form/update" method="get" id="update_pet_with_form">
-        <select id="pet_id_update" name="pet_id_update" th:size=1>
+    <form action="/pet/form/update" method="get">
+        <select name="pet_id" th:size=1>
             <option th:each="pet : ${pet_list}"
                     th:value="${pet.id}"
                     th:text="${pet.name}">
         </select>
-        <select id="category_id_update" name="category_id_update" th:size=1>
+        <select name="category_id" th:size=1>
             <option th:each="category : ${categories}"
                     th:value="${category.id}"
                     th:text="${category.name}">
         </select>
         <input type="text" name="name" placeholder="Pet new name">
-        <select id="tag_id_list_update" name="tag_id_list_update" th:size="${#lists.size(tags)}" multiple>-->
+        <select name="tag_id_list" th:size="${#lists.size(tags)}" multiple>-->
             <option th:each="tag : ${tags}"
                     th:value="${tag.id}"
                     th:text="${tag.name}">
         </select>
-        <select id="pet_status" name="pet_status" th:size=1>
+        <select name="pet_status" th:size=1>
             <option th:each="pet_status : ${pet_status_list}"
                     th:value="${pet_status}"
                     th:text="${pet_status}">
         </select>
-        <button type="submit" id="submit_update_pet_with_form">UPDATE</button>
+        <button type="submit">UPDATE</button>
     </form>
     <br>
+
     <div>Delete pet</div>
     <form action="/pet/form/delete" method="get" id="delete_pet">
         <select id="pet_id_delete" name="pet_id_delete" th:size="${#lists.size(pet_list)}" multiple>-->
@@ -88,7 +90,7 @@
         </select>
         <input type="number" name="quantity" placeholder="Quantity">
         <input type="date" name="ship_date" placeholder="Ship date">
-        <button type="submit" id="submit_add_order">PLACE</button>
+        <button type="submit" id="submit_add_order">ADD</button>
     </form>
     <br>
     <div>Search order by ID</div>
@@ -134,6 +136,56 @@
         </select>
         <button type="submit" id="submit_delete_order">DELETE</button>
     </form>
+    <br>
+    <hr>
+    <div>USER</div>
+    <br>
+    <div>Add user</div>
+    <form action="/user/form/add" method="post">
+        <input type="text" name="user_name" placeholder="Username">
+        <input type="text" name="first_name" placeholder="First name">
+        <input type="text" name="last_name" placeholder="Last name">
+        <input type="email" name="email" placeholder="Email">
+        <input type="password" name="password" placeholder="Password">
+        <input type="text" name="phone" placeholder="Phone">
+        <button type="submit">ADD</button>
+    </form>
+    <br>
+    <div>Search user by ID</div>
+    <form action="/user/form/getbyid" method="get">
+        <input type="number" name="user_id" placeholder="User ID">
+        <button type="submit">SEARCH</button>
+    </form>
+    <br>
+    <div>List all users</div>
+    <form action="/user/form/getallhtml">
+        <button type="submit">LIST AS HTML</button>
+    </form>
+    <br>
+    <form action="/user/form/getalljson">
+        <button type="submit">LIST AS JSON</button>
+    </form>
+    <br>
+    <div>Update user</div>
+    <form action="/user/form/update" method="get">
+        <select name="user_id" th:size="${#lists.size(user_list)}">
+            <option th:each="user : ${user_list}"
+                    th:value="${user.id}"
+                    th:text="${user.username}">
+        </select>
+        <input type="text" name="user_name" placeholder="Username">
+        <input type="text" name="first_name" placeholder="First name">
+        <input type="text" name="last_name" placeholder="Last name">
+        <input type="email" name="email" placeholder="Email">
+        <input type="password" name="password" placeholder="Password">
+        <input type="text" name="phone" placeholder="Phone">
+        <button type="submit">UPDATE</button>
+    </form>
+    <br>
+    <div>Delete user</div>
+    <form action=""></form>
+    <br>
+
 <!--    <br>-->
 <!--    <hr>-->
 <!--    <p th:inline="text">Logged in as <span th:remove="tag" sec:authentication="name">username</span></p>-->

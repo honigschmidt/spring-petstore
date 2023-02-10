@@ -17,12 +17,14 @@ public class SpringPetstoreApplication {
 	@Autowired
 	PetRepository petRepository;
 	OrderRepository orderRepository;
+	UserRepository userRepository;
 	TagRepository tagRepository;
 	CategoryRepository categoryRepository;
 
-	public SpringPetstoreApplication(PetRepository petRepository, OrderRepository orderRepository, TagRepository tagRepository, CategoryRepository categoryRepository) {
+	public SpringPetstoreApplication(PetRepository petRepository, OrderRepository orderRepository, UserRepository userRepository, TagRepository tagRepository, CategoryRepository categoryRepository) {
 		this.petRepository = petRepository;
 		this.orderRepository = orderRepository;
+		this.userRepository = userRepository;
 		this.tagRepository = tagRepository;
 		this.categoryRepository = categoryRepository;
 	}
@@ -46,9 +48,32 @@ public class SpringPetstoreApplication {
 		categoryRepository.save(Category.builder().name("Category_2").build());
 		categoryRepository.save(Category.builder().name("Category_3").build());
 
-		Pet newPet = petRepository.save(Pet.builder().name("Alex").status(PetStatus.PENDING).build());
-		Order newOrder = orderRepository.save(Order.builder().quantity(0).pet(newPet).shipDate(LocalDate.EPOCH).status(OrderStatus.DUMMY).complete(Boolean.FALSE).build());
+		Pet newPet = petRepository.save(Pet.builder().
+				name("Alex").
+				status(PetStatus.PENDING).
+				build());
 
-		petRepository.save(Pet.builder().name("Billy").status(PetStatus.AVAILABLE).build());
+		Order newOrder = orderRepository.save(Order.builder().
+				quantity(0).
+				pet(newPet).
+				shipDate(LocalDate.EPOCH).
+				status(OrderStatus.DUMMY).
+				complete(Boolean.FALSE).
+				build());
+
+		petRepository.save(Pet.builder().
+				name("Billy").
+				status(PetStatus.AVAILABLE).
+				build());
+
+		userRepository.save(User.builder().
+				username("johndoe").
+				firstName("John").
+				lastName("Doe").
+				email("john.doe@no-mail.com").
+				password("start1234").
+				phone("1234567890").
+				userStatus(0).
+				build());
 	}
 }

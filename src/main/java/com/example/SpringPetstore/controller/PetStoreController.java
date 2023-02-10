@@ -3,6 +3,7 @@ package com.example.SpringPetstore.controller;
 import com.example.SpringPetstore.model.*;
 import com.example.SpringPetstore.service.OrderService;
 import com.example.SpringPetstore.service.PetService;
+import com.example.SpringPetstore.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -21,12 +22,14 @@ public class PetStoreController {
     @Autowired
     PetService petService;
     OrderService orderService;
+    UserService userService;
     CategoryRepository categoryRepository;
     TagRepository tagRepository;
 
-    public PetStoreController(PetService petService, OrderService orderService, CategoryRepository categoryRepository, TagRepository tagRepository) {
+    public PetStoreController(PetService petService, OrderService orderService, UserService userService, CategoryRepository categoryRepository, TagRepository tagRepository) {
         this.petService = petService;
         this.orderService = orderService;
+        this.userService = userService;
         this.categoryRepository = categoryRepository;
         this.tagRepository = tagRepository;
     }
@@ -46,6 +49,7 @@ public class PetStoreController {
             }
         }
         model.addAttribute("available_pet_list", availablePets);
+        model.addAttribute("user_list", userService.getAllUsers());
         return "home";
     }
 
@@ -56,20 +60,25 @@ public class PetStoreController {
         for (String tag_id : tag_id_list_add) {
             newTagList.add((tagRepository.findById(Long.valueOf(tag_id))).get());
         }
-        return ResponseEntity.ok(petService.addPet(Pet.builder().category((categoryRepository.findById(category_id_add)).get()).name(name).tagSet(newTagList).status(PetStatus.AVAILABLE).build()));
+        return ResponseEntity.ok(petService.addPet(Pet.builder().
+                category((categoryRepository.findById(category_id_add)).get()).
+                name(name).
+                tagSet(newTagList).
+                status(PetStatus.AVAILABLE).
+                build()));
     }
 
     @GetMapping(path = "/pet/form/getbyid")
     @ResponseBody
     public ResponseEntity<Pet> getPetById(@RequestParam Long id) {
-        Optional<Pet> searchedPet = petService.getPetById(id);
-        if (searchedPet.isPresent()) {
+        Optional<Pet> result = petService.getPetById(id);
+        if (result.isPresent()) {
             return ResponseEntity.ok(petService.getPetById(id).get());
         } else return ResponseEntity.notFound().build();
     }
 
     @GetMapping(path = "/pet/form/getallhtml")
-    public String getAllPets(Model model) {
+    public String getAllPetsHTML(Model model) {
         List<Pet> allPets = new ArrayList<>();
         for (Pet pet : petService.getAllPets()) {
             allPets.add(pet);
@@ -79,41 +88,35 @@ public class PetStoreController {
     }
 
     @GetMapping(path = "/pet/form/getalljson")
-    public ResponseEntity getAllPets() {
+    public ResponseEntity getAllPetsJSON() {
         return ResponseEntity.ok(petService.getAllPets());
     }
 
     @GetMapping(path = "/pet/form/update")
     @ResponseBody
-    public ResponseEntity<Pet> updatePetWithForm(@RequestParam Long pet_id_update, @RequestParam Long category_id_update, @RequestParam String name, @RequestParam(value = "tag_id_list_update") String[] tag_id_list_update, @RequestParam String pet_status) {
-        // Get pet to update
-        Pet updatedPet = (petService.getPetById(pet_id_update)).get();
-        // Set pet category
-        updatedPet.setCategory(categoryRepository.findById(category_id_update).get());
-        // Set pet name
-        updatedPet.setName(name);
-        // Set pet tags
-        Set<Tag> newTagSet = new HashSet<>();
-        for (String tag_id : tag_id_list_update) {
-            newTagSet.add((tagRepository.findById(Long.valueOf(tag_id))).get());
-        }
-        updatedPet.setTagSet(newTagSet);
-        // Set pet status
-        switch (pet_status) {
-            case "AVAILABLE":
-                updatedPet.setStatus(PetStatus.AVAILABLE);
-                break;
-            case "PENDING":
-                updatedPet.setStatus(PetStatus.PENDING);
-                break;
-            case "SOLD":
-                updatedPet.setStatus(PetStatus.SOLD);
-                break;
-        }
-        // Send updated pet to DB
-        Optional<Pet> updateResult = petService.updatePetWithForm(pet_id_update, updatedPet);
-        if (updateResult.isPresent()) {
-            return ResponseEntity.ok(updateResult.get());
+    public ResponseEntity<Pet> updatePetWithForm(@RequestParam Long pet_id, @RequestParam Long category_id, @RequestParam String name, @RequestParam(value = "tag_id_list") String[] tag_id_list, @RequestParam String pet_status) {
+        Optional<Pet> result = petService.getPetById(pet_id);
+        if (result.isPresent()) {
+            Pet updatedPet = result.get();
+            updatedPet.setCategory(categoryRepository.findById(category_id).get());
+            updatedPet.setName(name);
+            Set<Tag> newTagSet = new HashSet<>();
+            for (String tag_id : tag_id_list) {
+                newTagSet.add((tagRepository.findById(Long.valueOf(tag_id))).get());
+            }
+            updatedPet.setTagSet(newTagSet);
+            switch (pet_status) {
+                case "AVAILABLE":
+                    updatedPet.setStatus(PetStatus.AVAILABLE);
+                    break;
+                case "PENDING":
+                    updatedPet.setStatus(PetStatus.PENDING);
+                    break;
+                case "SOLD":
+                    updatedPet.setStatus(PetStatus.SOLD);
+                    break;
+            }
+            return ResponseEntity.ok(petService.updatePetWithForm(pet_id, updatedPet).get());
         } else return ResponseEntity.notFound().build();
     }
 
@@ -136,7 +139,7 @@ public class PetStoreController {
         orderedPet.setOrder(newOrder);
         // Set status on ordered pet
         orderedPet.setStatus(PetStatus.PENDING);
-        // Save order & pet (CASCADE=ALL)
+        // Save order & pet
         return ResponseEntity.ok(orderService.addOrder(newOrder));
         }
 
@@ -150,13 +153,13 @@ public class PetStoreController {
     }
 
     @GetMapping(path = "/order/form/getallhtml")
-    public String getAllOrders(Model model) {
+    public String getAllOrdersHTML(Model model) {
         model.addAttribute("allOrders", orderService.getAllOrders());
         return ("order_list");
     }
 
     @GetMapping(path = "/order/form/getalljson")
-    public ResponseEntity getAllOrders() {
+    public ResponseEntity getAllOrdersJSON() {
         return ResponseEntity.ok(orderService.getAllOrders());
     }
 
@@ -190,9 +193,9 @@ public class PetStoreController {
                 break;
         }
         // Send updated order to the DB
-        Optional<Order> udapteResult = orderService.updateOrderWithForm(order_id_update_order, updatedOrder);
-        if (udapteResult.isPresent()) {
-            return ResponseEntity.ok(udapteResult.get());
+        Optional<Order> result = orderService.updateOrderWithForm(order_id_update_order, updatedOrder);
+        if (result.isPresent()) {
+            return ResponseEntity.ok(result.get());
         } else return ResponseEntity.notFound().build();
     }
 
@@ -203,5 +206,4 @@ public class PetStoreController {
             orderService.deleteOrder(order_id);
         }
     }
-
 }
