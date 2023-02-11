@@ -48,7 +48,7 @@ public class UserController {
     @GetMapping(path = "/user/form/getallhtml")
     public String getAllUsersHTML(Model model) {
         model.addAttribute("allUsers", userService.getAllUsers());
-        return "user_list";
+        return "template_user_list";
     }
 
     @GetMapping(path = "/user/form/getalljson")
@@ -72,11 +72,12 @@ public class UserController {
         } else return ResponseEntity.notFound().build();
     }
 
-    // TODO:
     @GetMapping(path = "/user/form/delete")
-    public void deleteUser(@RequestParam(value = "user_id") Long[] user_id_list) {
+    @ResponseBody
+    public ResponseEntity<User> deleteUser(@RequestParam(value = "user_id") Long[] user_id_list) {
         for (Long user_id : user_id_list) {
             userService.deleteUser(user_id);
         }
+        return ResponseEntity.ok().build();
     }
 }

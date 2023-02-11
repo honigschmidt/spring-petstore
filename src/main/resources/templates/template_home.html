@@ -11,33 +11,33 @@
     <br>
     <div>Add pet</div>
     <form action="/pet/form/add" method="post" id="add_pet">
-        <select id="category_id_add" name="category_id_add" th:size=1>
-            <option th:each="category : ${categories}"
+        <select name="category_id" th:size=1>
+            <option th:each="category : ${category_list}"
                     th:value="${category.id}"
                     th:text="${category.name}">
         </select>
         <input type="text" name="name" placeholder="Pet name">
-        <select id="tag_id_list_add" name="tag_id_list_add" th:size="${#lists.size(tags)}" multiple>-->
-            <option th:each="tag : ${tags}"
+        <select name="tag_id" th:size="${#lists.size(tag_list)}" multiple>-->
+            <option th:each="tag : ${tag_list}"
                     th:value="${tag.id}"
                     th:text="${tag.name}">
         </select>
-        <button type="submit" id="submit_add_pet">ADD</button>
+        <button type="submit">ADD</button>
     </form>
     <br>
     <div>Search pet by ID</div>
-    <form action="/pet/form/getbyid" method="get" id="get_pet_by_id">
-        <input type="text" name="id" placeholder="Pet ID">
-        <button type="submit" id="submit_get_pet_by_id">SEARCH</button>
+    <form action="/pet/form/getbyid" method="get">
+        <input type="text" name="pet_id" placeholder="Pet ID">
+        <button type="submit">SEARCH</button>
     </form>
     <br>
     <div>List all pets</div>
-    <form action="/pet/form/getallhtml" method="get" id="get_all_pets_html">
-        <button type="submit" id="submit_get_all_pets_html">LIST AS HTML</button>
+    <form action="/pet/form/getallhtml" method="get">
+        <button type="submit">LIST AS HTML</button>
     </form>
     <br>
-    <form action="/pet/form/getalljson" method="get" id="get_all_pets_json">
-        <button type="submit" id="submit_get_all_pets_json">LIST AS JSON</button>
+    <form action="/pet/form/getalljson" method="get">
+        <button type="submit">LIST AS JSON</button>
     </form>
     <br>
     <div>Update pet</div>
@@ -48,13 +48,13 @@
                     th:text="${pet.name}">
         </select>
         <select name="category_id" th:size=1>
-            <option th:each="category : ${categories}"
+            <option th:each="category : ${category_list}"
                     th:value="${category.id}"
                     th:text="${category.name}">
         </select>
         <input type="text" name="name" placeholder="Pet new name">
-        <select name="tag_id_list" th:size="${#lists.size(tags)}" multiple>-->
-            <option th:each="tag : ${tags}"
+        <select name="tag_id" th:size="${#lists.size(tag_list)}" multiple>-->
+            <option th:each="tag : ${tag_list}"
                     th:value="${tag.id}"
                     th:text="${tag.name}">
         </select>
@@ -181,7 +181,14 @@
     </form>
     <br>
     <div>Delete user</div>
-    <form action=""></form>
+    <form action="/user/form/delete" method="get">
+    <select name="user_id" th:size="${#lists.size(user_list)}" multiple>-->
+        <option th:each="user : ${user_list}"
+                th:value="${user.id}"
+                th:text="${user.username}">
+    </select>
+        <button type="submit">DELETE</button>
+    </form>
     <br>
 
 <!--    <br>-->

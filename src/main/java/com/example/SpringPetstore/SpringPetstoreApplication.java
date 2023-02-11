@@ -1,15 +1,12 @@
 package com.example.SpringPetstore;
 
 import com.example.SpringPetstore.model.*;
-import com.example.SpringPetstore.service.OrderService;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 @SpringBootApplication
 public class SpringPetstoreApplication {
@@ -53,7 +50,7 @@ public class SpringPetstoreApplication {
 				status(PetStatus.PENDING).
 				build());
 
-		Order newOrder = orderRepository.save(Order.builder().
+		orderRepository.save(Order.builder().
 				quantity(0).
 				pet(newPet).
 				shipDate(LocalDate.EPOCH).

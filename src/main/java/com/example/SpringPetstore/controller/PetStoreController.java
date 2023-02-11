@@ -36,8 +36,8 @@ public class PetStoreController {
 
     @GetMapping(path = "/")
     public String getHome(Model model) {
-        model.addAttribute("categories", categoryRepository.findAll());
-        model.addAttribute("tags", tagRepository.findAll());
+        model.addAttribute("category_list", categoryRepository.findAll());
+        model.addAttribute("tag_list", tagRepository.findAll());
         model.addAttribute("pet_status_list", PetStatus.getPetStatusList());
         model.addAttribute("pet_list", petService.getAllPets());
         model.addAttribute("order_status_list", OrderStatus.getOrderStatusList());
@@ -50,82 +50,7 @@ public class PetStoreController {
         }
         model.addAttribute("available_pet_list", availablePets);
         model.addAttribute("user_list", userService.getAllUsers());
-        return "home";
-    }
-
-    @PostMapping(path = "/pet/form/add")
-    @ResponseBody
-    public ResponseEntity<Pet> addPet(@RequestParam Long category_id_add, @RequestParam String name, @RequestParam(value = "tag_id_list_add") String[] tag_id_list_add) {
-        Set<Tag> newTagList = new HashSet<>();
-        for (String tag_id : tag_id_list_add) {
-            newTagList.add((tagRepository.findById(Long.valueOf(tag_id))).get());
-        }
-        return ResponseEntity.ok(petService.addPet(Pet.builder().
-                category((categoryRepository.findById(category_id_add)).get()).
-                name(name).
-                tagSet(newTagList).
-                status(PetStatus.AVAILABLE).
-                build()));
-    }
-
-    @GetMapping(path = "/pet/form/getbyid")
-    @ResponseBody
-    public ResponseEntity<Pet> getPetById(@RequestParam Long id) {
-        Optional<Pet> result = petService.getPetById(id);
-        if (result.isPresent()) {
-            return ResponseEntity.ok(petService.getPetById(id).get());
-        } else return ResponseEntity.notFound().build();
-    }
-
-    @GetMapping(path = "/pet/form/getallhtml")
-    public String getAllPetsHTML(Model model) {
-        List<Pet> allPets = new ArrayList<>();
-        for (Pet pet : petService.getAllPets()) {
-            allPets.add(pet);
-        }
-        model.addAttribute("allPets", allPets);
-        return ("pet_list");
-    }
-
-    @GetMapping(path = "/pet/form/getalljson")
-    public ResponseEntity getAllPetsJSON() {
-        return ResponseEntity.ok(petService.getAllPets());
-    }
-
-    @GetMapping(path = "/pet/form/update")
-    @ResponseBody
-    public ResponseEntity<Pet> updatePetWithForm(@RequestParam Long pet_id, @RequestParam Long category_id, @RequestParam String name, @RequestParam(value = "tag_id_list") String[] tag_id_list, @RequestParam String pet_status) {
-        Optional<Pet> result = petService.getPetById(pet_id);
-        if (result.isPresent()) {
-            Pet updatedPet = result.get();
-            updatedPet.setCategory(categoryRepository.findById(category_id).get());
-            updatedPet.setName(name);
-            Set<Tag> newTagSet = new HashSet<>();
-            for (String tag_id : tag_id_list) {
-                newTagSet.add((tagRepository.findById(Long.valueOf(tag_id))).get());
-            }
-            updatedPet.setTagSet(newTagSet);
-            switch (pet_status) {
-                case "AVAILABLE":
-                    updatedPet.setStatus(PetStatus.AVAILABLE);
-                    break;
-                case "PENDING":
-                    updatedPet.setStatus(PetStatus.PENDING);
-                    break;
-                case "SOLD":
-                    updatedPet.setStatus(PetStatus.SOLD);
-                    break;
-            }
-            return ResponseEntity.ok(petService.updatePetWithForm(pet_id, updatedPet).get());
-        } else return ResponseEntity.notFound().build();
-    }
-
-    @GetMapping(path = "/pet/form/delete")
-    @ResponseBody
-    public void deletePet(@RequestParam(value = "pet_id") Long[] pet_id_list) {
-        for (Long pet_id : pet_id_list) {
-            petService.deletePet(pet_id);
-        }
+        return "template_home";
     }
 
     @PostMapping(path = "/order/form/add")
@@ -150,7 +75,7 @@ public class PetStoreController {
     @GetMapping(path = "/order/form/getallhtml")
     public String getAllOrdersHTML(Model model) {
         model.addAttribute("allOrders", orderService.getAllOrders());
-        return ("order_list");
+        return ("template_order_list");
     }
 
     @GetMapping(path = "/order/form/getalljson")
