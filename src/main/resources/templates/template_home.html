@@ -10,7 +10,7 @@
     <div>PET</div>
     <br>
     <div>Add pet</div>
-    <form action="/pet/form/add" method="post" id="add_pet">
+    <form action="/pet/form/add" method="post">
         <select name="category_id" th:size=1>
             <option th:each="category : ${category_list}"
                     th:value="${category.id}"
@@ -52,7 +52,7 @@
                     th:value="${category.id}"
                     th:text="${category.name}">
         </select>
-        <input type="text" name="name" placeholder="Pet new name">
+        <input type="text" name="name" placeholder="Pet name">
         <select name="tag_id" th:size="${#lists.size(tag_list)}" multiple>-->
             <option th:each="tag : ${tag_list}"
                     th:value="${tag.id}"
@@ -73,56 +73,56 @@
                     th:value="${pet.id}"
                     th:text="${pet.name}">
         </select>
-        <button type="submit" id="submit_delete_pet">DELETE</button>
+        <button type="submit">DELETE</button>
     </form>
     <br>
     <hr>
     <div>ORDER</div>
     <br>
     <div>Add order</div>
-    <form action="/order/form/add" method="post" id="add_order">
-        <select id="pet_id_add_order" name="pet_id_add_order" th:size=1>
+    <form action="/order/form/add" method="post">
+        <select name="pet_id" th:size=1>
             <option th:each="pet : ${available_pet_list}"
                     th:value="${pet.id}"
                     th:text="${pet.name}">
         </select>
         <input type="number" name="quantity" placeholder="Quantity">
         <input type="date" name="ship_date" placeholder="Ship date">
-        <button type="submit" id="submit_add_order">ADD</button>
+        <button type="submit">ADD</button>
     </form>
     <br>
     <div>Search order by ID</div>
-    <form action="/order/form/getbyid" method="get" id="get_order_by_id">
+    <form action="/order/form/getbyid" method="get">
         <input type="text" name="id" placeholder="Order ID">
-        <button type="submit" id="submit_get_order_by_id">SEARCH</button>
+        <button type="submit">SEARCH</button>
     </form>
     <br>
     <div>List all orders</div>
-    <form action="/order/form/getallhtml" method="get" id="get_all_orders_html">
-        <button type="submit" id="submit_get_all_orders_html">LIST AS HTML</button>
+    <form action="/order/form/getallhtml" method="get">
+        <button type="submit">LIST AS HTML</button>
     </form>
     <br>
-    <form action="/order/form/getalljson" method="get" id="get_all_orders_json">
-        <button type="submit" id="submit_get_all_orders_json">LIST AS JSON</button>
+    <form action="/order/form/getalljson" method="get">
+        <button type="submit">LIST AS JSON</button>
     </form>
     <br>
     <div>Update order</div>
-    <form action="/order/form/update" method="get" id="update_order_with_form">
-        <select id="order_id_update_order" name="order_id_update_order" th:size=1>
+    <form action="/order/form/update" method="get">
+        <select name="order_id" th:size=1>
             <option th:each="order : ${order_list}"
                     th:value="${order.id}"
                     th:text="${order.id}">
         </select>
-        <select id="order_status_update_order" name="order_status_update_order" th:size=1>
+        <select name="order_status" th:size=1>
             <option th:each="order_status : ${order_status_list}"
                     th:value="${order_status}"
                     th:text="${order_status}">
         </select>
-        <select id="order_iscomplete_update_order" name="order_iscomplete_update_order" size=1>
+        <select name="order_complete" size=1>
             <option value="true">Completed</option>
             <option value="false">Not completed</option>
         </select>
-        <button type="submit" id="submit_update_order_with_form">UPDATE</button>
+        <button type="submit">UPDATE</button>
     </form>
     <br>
     <div>Delete order</div>

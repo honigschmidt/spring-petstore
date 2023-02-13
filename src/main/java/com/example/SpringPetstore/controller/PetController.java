@@ -53,7 +53,7 @@ public class PetController {
 
     @GetMapping(path = "/pet/form/getallhtml")
     public String getAllPetsHTML(Model model) {
-        model.addAttribute("allPets", petService.getAllPets());
+        model.addAttribute("pet_list", petService.getAllPets());
         return ("template_pet_list");
     }
 

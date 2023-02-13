@@ -14,7 +14,7 @@
     <td>Status</td>
     <td>Complete</td>
   </tr>
-  <tr th:each="order:${allOrders}">
+  <tr th:each="order:${order_list}">
     <td th:text="${order.id}"></td>
     <td th:text="${order.pet.name}"></td>
     <td th:text="${order.quantity}"></td>
