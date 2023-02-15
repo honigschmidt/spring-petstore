@@ -2,12 +2,9 @@ package com.example.SpringPetstore.service;
 
 import com.example.SpringPetstore.model.Order;
 import com.example.SpringPetstore.model.OrderRepository;
-import com.example.SpringPetstore.model.Pet;
-import com.example.SpringPetstore.model.PetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service

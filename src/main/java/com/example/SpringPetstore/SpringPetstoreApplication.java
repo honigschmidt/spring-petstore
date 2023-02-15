@@ -11,66 +11,108 @@ import java.time.LocalDate;
 @SpringBootApplication
 public class SpringPetstoreApplication {
 
-	@Autowired
-	PetRepository petRepository;
-	OrderRepository orderRepository;
-	UserRepository userRepository;
-	TagRepository tagRepository;
-	CategoryRepository categoryRepository;
+    @Autowired
+    PetRepository petRepository;
+    OrderRepository orderRepository;
+    UserRepository userRepository;
+    TagRepository tagRepository;
+    CategoryRepository categoryRepository;
+    ApiResponseRepository apiResponseRepository;
 
-	public SpringPetstoreApplication(PetRepository petRepository, OrderRepository orderRepository, UserRepository userRepository, TagRepository tagRepository, CategoryRepository categoryRepository) {
-		this.petRepository = petRepository;
-		this.orderRepository = orderRepository;
-		this.userRepository = userRepository;
-		this.tagRepository = tagRepository;
-		this.categoryRepository = categoryRepository;
-	}
+    public SpringPetstoreApplication(PetRepository petRepository, OrderRepository orderRepository, UserRepository userRepository, TagRepository tagRepository, CategoryRepository categoryRepository, ApiResponseRepository apiResponseRepository) {
+        this.petRepository = petRepository;
+        this.orderRepository = orderRepository;
+        this.userRepository = userRepository;
+        this.tagRepository = tagRepository;
+        this.categoryRepository = categoryRepository;
+        this.apiResponseRepository = apiResponseRepository;
+    }
 
-	public static void main(String[] args) {
-		SpringApplication.run(SpringPetstoreApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(SpringPetstoreApplication.class, args);
+    }
 
-	@PostConstruct
-	public void init() {
-		prepDB();
-	}
+    @PostConstruct
+    public void init() {
+        prepDB();
+    }
 
-	public void prepDB() {
+    public void prepDB() {
 
-		tagRepository.save(Tag.builder().name("Tag_1").build());
-		tagRepository.save(Tag.builder().name("Tag_2").build());
-		tagRepository.save(Tag.builder().name("Tag_3").build());
+        tagRepository.save(Tag.builder()
+                .name("Tag_1")
+                .build());
+        tagRepository.save(Tag.builder()
+                .name("Tag_2")
+                .build());
+        tagRepository.save(Tag.builder()
+                .name("Tag_3")
+                .build());
 
-		categoryRepository.save(Category.builder().name("Category_1").build());
-		categoryRepository.save(Category.builder().name("Category_2").build());
-		categoryRepository.save(Category.builder().name("Category_3").build());
+        categoryRepository.save(Category.builder()
+                .name("Category_1")
+                .build());
+        categoryRepository.save(Category.builder()
+                .name("Category_2")
+                .build());
+        categoryRepository.save(Category.builder()
+                .name("Category_3")
+                .build());
 
-		Pet newPet = petRepository.save(Pet.builder().
-				name("Alex").
-				status(PetStatus.PENDING).
-				build());
+        apiResponseRepository.save(ApiResponse.builder()
+                .code(404)
+                .type("pet")
+                .message("Pet not found")
+                .build());
 
-		orderRepository.save(Order.builder().
-				quantity(0).
-				pet(newPet).
-				shipDate(LocalDate.EPOCH).
-				status(OrderStatus.DUMMY).
-				complete(Boolean.FALSE).
-				build());
+        apiResponseRepository.save(ApiResponse.builder()
+                .code(404)
+                .type("order")
+                .message("Order not found")
+                .build());
 
-		petRepository.save(Pet.builder().
-				name("Billy").
-				status(PetStatus.AVAILABLE).
-				build());
+        apiResponseRepository.save(ApiResponse.builder()
+                .code(404)
+                .type("user")
+                .message("User not found")
+                .build());
 
-		userRepository.save(User.builder().
-				username("johndoe").
-				firstName("John").
-				lastName("Doe").
-				email("john.doe@no-mail.com").
-				password("start1234").
-				phone("1234567890").
-				userStatus(0).
-				build());
-	}
+        Pet newPet = petRepository.save(Pet.builder()
+                .name("Alex")
+                .status(PetStatus.PENDING)
+                .build());
+
+        orderRepository.save(Order.builder()
+                .quantity(0)
+                .pet(newPet)
+                .shipDate(LocalDate.EPOCH)
+                .status(OrderStatus.DUMMY)
+                .complete(Boolean.FALSE)
+                .build());
+
+        petRepository.save(Pet.builder()
+                .name("Billy")
+                .status(PetStatus.AVAILABLE)
+                .build());
+
+        userRepository.save(User.builder()
+                .username("admin")
+                .firstName("John")
+                .lastName("Doe")
+                .email("admin@nomail.com")
+                .password("admin")
+                .phone("1234567890")
+                .userStatus(0)
+                .build());
+
+        userRepository.save(User.builder()
+                .username("user")
+                .firstName("Jane")
+                .lastName("Doe")
+                .email("user@nomail.com")
+                .password("user")
+                .phone("1234567890")
+                .userStatus(0)
+                .build());
+    }
 }

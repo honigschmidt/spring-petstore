@@ -30,10 +30,6 @@ public class PetService {
         return petRepository.findAll();
     }
 
-    public Optional<List<Pet>> findPetsByStatus(String status) {
-        return petRepository.findByStatus(status);
-    }
-
     public Optional<Pet> updatePetWithForm(Long id, Pet pet) {
         return Optional.of(petRepository.save(pet));
     }

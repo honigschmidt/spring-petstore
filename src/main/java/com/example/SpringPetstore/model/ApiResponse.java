@@ -19,6 +19,9 @@ public class ApiResponse {
     @Column(name = "id", nullable = false)
     private Long id;
 
+    @Column(name = "code")
+    private Integer code;
+
     @Column(name = "type")
     private String type;
 

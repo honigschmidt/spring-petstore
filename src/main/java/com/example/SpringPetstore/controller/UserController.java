@@ -1,5 +1,6 @@
 package com.example.SpringPetstore.controller;
 
+import com.example.SpringPetstore.model.ApiResponseRepository;
 import com.example.SpringPetstore.model.User;
 import com.example.SpringPetstore.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,31 +19,33 @@ public class UserController {
 
     @Autowired
     UserService userService;
+    ApiResponseRepository apiResponseRepository;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, ApiResponseRepository apiResponseRepository) {
         this.userService = userService;
+        this.apiResponseRepository = apiResponseRepository;
     }
 
     @PostMapping(path = "/user/form/add")
     @ResponseBody
     public ResponseEntity<User> addUser(@RequestParam String user_name, @RequestParam String first_name, @RequestParam String last_name, @RequestParam String email, @RequestParam String password, @RequestParam String phone) {
-        return ResponseEntity.ok(userService.addUser(User.builder().
-                username(user_name).
-                firstName(first_name).
-                lastName(last_name).
-                email(email).
-                password(password).
-                phone(phone).
-                build()));
+        return ResponseEntity.ok(userService.addUser(User.builder()
+                .username(user_name)
+                .firstName(first_name)
+                .lastName(last_name)
+                .email(email)
+                .password(password)
+                .phone(phone)
+                .build()));
     }
 
     @GetMapping(path = "/user/form/getbyid")
     @ResponseBody
-    public ResponseEntity<User> getUserById(@RequestParam Long user_id) {
+    public ResponseEntity getUserById(@RequestParam Long user_id) {
         Optional<User> result = userService.getUserById(user_id);
         if (result.isPresent()) {
             return ResponseEntity.ok(result.get());
-        } else return ResponseEntity.notFound().build();
+        } else return ResponseEntity.status(404).body(apiResponseRepository.findByCodeAndType(404, "user").get());
     }
 
     @GetMapping(path = "/user/form/getallhtml")
@@ -59,22 +62,19 @@ public class UserController {
 
     @GetMapping(path = "/user/form/update")
     public ResponseEntity<User> updateUser(@RequestParam Long user_id, @RequestParam String user_name, @RequestParam String first_name, @RequestParam String last_name, @RequestParam String email, @RequestParam String password, @RequestParam String phone) {
-        Optional<User> result = userService.getUserById(user_id);
-        if (result.isPresent()) {
-            User updatedUser = result.get();
-            updatedUser.setUsername(user_name);
-            updatedUser.setFirstName(first_name);
-            updatedUser.setLastName(last_name);
-            updatedUser.setEmail(email);
-            updatedUser.setPassword(password);
-            updatedUser.setPhone(phone);
-            return ResponseEntity.ok(userService.updateUserWithForm(user_id, updatedUser).get());
-        } else return ResponseEntity.notFound().build();
+        User updatedUser = userService.getUserById(user_id).get();
+        updatedUser.setUsername(user_name);
+        updatedUser.setFirstName(first_name);
+        updatedUser.setLastName(last_name);
+        updatedUser.setEmail(email);
+        updatedUser.setPassword(password);
+        updatedUser.setPhone(phone);
+        return ResponseEntity.ok(userService.updateUserWithForm(user_id, updatedUser).get());
     }
 
     @GetMapping(path = "/user/form/delete")
     @ResponseBody
-    public ResponseEntity<User> deleteUser(@RequestParam(value = "user_id") Long[] user_id_list) {
+    public ResponseEntity deleteUser(@RequestParam(value = "user_id") Long[] user_id_list) {
         for (Long user_id : user_id_list) {
             userService.deleteUser(user_id);
         }

@@ -47,4 +47,19 @@ public class PetStoreController {
         model.addAttribute("user_list", userService.getAllUsers());
         return "template_home";
     }
+
+    @GetMapping(path = "/welcome")
+    public String getWelcome(Model model) {
+        return "template_welcome";
+    }
+
+    @GetMapping(path = "/store")
+    public String getStore(Model model) {
+        return "template_store";
+    }
+
+    @GetMapping(path = "/admin")
+    public String getAdmin(Model model) {
+        return "template_admin";
+    }
 }
