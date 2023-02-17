@@ -31,6 +31,12 @@ public class PetStoreController {
 
     @GetMapping(path = "/")
     public String getHome(Model model) {
+        model.addAttribute("available_pet_list", petService.getPetsByStatus(PetStatus.AVAILABLE).get());
+        return "template_home";
+    }
+
+    @GetMapping(path = "/admin")
+    public String getAdmin(Model model) {
         model.addAttribute("category_list", categoryRepository.findAll());
         model.addAttribute("tag_list", tagRepository.findAll());
         model.addAttribute("pet_status_list", PetStatus.getPetStatusList());
@@ -45,21 +51,11 @@ public class PetStoreController {
         }
         model.addAttribute("available_pet_list", availablePets);
         model.addAttribute("user_list", userService.getAllUsers());
-        return "template_home";
-    }
-
-    @GetMapping(path = "/welcome")
-    public String getWelcome(Model model) {
-        return "template_welcome";
+        return "template_admin";
     }
 
     @GetMapping(path = "/store")
     public String getStore(Model model) {
         return "template_store";
-    }
-
-    @GetMapping(path = "/admin")
-    public String getAdmin(Model model) {
-        return "template_admin";
     }
 }

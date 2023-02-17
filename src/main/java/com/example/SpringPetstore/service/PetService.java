@@ -2,7 +2,9 @@ package com.example.SpringPetstore.service;
 
 import com.example.SpringPetstore.model.Pet;
 import com.example.SpringPetstore.model.PetRepository;
+import com.example.SpringPetstore.model.PetStatus;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,6 +26,10 @@ public class PetService {
 
     public Optional<Pet> getPetById(Long id) {
         return petRepository.findById(id);
+    }
+
+    public Optional<Iterable<Pet>> getPetsByStatus(PetStatus petStatus) {
+        return petRepository.findByStatus(petStatus);
     }
 
     public Iterable<Pet> getAllPets() {

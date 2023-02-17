@@ -39,4 +39,7 @@ public class User {
 
     @Column(name = "user_status")
     private Integer userStatus;
+
+    @Column(name = "user_role")
+    private UserRole userRole;
 }

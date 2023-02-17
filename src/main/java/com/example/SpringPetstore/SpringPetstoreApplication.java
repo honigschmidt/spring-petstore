@@ -95,6 +95,11 @@ public class SpringPetstoreApplication {
                 .status(PetStatus.AVAILABLE)
                 .build());
 
+        petRepository.save(Pet.builder()
+                .name("Charlie")
+                .status(PetStatus.AVAILABLE)
+                .build());
+
         userRepository.save(User.builder()
                 .username("admin")
                 .firstName("John")
@@ -103,6 +108,7 @@ public class SpringPetstoreApplication {
                 .password("admin")
                 .phone("1234567890")
                 .userStatus(0)
+                .userRole(UserRole.ADMIN)
                 .build());
 
         userRepository.save(User.builder()
@@ -113,6 +119,7 @@ public class SpringPetstoreApplication {
                 .password("user")
                 .phone("1234567890")
                 .userStatus(0)
+                .userRole(UserRole.USER)
                 .build());
     }
 }
