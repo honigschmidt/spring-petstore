@@ -9,10 +9,13 @@
 <br>
 <div>Welcome to the Spring Pet Store!</div>
 <br>
+<img th:src="@{images/Welcome.jpg}"/>
+<br>
 <div>Currently available pets:</div>
 <table>
     <tr th:each="pet:${available_pet_list}">
         <td th:text="${pet.name}"></td>
+        <td><img th:src="@{${pet.photoUrl}}"></img></td>
     </tr>
 </table>
 <br>

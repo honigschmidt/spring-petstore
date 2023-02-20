@@ -10,11 +10,13 @@
     <td>Id</td>
     <td>Name</td>
     <td>Pet status</td>
+    <td>Photo URL</td>
   </tr>
   <tr th:each="pet:${pet_list}">
     <td th:text="${pet.id}"></td>
     <td th:text="${pet.name}"></td>
     <td th:text="${pet.status}"></td>
+    <td th:text="${pet.photoUrl}"></td>
   </tr>
 </table>
 </body>

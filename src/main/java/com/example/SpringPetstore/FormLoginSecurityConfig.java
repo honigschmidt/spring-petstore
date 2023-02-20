@@ -33,6 +33,7 @@ public class FormLoginSecurityConfig {
                 .authorizeHttpRequests()
                     .requestMatchers("/admin").hasRole("ADMIN")
                     .requestMatchers("/store").hasAnyRole("ADMIN", "USER")
+                    .requestMatchers("/images/**").permitAll()
                     .requestMatchers("/").permitAll()
                     .anyRequest().authenticated()
                 .and()

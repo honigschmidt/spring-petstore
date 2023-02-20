@@ -31,6 +31,10 @@ public class Pet {
     @Column(name = "name")
     private String name;
 
+    // TODO: Add more photoUrls
+    @Column(name = "photo_url")
+    private String photoUrl;
+
     @ManyToMany
     @JoinTable(
             name = "pet_tags",
