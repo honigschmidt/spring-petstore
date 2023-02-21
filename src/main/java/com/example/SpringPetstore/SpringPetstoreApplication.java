@@ -79,6 +79,7 @@ public class SpringPetstoreApplication {
 
         Pet newPet = petRepository.save(Pet.builder()
                 .name("Alpha")
+                .photoUrl("images/Alpha.jpg")
                 .status(PetStatus.PENDING)
                 .build());
 
@@ -98,6 +99,7 @@ public class SpringPetstoreApplication {
 
         petRepository.save(Pet.builder()
                 .name("Charlie")
+                .photoUrl("images/Charlie.jpg")
                 .status(PetStatus.AVAILABLE)
                 .build());
 
