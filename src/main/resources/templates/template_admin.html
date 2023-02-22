@@ -192,9 +192,13 @@
     </form>
     <br>
     <hr>
-    <div>IMAGES</div>
+    <div>PHOTO</div>
     <br>
-    <div>Image upload</div>
+    <div>Photo upload</div>
+    <form action="/photo/form/add" method="post" enctype="multipart/form-data">
+        <input type="file" name="file">
+        <button type="submit">UPLOAD</button>
+    </form>
     <br>
     <hr>
     <p th:inline="text">Logged in as <span th:remove="tag" sec:authentication="name">username</span> with roles(s) <span th:remove="tag" sec:authentication="principal.authorities">role</span></p>
