@@ -77,9 +77,14 @@ public class SpringPetstoreApplication {
                 .message("User not found")
                 .build());
 
+        apiResponseRepository.save(ApiResponse.builder()
+                .code(404)
+                .type("photo")
+                .message("Photo not found")
+                .build());
+
         Pet newPet = petRepository.save(Pet.builder()
                 .name("Alpha")
-                .photoUrl("images/Alpha.jpg")
                 .status(PetStatus.PENDING)
                 .build());
 
@@ -93,13 +98,11 @@ public class SpringPetstoreApplication {
 
         petRepository.save(Pet.builder()
                 .name("Beta")
-                .photoUrl("images/Beta.jpg")
                 .status(PetStatus.AVAILABLE)
                 .build());
 
         petRepository.save(Pet.builder()
                 .name("Charlie")
-                .photoUrl("images/Charlie.jpg")
                 .status(PetStatus.AVAILABLE)
                 .build());
 

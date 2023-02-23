@@ -1,15 +1,23 @@
 package com.example.SpringPetstore.controller;
 
+import com.example.SpringPetstore.model.ApiResponseRepository;
+import com.example.SpringPetstore.model.Pet;
 import com.example.SpringPetstore.model.Photo;
 import com.example.SpringPetstore.service.FileService;
+import com.example.SpringPetstore.service.PetService;
 import com.example.SpringPetstore.service.PhotoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.util.Optional;
 
 @Controller
 public class PhotoController {
@@ -17,30 +25,67 @@ public class PhotoController {
     @Autowired
     PhotoService photoService;
     FileService fileService;
+    PetService petService;
+    ApiResponseRepository apiResponseRepository;
 
-    public PhotoController(PhotoService photoService, FileService fileService) {
+    public PhotoController(PhotoService photoService, FileService fileService, PetService petService, ApiResponseRepository apiResponseRepository) {
         this.photoService = photoService;
         this.fileService = fileService;
+        this.petService = petService;
+        this.apiResponseRepository = apiResponseRepository;
     }
 
     @PostMapping(path = "/photo/form/add")
     @ResponseBody
-    public ResponseEntity<Photo> addPhoto(@RequestParam MultipartFile file) {
-        fileService.storeFS(file);
+    public ResponseEntity<Photo> addPhoto(@RequestParam Long pet_id, @RequestParam String metadata, @RequestParam MultipartFile file) {
+        try {
+            // Save file to src/main/resources/static/images/
+            fileService.store(file);
+            // Create photo in DB
+            Photo newPhoto = photoService.addPhoto(Photo.builder()
+                    .metaData(metadata)
+                    .url("images/" + file.getOriginalFilename())
+                    .build());
+            // Get pet with pet_id
+            Pet updatedPet = petService.getPetById(pet_id).get();
+            // Add photo to pet
+            updatedPet.getPhotoSet().add(newPhoto);
+            // Save pet to DB
+            petService.updatePetWithForm(pet_id, updatedPet);
+            // Return OK with photo body
+            return ResponseEntity.ok(newPhoto);
+        } catch (IOException e) {
+            throw new RuntimeException();
+        }
+    }
+
+    @GetMapping(path = "/photo/form/getbyid")
+    @ResponseBody
+    public ResponseEntity getPhotoById(@RequestParam Long id) {
+        Optional<Photo> result = photoService.getPhotoById(id);
+        if (result.isPresent()) {
+            return ResponseEntity.ok(result.get());
+        } else return ResponseEntity.status(404).body(apiResponseRepository.findByCodeAndType(404, "photo").get());
+    }
+
+    @GetMapping(path = "/photo/form/getallhtml")
+    public String getAllPhotosHTML(Model model) {
+        model.addAttribute("photo_list", photoService.getAllPhotos());
+        return "template_photo_list";
+    }
+
+    @GetMapping(path = "/photo/form/getalljson")
+    @ResponseBody
+    public ResponseEntity<Iterable<Photo>> getAllPhotos() {
+        return ResponseEntity.ok(photoService.getAllPhotos());
+    }
+
+    @GetMapping(path = "/photo/form/delete")
+    @ResponseBody
+    public ResponseEntity deletePhotoById(@RequestParam(value = "photo_id") Long[] photo_id_list) {
+        for (Long photo_id : photo_id_list) {
+            photoService.deletePhoto(photo_id);
+        }
         return ResponseEntity.ok().build();
     }
-//    public ResponseEntity<Photo> addPhoto(@RequestParam String metadata, @RequestParam MultipartFile file) {
-//        return null;
-//    }
-
-//    @GetMapping(path = "/photo/form/getbyid")
-
-//    @GetMapping(path = "/photo/form/getallhtml")
-
-//    @GetMapping(path = "/photo/form/getalljson")
-//    public ResponseEntity<Iterable<Photo>> getAllPhotos() {
-//        return ResponseEntity.ok(photoService.getAllPhotos());
-//    }
-
-//    @GetMapping(path = "/photo/form/delete")
 }

@@ -49,7 +49,7 @@ public class PetController {
     public ResponseEntity getPetById(@RequestParam Long pet_id) {
         Optional<Pet> result = petService.getPetById(pet_id);
         if (result.isPresent()) {
-            return ResponseEntity.ok(petService.getPetById(pet_id).get());
+            return ResponseEntity.ok(result.get());
         } else return ResponseEntity.status(404).body(apiResponseRepository.findByCodeAndType(404, "pet").get());
     }
 

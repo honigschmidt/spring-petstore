@@ -194,10 +194,41 @@
     <hr>
     <div>PHOTO</div>
     <br>
-    <div>Photo upload</div>
+    <div>Add photo</div>
     <form action="/photo/form/add" method="post" enctype="multipart/form-data">
+        <select name="pet_id" th:size="${#lists.size(pet_list)}">
+            <option th:each="pet : ${pet_list}"
+                    th:value="${pet.id}"
+                    th:text="${pet.name}">
+        </select>
+        <input type="text" name="metadata" placeholder="Metadata">
         <input type="file" name="file">
         <button type="submit">UPLOAD</button>
+    </form>
+    <br>
+    <div>Search photo by ID</div>
+    <form action="/photo/form/getbyid" method="get">
+        <input type="number" name="photo_id" placeholder="Photo ID">
+        <button type="submit">SEARCH</button>
+    </form>
+    <br>
+    <div>List all photos</div>
+    <form action="/photo/form/getallhtml">
+        <button type="submit">LIST AS HTML</button>
+    </form>
+    <br>
+    <form action="/photo/form/getalljson">
+        <button type="submit">LIST AS JSON</button>
+    </form>
+    <br>
+    <div>Delete photo</div>
+    <form action="/photo/form/delete" method="get">
+        <select name="photo_id" th:size="${#lists.size(photo_list)}" multiple>-->
+            <option th:each="photo : ${photo_list}"
+                    th:value="${photo.id}"
+                    th:text="${photo.url}">
+        </select>
+        <button type="submit">DELETE</button>
     </form>
     <br>
     <hr>

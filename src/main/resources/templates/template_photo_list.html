@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Photo list</title>
+</head>
+<body>
+<table>
+    <tr>
+        <td>Id</td>
+        <td>Metadata</td>
+        <td>URL</td>
+    </tr>
+    <tr th:each="photo:${photo_list}">
+        <td th:text="${photo.id}"></td>
+        <td th:text="${photo.metaData}"></td>
+        <td th:text="${photo.url}"></td>
+    </tr>
+</table>
+</body>
+</html>

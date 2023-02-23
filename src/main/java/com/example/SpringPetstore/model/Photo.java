@@ -1,5 +1,6 @@
 package com.example.SpringPetstore.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -24,4 +25,9 @@ public class Photo {
 
     @Column(name = "url")
     private String url;
+
+    @ManyToOne
+    @JoinColumn(name = "pet_id", referencedColumnName = "id")
+    @JsonBackReference
+    private Pet pet;
 }

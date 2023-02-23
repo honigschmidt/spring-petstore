@@ -3,6 +3,7 @@ package com.example.SpringPetstore.controller;
 import com.example.SpringPetstore.model.*;
 import com.example.SpringPetstore.service.OrderService;
 import com.example.SpringPetstore.service.PetService;
+import com.example.SpringPetstore.service.PhotoService;
 import com.example.SpringPetstore.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,13 +19,15 @@ public class PetStoreController {
     PetService petService;
     OrderService orderService;
     UserService userService;
+    PhotoService photoService;
     CategoryRepository categoryRepository;
     TagRepository tagRepository;
 
-    public PetStoreController(PetService petService, OrderService orderService, UserService userService, CategoryRepository categoryRepository, TagRepository tagRepository) {
+    public PetStoreController(PetService petService, OrderService orderService, UserService userService, CategoryRepository categoryRepository, TagRepository tagRepository, PhotoService photoService) {
         this.petService = petService;
         this.orderService = orderService;
         this.userService = userService;
+        this.photoService = photoService;
         this.categoryRepository = categoryRepository;
         this.tagRepository = tagRepository;
     }
@@ -51,6 +54,7 @@ public class PetStoreController {
         }
         model.addAttribute("available_pet_list", availablePets);
         model.addAttribute("user_list", userService.getAllUsers());
+        model.addAttribute("photo_list", photoService.getAllPhotos());
         return "template_admin";
     }
 
