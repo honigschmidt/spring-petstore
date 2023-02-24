@@ -1,241 +1,244 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
     <meta charset="UTF-8">
     <title>Admin</title>
 </head>
 <body>
-    <div>ADMIN<span th:insert="fragments/fragment_menu :: menu"></span></div>
-    <hr>
-    <div>PET</div>
-    <br>
-    <div>Add pet</div>
-    <form action="/pet/form/add" method="post">
-        <select name="category_id" th:size=1>
-            <option th:each="category : ${category_list}"
-                    th:value="${category.id}"
-                    th:text="${category.name}">
-        </select>
-        <input type="text" name="name" placeholder="Pet name">
-<!--        <input type="file" name="photoUrl" placeholder="Photo URL">-->
-        <select name="tag_id" th:size="${#lists.size(tag_list)}" multiple>-->
-            <option th:each="tag : ${tag_list}"
-                    th:value="${tag.id}"
-                    th:text="${tag.name}">
-        </select>
-        <button type="submit">ADD</button>
-    </form>
-    <br>
-    <div>Search pet by ID</div>
-    <form action="/pet/form/getbyid" method="get">
-        <input type="text" name="pet_id" placeholder="Pet ID">
-        <button type="submit">SEARCH</button>
-    </form>
-    <br>
-    <div>List all pets</div>
-    <form action="/pet/form/getallhtml" method="get">
-        <button type="submit">LIST AS HTML</button>
-    </form>
-    <br>
-    <form action="/pet/form/getalljson" method="get">
-        <button type="submit">LIST AS JSON</button>
-    </form>
-    <br>
-    <div>Update pet</div>
-    <form action="/pet/form/update" method="get">
-        <select name="pet_id" th:size=1>
-            <option th:each="pet : ${pet_list}"
-                    th:value="${pet.id}"
-                    th:text="${pet.name}">
-        </select>
-        <select name="category_id" th:size=1>
-            <option th:each="category : ${category_list}"
-                    th:value="${category.id}"
-                    th:text="${category.name}">
-        </select>
-        <input type="text" name="name" placeholder="Pet name">
-        <select name="tag_id" th:size="${#lists.size(tag_list)}" multiple>-->
-            <option th:each="tag : ${tag_list}"
-                    th:value="${tag.id}"
-                    th:text="${tag.name}">
-        </select>
-        <select name="pet_status" th:size=1>
-            <option th:each="pet_status : ${pet_status_list}"
-                    th:value="${pet_status}"
-                    th:text="${pet_status}">
-        </select>
-        <button type="submit">UPDATE</button>
-    </form>
-    <br>
-    <div>Delete pet</div>
-    <form action="/pet/form/delete" method="get">
-        <select name="pet_id" th:size="${#lists.size(pet_list)}" multiple>-->
-            <option th:each="pet : ${pet_list}"
-                    th:value="${pet.id}"
-                    th:text="${pet.name}">
-        </select>
-        <button type="submit">DELETE</button>
-    </form>
-    <br>
-    <hr>
-    <div>ORDER</div>
-    <br>
-    <div>Add order</div>
-    <form action="/order/form/add" method="post">
-        <select name="pet_id" th:size=1>
-            <option th:each="pet : ${available_pet_list}"
-                    th:value="${pet.id}"
-                    th:text="${pet.name}">
-        </select>
-        <input type="number" name="quantity" placeholder="Quantity">
-        <input type="date" name="ship_date" placeholder="Ship date">
-        <button type="submit">ADD</button>
-    </form>
-    <br>
-    <div>Search order by ID</div>
-    <form action="/order/form/getbyid" method="get">
-        <input type="text" name="id" placeholder="Order ID">
-        <button type="submit">SEARCH</button>
-    </form>
-    <br>
-    <div>List all orders</div>
-    <form action="/order/form/getallhtml" method="get">
-        <button type="submit">LIST AS HTML</button>
-    </form>
-    <br>
-    <form action="/order/form/getalljson" method="get">
-        <button type="submit">LIST AS JSON</button>
-    </form>
-    <br>
-    <div>Update order</div>
-    <form action="/order/form/update" method="get">
-        <select name="order_id" th:size=1>
-            <option th:each="order : ${order_list}"
-                    th:value="${order.id}"
-                    th:text="${order.id}">
-        </select>
-        <select name="order_status" th:size=1>
-            <option th:each="order_status : ${order_status_list}"
-                    th:value="${order_status}"
-                    th:text="${order_status}">
-        </select>
-        <select name="order_complete" size=1>
-            <option value="true">Completed</option>
-            <option value="false">Not completed</option>
-        </select>
-        <button type="submit">UPDATE</button>
-    </form>
-    <br>
-    <div>Delete order</div>
-    <form action="/order/form/delete" method="get">
-        <select name="order_id" th:size="${#lists.size(order_list)}" multiple>-->
-            <option th:each="order : ${order_list}"
-                    th:value="${order.id}"
-                    th:text="${order.id}">
-        </select>
-        <button type="submit" id="submit_delete_order">DELETE</button>
-    </form>
-    <br>
-    <hr>
-    <div>USER</div>
-    <br>
-    <div>Add user</div>
-    <form action="/user/form/add" method="post">
-        <input type="text" name="user_name" placeholder="Username">
-        <input type="text" name="first_name" placeholder="First name">
-        <input type="text" name="last_name" placeholder="Last name">
-        <input type="email" name="email" placeholder="Email">
-        <input type="password" name="password" placeholder="Password">
-        <input type="text" name="phone" placeholder="Phone">
-        <button type="submit">ADD</button>
-    </form>
-    <br>
-    <div>Search user by ID</div>
-    <form action="/user/form/getbyid" method="get">
-        <input type="number" name="user_id" placeholder="User ID">
-        <button type="submit">SEARCH</button>
-    </form>
-    <br>
-    <div>List all users</div>
-    <form action="/user/form/getallhtml">
-        <button type="submit">LIST AS HTML</button>
-    </form>
-    <br>
-    <form action="/user/form/getalljson">
-        <button type="submit">LIST AS JSON</button>
-    </form>
-    <br>
-    <div>Update user</div>
-    <form action="/user/form/update" method="get">
-        <select name="user_id" th:size="${#lists.size(user_list)}">
-            <option th:each="user : ${user_list}"
-                    th:value="${user.id}"
-                    th:text="${user.username}">
-        </select>
-        <input type="text" name="user_name" placeholder="Username">
-        <input type="text" name="first_name" placeholder="First name">
-        <input type="text" name="last_name" placeholder="Last name">
-        <input type="email" name="email" placeholder="Email">
-        <input type="password" name="password" placeholder="Password">
-        <input type="text" name="phone" placeholder="Phone">
-        <button type="submit">UPDATE</button>
-    </form>
-    <br>
-    <div>Delete user</div>
-    <form action="/user/form/delete" method="get">
+<div>@ADMIN<span th:insert="~{fragments/fragment_menu :: menu}"></span></div>
+<hr>
+<div>PET</div>
+<br>
+<div>Add pet</div>
+<form action="/pet/form/add" method="post" enctype="multipart/form-data">
+    <select name="category_id" th:size=1>
+        <option th:each="category : ${category_list}"
+                th:value="${category.id}"
+                th:text="${category.name}">
+    </select>
+    <input type="text" name="name" placeholder="Pet name">
+    <input type="file" name="file" placeholder="Photo" required>
+    <input type="text" name="photo_metadata" placeholder="Photo metadata">
+    <select name="tag_id" th:size="${#lists.size(tag_list)}" multiple>-->
+        <option th:each="tag : ${tag_list}"
+                th:value="${tag.id}"
+                th:text="${tag.name}">
+    </select>
+    <button type="submit">ADD</button>
+</form>
+<br>
+<div>Search pet by ID</div>
+<form action="/pet/form/getbyid" method="get">
+    <input type="text" name="pet_id" placeholder="Pet ID">
+    <button type="submit">SEARCH</button>
+</form>
+<br>
+<div>List all pets</div>
+<form action="/pet/form/getallhtml" method="get">
+    <button type="submit">LIST AS HTML</button>
+</form>
+<br>
+<form action="/pet/form/getalljson" method="get">
+    <button type="submit">LIST AS JSON</button>
+</form>
+<br>
+<div>Update pet</div>
+<form action="/pet/form/update" method="get">
+    <select name="pet_id" th:size=1>
+        <option th:each="pet : ${pet_list}"
+                th:value="${pet.id}"
+                th:text="${pet.name}">
+    </select>
+    <select name="category_id" th:size=1>
+        <option th:each="category : ${category_list}"
+                th:value="${category.id}"
+                th:text="${category.name}">
+    </select>
+    <input type="text" name="name" placeholder="Pet name">
+    <select name="tag_id" th:size="${#lists.size(tag_list)}" multiple>-->
+        <option th:each="tag : ${tag_list}"
+                th:value="${tag.id}"
+                th:text="${tag.name}">
+    </select>
+    <select name="pet_status" th:size=1>
+        <option th:each="pet_status : ${pet_status_list}"
+                th:value="${pet_status}"
+                th:text="${pet_status}">
+    </select>
+    <button type="submit">UPDATE</button>
+</form>
+<br>
+<div>Delete pet</div>
+<form action="/pet/form/delete" method="get">
+    <select name="pet_id" th:size="${#lists.size(pet_list)}" multiple>-->
+        <option th:each="pet : ${pet_list}"
+                th:value="${pet.id}"
+                th:text="${pet.name}">
+    </select>
+    <button type="submit">DELETE</button>
+</form>
+<br>
+<hr>
+<div>ORDER</div>
+<br>
+<div>Add order</div>
+<form action="/order/form/add" method="post">
+    <select name="pet_id" th:size=1>
+        <option th:each="pet : ${available_pet_list}"
+                th:value="${pet.id}"
+                th:text="${pet.name}">
+    </select>
+    <input type="number" name="quantity" placeholder="Quantity">
+    <input type="date" name="ship_date" placeholder="Ship date">
+    <button type="submit">ADD</button>
+</form>
+<br>
+<div>Search order by ID</div>
+<form action="/order/form/getbyid" method="get">
+    <input type="text" name="id" placeholder="Order ID">
+    <button type="submit">SEARCH</button>
+</form>
+<br>
+<div>List all orders</div>
+<form action="/order/form/getallhtml" method="get">
+    <button type="submit">LIST AS HTML</button>
+</form>
+<br>
+<form action="/order/form/getalljson" method="get">
+    <button type="submit">LIST AS JSON</button>
+</form>
+<br>
+<div>Update order</div>
+<form action="/order/form/update" method="get">
+    <select name="order_id" th:size=1>
+        <option th:each="order : ${order_list}"
+                th:value="${order.id}"
+                th:text="${order.id}">
+    </select>
+    <select name="order_status" th:size=1>
+        <option th:each="order_status : ${order_status_list}"
+                th:value="${order_status}"
+                th:text="${order_status}">
+    </select>
+    <select name="order_complete" size=1>
+        <option value="true">Completed</option>
+        <option value="false">Not completed</option>
+    </select>
+    <button type="submit">UPDATE</button>
+</form>
+<br>
+<div>Delete order</div>
+<form action="/order/form/delete" method="get">
+    <select name="order_id" th:size="${#lists.size(order_list)}" multiple>-->
+        <option th:each="order : ${order_list}"
+                th:value="${order.id}"
+                th:text="${order.id}">
+    </select>
+    <button type="submit" id="submit_delete_order">DELETE</button>
+</form>
+<br>
+<hr>
+<div>USER</div>
+<br>
+<div>Add user</div>
+<form action="/user/form/add" method="post">
+    <input type="text" name="user_name" placeholder="Username">
+    <input type="text" name="first_name" placeholder="First name">
+    <input type="text" name="last_name" placeholder="Last name">
+    <input type="email" name="email" placeholder="Email">
+    <input type="password" name="password" placeholder="Password">
+    <input type="text" name="phone" placeholder="Phone">
+    <button type="submit">ADD</button>
+</form>
+<br>
+<div>Search user by ID</div>
+<form action="/user/form/getbyid" method="get">
+    <input type="number" name="user_id" placeholder="User ID">
+    <button type="submit">SEARCH</button>
+</form>
+<br>
+<div>List all users</div>
+<form action="/user/form/getallhtml">
+    <button type="submit">LIST AS HTML</button>
+</form>
+<br>
+<form action="/user/form/getalljson">
+    <button type="submit">LIST AS JSON</button>
+</form>
+<br>
+<div>Update user</div>
+<form action="/user/form/update" method="get">
+    <select name="user_id" th:size="${#lists.size(user_list)}">
+        <option th:each="user : ${user_list}"
+                th:value="${user.id}"
+                th:text="${user.username}">
+    </select>
+    <input type="text" name="user_name" placeholder="Username">
+    <input type="text" name="first_name" placeholder="First name">
+    <input type="text" name="last_name" placeholder="Last name">
+    <input type="email" name="email" placeholder="Email">
+    <input type="password" name="password" placeholder="Password">
+    <input type="text" name="phone" placeholder="Phone">
+    <button type="submit">UPDATE</button>
+</form>
+<br>
+<div>Delete user</div>
+<form action="/user/form/delete" method="get">
     <select name="user_id" th:size="${#lists.size(user_list)}" multiple>-->
         <option th:each="user : ${user_list}"
                 th:value="${user.id}"
                 th:text="${user.username}">
     </select>
-        <button type="submit">DELETE</button>
-    </form>
-    <br>
-    <hr>
-    <div>PHOTO</div>
-    <br>
-    <div>Add photo</div>
-    <form action="/photo/form/add" method="post" enctype="multipart/form-data">
-        <select name="pet_id" th:size="${#lists.size(pet_list)}">
-            <option th:each="pet : ${pet_list}"
-                    th:value="${pet.id}"
-                    th:text="${pet.name}">
-        </select>
-        <input type="text" name="metadata" placeholder="Metadata">
-        <input type="file" name="file">
-        <button type="submit">UPLOAD</button>
-    </form>
-    <br>
-    <div>Search photo by ID</div>
-    <form action="/photo/form/getbyid" method="get">
-        <input type="number" name="photo_id" placeholder="Photo ID">
-        <button type="submit">SEARCH</button>
-    </form>
-    <br>
-    <div>List all photos</div>
-    <form action="/photo/form/getallhtml">
-        <button type="submit">LIST AS HTML</button>
-    </form>
-    <br>
-    <form action="/photo/form/getalljson">
-        <button type="submit">LIST AS JSON</button>
-    </form>
-    <br>
-    <div>Delete photo</div>
-    <form action="/photo/form/delete" method="get">
-        <select name="photo_id" th:size="${#lists.size(photo_list)}" multiple>-->
-            <option th:each="photo : ${photo_list}"
-                    th:value="${photo.id}"
-                    th:text="${photo.url}">
-        </select>
-        <button type="submit">DELETE</button>
-    </form>
-    <br>
-    <hr>
-    <p th:inline="text">Logged in as <span th:remove="tag" sec:authentication="name">username</span> with roles(s) <span th:remove="tag" sec:authentication="principal.authorities">role</span></p>
-    <form th:action="@{/logout}" method="post">
-        <input type="submit" value="LOGOUT"/>
-    </form>
-    <br>
+    <button type="submit">DELETE</button>
+</form>
+<br>
+<hr>
+<div>PHOTO</div>
+<br>
+<div>Add photo</div>
+<form action="/photo/form/add" method="post" enctype="multipart/form-data">
+    <select name="pet_id" th:size="${#lists.size(pet_list)}">
+        <option th:each="pet : ${pet_list}"
+                th:value="${pet.id}"
+                th:text="${pet.name}">
+    </select>
+    <input type="text" name="photo_metadata" placeholder="Photo metadata">
+    <input type="file" name="file" placeholder="Photo">
+    <button type="submit">UPLOAD</button>
+</form>
+<br>
+<div>Search photo by ID</div>
+<form action="/photo/form/getbyid" method="get">
+    <input type="number" name="photo_id" placeholder="Photo ID">
+    <button type="submit">SEARCH</button>
+</form>
+<br>
+<div>List all photos</div>
+<form action="/photo/form/getallhtml">
+    <button type="submit">LIST AS HTML</button>
+</form>
+<br>
+<form action="/photo/form/getalljson">
+    <button type="submit">LIST AS JSON</button>
+</form>
+<br>
+<div>Delete photo</div>
+<form action="/photo/form/delete" method="get">
+    <select name="photo_id" th:size="${#lists.size(photo_list)}" multiple>-->
+        <option th:each="photo : ${photo_list}"
+                th:value="${photo.id}"
+                th:text="${photo.url}">
+    </select>
+    <button type="submit">DELETE</button>
+</form>
+<br>
+<hr>
+<p th:inline="text">Logged in as <span th:remove="tag" sec:authentication="name">username</span> with roles(s) <span
+        th:remove="tag" sec:authentication="principal.authorities">role</span></p>
+<form th:action="@{/logout}" method="post">
+    <input type="submit" value="LOGOUT"/>
+</form>
+<br>
 </body>
 </html>

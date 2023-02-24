@@ -31,15 +31,18 @@ public class FormLoginSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 .authorizeHttpRequests()
-                    .requestMatchers("/admin").hasRole("ADMIN")
-                    .requestMatchers("/store").hasAnyRole("ADMIN", "USER")
-                    .requestMatchers("/images/**").permitAll()
-                    .requestMatchers("/").permitAll()
-                    .anyRequest().authenticated()
+                .requestMatchers("/admin").hasRole("ADMIN")
+                .requestMatchers("/store").hasAnyRole("ADMIN", "USER")
+                .requestMatchers("/images/**").permitAll()
+                .requestMatchers("/h2-console/**").permitAll()
+                .requestMatchers("/").permitAll()
+                .anyRequest().authenticated()
                 .and()
                 .formLogin().loginPage("/login").permitAll()
                 .and()
                 .logout().permitAll()
+                .and()
+                .headers().frameOptions().disable()
                 .and()
                 .csrf().disable();
         return httpSecurity.build();

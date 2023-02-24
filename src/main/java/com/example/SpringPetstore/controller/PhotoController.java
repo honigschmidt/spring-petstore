@@ -1,7 +1,6 @@
 package com.example.SpringPetstore.controller;
 
 import com.example.SpringPetstore.model.ApiResponseRepository;
-import com.example.SpringPetstore.model.Pet;
 import com.example.SpringPetstore.model.Photo;
 import com.example.SpringPetstore.service.FileService;
 import com.example.SpringPetstore.service.PetService;
@@ -37,24 +36,16 @@ public class PhotoController {
 
     @PostMapping(path = "/photo/form/add")
     @ResponseBody
-    public ResponseEntity<Photo> addPhoto(@RequestParam Long pet_id, @RequestParam String metadata, @RequestParam MultipartFile file) {
+    public ResponseEntity<Photo> addPhoto(@RequestParam Long pet_id, @RequestParam String photo_metadata, @RequestParam MultipartFile file) {
         try {
-            // Save file to src/main/resources/static/images/
             fileService.store(file);
-            // Create photo in DB
             Photo newPhoto = photoService.addPhoto(Photo.builder()
-                    .metaData(metadata)
-                    .url("images/" + file.getOriginalFilename())
+                    .metaData(photo_metadata)
+                    .url(FileService.IMAGE_PATH_REL + file.getOriginalFilename())
+                    .pet(petService.getPetById(pet_id).get())
                     .build());
-            // Get pet with pet_id
-            Pet updatedPet = petService.getPetById(pet_id).get();
-            // Add photo to pet
-            updatedPet.getPhotoSet().add(newPhoto);
-            // Save pet to DB
-            petService.updatePetWithForm(pet_id, updatedPet);
-            // Return OK with photo body
             return ResponseEntity.ok(newPhoto);
-        } catch (IOException e) {
+        } catch (Exception e) {
             throw new RuntimeException();
         }
     }
