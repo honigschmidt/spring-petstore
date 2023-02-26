@@ -40,7 +40,7 @@ public class FormLoginSecurityConfig {
                 .and()
                 .formLogin().loginPage("/login").permitAll()
                 .and()
-                .logout().permitAll()
+                .logout().logoutSuccessUrl("/").permitAll()
                 .and()
                 .headers().frameOptions().disable()
                 .and()
