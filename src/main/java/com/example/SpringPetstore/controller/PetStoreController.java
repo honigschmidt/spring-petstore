@@ -46,6 +46,7 @@ public class PetStoreController {
         model.addAttribute("pet_list", petService.getAllPets());
         model.addAttribute("order_status_list", OrderStatus.getOrderStatusList());
         model.addAttribute("order_list", orderService.getAllOrders());
+
         List<Pet> availablePets = new ArrayList<>();
         for (Pet pet : petService.getAllPets()) {
             if (pet.getStatus().equals(PetStatus.AVAILABLE)) {
@@ -53,8 +54,22 @@ public class PetStoreController {
             }
         }
         model.addAttribute("available_pet_list", availablePets);
+
         model.addAttribute("user_list", userService.getAllUsers());
         model.addAttribute("photo_list", photoService.getAllPhotos());
+
+        // TODO:
+        Map<String, List<String>> petPhotoList = new HashMap<>();
+        Iterable<Pet> petList = petService.getAllPets();
+        for (Pet pet : petList) {
+            List<String> photoUrlList = new ArrayList<>();
+            for (Photo photo : pet.getPhotoSet()) {
+                photoUrlList.add(photo.getUrl());
+            }
+            petPhotoList.put(pet.getName(), photoUrlList);
+        }
+        System.out.println(petPhotoList);
+
         return "template_admin";
     }
 

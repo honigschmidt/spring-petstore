@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.Optional;
 
 @Controller
@@ -38,10 +37,10 @@ public class PhotoController {
     @ResponseBody
     public ResponseEntity<Photo> addPhoto(@RequestParam Long pet_id, @RequestParam String photo_metadata, @RequestParam MultipartFile file) {
         try {
-            fileService.store(file);
+            fileService.storePetPhoto(file);
             Photo newPhoto = photoService.addPhoto(Photo.builder()
                     .metaData(photo_metadata)
-                    .url(FileService.IMAGE_PATH_REL + file.getOriginalFilename())
+                    .url(FileService.IMAGE_PATH_RELATIVE + file.getOriginalFilename())
                     .pet(petService.getPetById(pet_id).get())
                     .build());
             return ResponseEntity.ok(newPhoto);
@@ -74,8 +73,15 @@ public class PhotoController {
     @GetMapping(path = "/photo/form/delete")
     @ResponseBody
     public ResponseEntity deletePhotoById(@RequestParam(value = "photo_id") Long[] photo_id_list) {
+        String photoUrl = null;
         for (Long photo_id : photo_id_list) {
+            photoUrl = photoService.getPhotoById(photo_id).get().getUrl();
             photoService.deletePhoto(photo_id);
+            try {
+                fileService.deletePhoto(photoUrl);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         }
         return ResponseEntity.ok().build();
     }

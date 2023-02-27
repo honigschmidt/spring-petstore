@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.*;
 
 @Controller
@@ -55,10 +54,10 @@ public class PetController {
                 .status(PetStatus.AVAILABLE)
                 .build());
         try {
-            fileService.store(file);
+            fileService.storePetPhoto(file);
             Photo newPhoto = photoService.addPhoto(Photo.builder()
                     .metaData(photo_metadata)
-                    .url(FileService.IMAGE_PATH_REL + file.getOriginalFilename())
+                    .url(FileService.IMAGE_PATH_RELATIVE + file.getOriginalFilename())
                     .pet(newPet)
                     .build());
         } catch (Exception e) {
