@@ -46,7 +46,6 @@ public class OrderController {
     }
 
     @GetMapping(path = "/order/form/getbyid")
-    @ResponseBody
     public ResponseEntity getOrderById(@RequestParam Long id) {
         Optional<Order> result = orderService.getOrderById(id);
         if (result.isPresent()) {

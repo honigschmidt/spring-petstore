@@ -40,7 +40,6 @@ public class UserController {
     }
 
     @GetMapping(path = "/user/form/getbyid")
-    @ResponseBody
     public ResponseEntity getUserById(@RequestParam Long user_id) {
         Optional<User> result = userService.getUserById(user_id);
         if (result.isPresent()) {

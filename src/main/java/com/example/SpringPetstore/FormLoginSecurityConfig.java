@@ -56,14 +56,13 @@ public class FormLoginSecurityConfig {
     @Bean
     public UserDetailsService userDetailsService() {
         List<UserDetails> userDetailsList = new ArrayList<>();
-        Iterable<com.example.SpringPetstore.model.User> userList = userService.getAllUsers();
-        for (com.example.SpringPetstore.model.User user : userList) {
-            UserDetails newUser = org.springframework.security.core.userdetails.User.builder()
+        for (com.example.SpringPetstore.model.User user : userService.getAllUsers()) {
+            UserDetails userDetails = org.springframework.security.core.userdetails.User.builder()
                     .username(user.getUsername())
                     .password(passwordEncoder().encode(user.getPassword()))
                     .roles(user.getUserRole().toString())
                     .build();
-            userDetailsList.add(newUser);
+            userDetailsList.add(userDetails);
         }
         return new InMemoryUserDetailsManager(userDetailsList);
     }

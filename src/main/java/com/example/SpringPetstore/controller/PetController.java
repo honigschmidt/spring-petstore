@@ -53,22 +53,22 @@ public class PetController {
                 .tagSet(newTagList)
                 .status(PetStatus.AVAILABLE)
                 .build());
-        try {
-            fileService.storePetPhoto(file);
-            Photo newPhoto = photoService.addPhoto(Photo.builder()
-                    .metaData(photo_metadata)
-                    .url(FileService.IMAGE_PATH_RELATIVE + file.getOriginalFilename())
-                    .pet(newPet)
-                    .build());
-        } catch (Exception e) {
-            logger.error("File upload error. Pet created, add photo later.");
-            throw new RuntimeException(e);
+        if (file.getSize() != 0) {
+            try {
+                fileService.storePetPhoto(file);
+                Photo newPhoto = photoService.addPhoto(Photo.builder()
+                        .metaData(photo_metadata)
+                        .url(FileService.IMAGE_PATH_RELATIVE + file.getOriginalFilename())
+                        .pet(newPet)
+                        .build());
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         }
         return ResponseEntity.ok(newPet);
     }
 
     @GetMapping(path = "/pet/form/getbyid")
-    @ResponseBody
     public ResponseEntity getPetById(@RequestParam Long pet_id) {
         Optional<Pet> result = petService.getPetById(pet_id);
         if (result.isPresent()) {
@@ -79,6 +79,19 @@ public class PetController {
     @GetMapping(path = "/pet/form/getallhtml")
     public String getAllPetsHTML(Model model) {
         model.addAttribute("pet_list", petService.getAllPets());
+
+        Map<String, List<String>> petPhotoList = new HashMap<>();
+        Iterable<Pet> petList = petService.getAllPets();
+        for (Pet pet : petList) {
+            List<String> photoUrlList = new ArrayList<>();
+            for (Photo photo : pet.getPhotoSet()) {
+                photoUrlList.add(photo.getUrl());
+            }
+            petPhotoList.put(pet.getName(), photoUrlList);
+        }
+        System.out.println(petPhotoList);
+        model.addAttribute("pet_photo_list", petPhotoList);
+
         return ("template_pet_list");
     }
 
@@ -115,6 +128,7 @@ public class PetController {
     @GetMapping(path = "/pet/form/delete")
     @ResponseBody
     public ResponseEntity deletePet(@RequestParam(value = "pet_id") Long[] pet_id_list) {
+        // TODO: Delete file from disk
         for (Long pet_id : pet_id_list) {
             petService.deletePet(pet_id);
         }

@@ -1,23 +1,24 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>Pet list</title>
+    <meta charset="UTF-8">
+    <title>Pet list</title>
 </head>
 <body>
 <table>
-  <tr>
-    <td>Id</td>
-    <td>Name</td>
-    <td>Pet status</td>
-    <td>Photos</td>
-  </tr>
-  <tr th:each="pet:${pet_list}">
-    <td th:text="${pet.id}"></td>
-    <td th:text="${pet.name}"></td>
-    <td th:text="${pet.status}"></td>
-    <td th:text="${pet.photoSet.url}"></td>
-  </tr>
+    <tr>
+        <td>Id</td>
+        <td>Name</td>
+        <td>Pet status</td>
+        <td>Photos</td>
+    </tr>
+    <tr th:each="pet:${pet_list}">
+        <td th:text="${pet.id}"></td>
+        <td th:text="${pet.name}"></td>
+        <td th:text="${pet.status}"></td>
+        <td th:text=${pet_photo_list.get(pet.name)}></td>
+        >
+    </tr>
 </table>
 </body>
 </html>

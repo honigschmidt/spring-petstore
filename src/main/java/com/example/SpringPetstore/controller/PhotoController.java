@@ -50,7 +50,6 @@ public class PhotoController {
     }
 
     @GetMapping(path = "/photo/form/getbyid")
-    @ResponseBody
     public ResponseEntity getPhotoById(@RequestParam Long id) {
         Optional<Photo> result = photoService.getPhotoById(id);
         if (result.isPresent()) {

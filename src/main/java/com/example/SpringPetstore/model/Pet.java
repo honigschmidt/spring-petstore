@@ -33,6 +33,7 @@ public class Pet {
     @Column(name = "name")
     private String name;
 
+    // TODO: Set cascading
     @OneToMany(mappedBy = "pet")
     @JsonManagedReference
     private Set<Photo> photoSet;

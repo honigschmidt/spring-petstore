@@ -17,10 +17,10 @@
                 th:value="${category.id}"
                 th:text="${category.name}">
     </select>
-    <input type="text" name="name" placeholder="Pet name">
-    <input type="file" name="file" placeholder="Photo" required>
+    <input type="text" name="name" placeholder="Pet name" required>
+    <input type="file" name="file" placeholder="Photo">
     <input type="text" name="photo_metadata" placeholder="Photo metadata">
-    <select name="tag_id" th:size="${#lists.size(tag_list)}" multiple>-->
+    <select name="tag_id" th:size="${#lists.size(tag_list)}" multiple required>-->
         <option th:each="tag : ${tag_list}"
                 th:value="${tag.id}"
                 th:text="${tag.name}">
@@ -30,7 +30,7 @@
 <br>
 <div>Search pet by ID</div>
 <form action="/pet/form/getbyid" method="get">
-    <input type="text" name="pet_id" placeholder="Pet ID">
+    <input type="number" name="pet_id" placeholder="Pet ID" required>
     <button type="submit">SEARCH</button>
 </form>
 <br>
@@ -55,8 +55,8 @@
                 th:value="${category.id}"
                 th:text="${category.name}">
     </select>
-    <input type="text" name="name" placeholder="Pet name">
-    <select name="tag_id" th:size="${#lists.size(tag_list)}" multiple>-->
+    <input type="text" name="name" placeholder="Pet name" required>
+    <select name="tag_id" th:size="${#lists.size(tag_list)}" multiple required>-->
         <option th:each="tag : ${tag_list}"
                 th:value="${tag.id}"
                 th:text="${tag.name}">
@@ -89,14 +89,14 @@
                 th:value="${pet.id}"
                 th:text="${pet.name}">
     </select>
-    <input type="number" name="quantity" placeholder="Quantity">
-    <input type="date" name="ship_date" placeholder="Ship date">
+    <input type="number" name="quantity" placeholder="Quantity" required>
+    <input type="date" name="ship_date" placeholder="Ship date" required>
     <button type="submit">ADD</button>
 </form>
 <br>
 <div>Search order by ID</div>
 <form action="/order/form/getbyid" method="get">
-    <input type="text" name="id" placeholder="Order ID">
+    <input type="number" name="id" placeholder="Order ID" required>
     <button type="submit">SEARCH</button>
 </form>
 <br>
@@ -130,7 +130,7 @@
 <br>
 <div>Delete order</div>
 <form action="/order/form/delete" method="get">
-    <select name="order_id" th:size="${#lists.size(order_list)}" multiple>-->
+    <select name="order_id" th:size="${#lists.size(order_list)}" multiple required>-->
         <option th:each="order : ${order_list}"
                 th:value="${order.id}"
                 th:text="${order.id}">
@@ -143,18 +143,18 @@
 <br>
 <div>Add user</div>
 <form action="/user/form/add" method="post">
-    <input type="text" name="user_name" placeholder="Username">
+    <input type="text" name="user_name" placeholder="Username" required>
     <input type="text" name="first_name" placeholder="First name">
     <input type="text" name="last_name" placeholder="Last name">
     <input type="email" name="email" placeholder="Email">
-    <input type="password" name="password" placeholder="Password">
+    <input type="password" name="password" placeholder="Password" required>
     <input type="text" name="phone" placeholder="Phone">
     <button type="submit">ADD</button>
 </form>
 <br>
 <div>Search user by ID</div>
 <form action="/user/form/getbyid" method="get">
-    <input type="number" name="user_id" placeholder="User ID">
+    <input type="number" name="user_id" placeholder="User ID" required>
     <button type="submit">SEARCH</button>
 </form>
 <br>
@@ -174,18 +174,18 @@
                 th:value="${user.id}"
                 th:text="${user.username}">
     </select>
-    <input type="text" name="user_name" placeholder="Username">
+    <input type="text" name="user_name" placeholder="Username" required>
     <input type="text" name="first_name" placeholder="First name">
     <input type="text" name="last_name" placeholder="Last name">
     <input type="email" name="email" placeholder="Email">
-    <input type="password" name="password" placeholder="Password">
+    <input type="password" name="password" placeholder="Password" required>
     <input type="text" name="phone" placeholder="Phone">
     <button type="submit">UPDATE</button>
 </form>
 <br>
 <div>Delete user</div>
 <form action="/user/form/delete" method="get">
-    <select name="user_id" th:size="${#lists.size(user_list)}" multiple>-->
+    <select name="user_id" th:size="${#lists.size(user_list)}" multiple required>-->
         <option th:each="user : ${user_list}"
                 th:value="${user.id}"
                 th:text="${user.username}">
@@ -204,13 +204,13 @@
                 th:text="${pet.name}">
     </select>
     <input type="text" name="photo_metadata" placeholder="Photo metadata">
-    <input type="file" name="file" placeholder="Photo">
+    <input type="file" name="file" placeholder="Photo" required>
     <button type="submit">UPLOAD</button>
 </form>
 <br>
 <div>Search photo by ID</div>
 <form action="/photo/form/getbyid" method="get">
-    <input type="number" name="photo_id" placeholder="Photo ID">
+    <input type="number" name="photo_id" placeholder="Photo ID" required>
     <button type="submit">SEARCH</button>
 </form>
 <br>
@@ -225,7 +225,7 @@
 <br>
 <div>Delete photo</div>
 <form action="/photo/form/delete" method="get">
-    <select name="photo_id" th:size="${#lists.size(photo_list)}" multiple>-->
+    <select name="photo_id" th:size="${#lists.size(photo_list)}" multiple required>-->
         <option th:each="photo : ${photo_list}"
                 th:value="${photo.id}"
                 th:text="${photo.url}">
