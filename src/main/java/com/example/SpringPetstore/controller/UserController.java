@@ -2,6 +2,7 @@ package com.example.SpringPetstore.controller;
 
 import com.example.SpringPetstore.model.ApiResponseRepository;
 import com.example.SpringPetstore.model.User;
+import com.example.SpringPetstore.model.UserRole;
 import com.example.SpringPetstore.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -36,6 +37,7 @@ public class UserController {
                 .email(email)
                 .password(password)
                 .phone(phone)
+                .userRole(UserRole.USER)
                 .build()));
     }
 
@@ -78,5 +80,13 @@ public class UserController {
             userService.deleteUser(user_id);
         }
         return ResponseEntity.ok().build();
+    }
+
+
+    // TODO: Implement user registration
+    @PostMapping(path = "/user/form/register")
+    @ResponseBody
+    public String registerUser() {
+        return null;
     }
 }
