@@ -55,10 +55,11 @@ public class PetController {
                 .build());
         if (file.getSize() != 0) {
             try {
-                fileService.storePetPhoto(file);
+                String photoUID = fileService.generatePhotoUID();
+                fileService.storePetPhoto(file, photoUID);
                 Photo newPhoto = photoService.addPhoto(Photo.builder()
                         .metaData(photo_metadata)
-                        .url(FileService.IMAGE_PATH_RELATIVE + file.getOriginalFilename())
+                        .url(FileService.IMAGE_PATH_RELATIVE + photoUID + file.getOriginalFilename())
                         .pet(newPet)
                         .build());
             } catch (Exception e) {
@@ -128,9 +129,17 @@ public class PetController {
     @GetMapping(path = "/pet/form/delete")
     @ResponseBody
     public ResponseEntity deletePet(@RequestParam(value = "pet_id") Long[] pet_id_list) {
-        // TODO: Delete file from disk
+        Pet deletedPet = new Pet();
         for (Long pet_id : pet_id_list) {
+            deletedPet = petService.getPetById(pet_id).get();
             petService.deletePet(pet_id);
+            for (Photo photo : deletedPet.getPhotoSet()) {
+                try {
+                    fileService.deletePhoto(photo.getUrl());
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
         }
         return ResponseEntity.ok().build();
     }

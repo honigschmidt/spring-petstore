@@ -35,6 +35,7 @@ public class FormLoginSecurityConfig {
                 .requestMatchers("/store").hasAnyRole("ADMIN", "USER")
                 .requestMatchers("/images/**").permitAll()
                 .requestMatchers("/h2-console/**").permitAll()
+                .requestMatchers("/register").permitAll()
                 .requestMatchers("/").permitAll()
                 .anyRequest().authenticated()
                 .and()
