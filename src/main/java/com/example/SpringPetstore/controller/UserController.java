@@ -6,6 +6,7 @@ import com.example.SpringPetstore.model.UserRole;
 import com.example.SpringPetstore.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,10 +22,12 @@ public class UserController {
     @Autowired
     UserService userService;
     ApiResponseRepository apiResponseRepository;
+    UserDetailsService userDetailsService;
 
-    public UserController(UserService userService, ApiResponseRepository apiResponseRepository) {
+    public UserController(UserService userService, ApiResponseRepository apiResponseRepository, UserDetailsService userDetailsService) {
         this.userService = userService;
         this.apiResponseRepository = apiResponseRepository;
+        this.userDetailsService = userDetailsService;
     }
 
     @PostMapping(path = "/user/form/add")
@@ -83,10 +86,15 @@ public class UserController {
     }
 
 
-    // TODO: Implement user registration
+    // TODO: Implement user registration --> move this to a separate service
     @PostMapping(path = "/user/form/register")
     @ResponseBody
-    public String registerUser() {
+    public String registerUser(@RequestParam String user_name, @RequestParam String password) {
+        userService.addUser(User.builder()
+                .username(user_name)
+                .password(password)
+                .userRole(UserRole.USER)
+                .build());
         return null;
     }
 }
