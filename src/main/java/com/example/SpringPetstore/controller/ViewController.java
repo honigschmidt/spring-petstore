@@ -37,11 +37,11 @@ public class ViewController implements WebMvcConfigurer {
     }
 
     public void addViewControllers(ViewControllerRegistry registry) {
-//        registry.addViewController("/").setViewName("template_home");
+        registry.addViewController("/").setViewName("template_home");
         registry.addViewController("/login").setViewName("template_login");
         registry.addViewController("/register").setViewName("template_register");
         registry.addViewController("/store").setViewName("template_store");
-//        registry.addViewController("/admin").setViewName("template_admin");
+        registry.addViewController("/admin").setViewName("template_admin");
     }
 
     @GetMapping(path = "/")
@@ -72,8 +72,13 @@ public class ViewController implements WebMvcConfigurer {
         return "template_admin";
     }
 
-//    @GetMapping(path = "/store")
-//    public String getStore(Model model) {
-//        return "template_store";
-//    }
+    @GetMapping(path = "/store")
+    public String getStore(Model model) {
+        return "template_store";
+    }
+
+    @GetMapping(path = "/register")
+    public String getRegister(Model model) {
+        return "template_register";
+    }
 }

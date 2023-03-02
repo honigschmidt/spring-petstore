@@ -84,17 +84,4 @@ public class UserController {
         }
         return ResponseEntity.ok().build();
     }
-
-
-    // TODO: Implement user registration --> move this to a separate service
-    @PostMapping(path = "/user/form/register")
-    @ResponseBody
-    public String registerUser(@RequestParam String user_name, @RequestParam String password) {
-        userService.addUser(User.builder()
-                .username(user_name)
-                .password(password)
-                .userRole(UserRole.USER)
-                .build());
-        return null;
-    }
 }

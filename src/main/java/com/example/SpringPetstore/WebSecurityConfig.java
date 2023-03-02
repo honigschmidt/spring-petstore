@@ -4,8 +4,6 @@ import com.example.SpringPetstore.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -33,24 +31,25 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
-                .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/", "/register", "/images/**").permitAll()
-                        .requestMatchers("/admin", "/pet/**", "/order/**", "/user/**", "/photo/**").hasRole("ADMIN")
-                        .requestMatchers("/store").hasAnyRole("ADMIN", "USER")
-                        .requestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**")).permitAll()
-                        .anyRequest().denyAll())
+                .authorizeHttpRequests()
+                .requestMatchers("/admin").hasRole("ADMIN")
+                .requestMatchers("/store").hasAnyRole("ADMIN", "USER")
+                .requestMatchers("/images/**", "/register", "/").permitAll()
+                .requestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**")).permitAll()
+                .anyRequest().denyAll()
+                .and()
                 .formLogin().loginPage("/login").permitAll()
                 .and()
                 .logout().logoutSuccessUrl("/").permitAll()
                 .and()
-                .csrf().ignoringRequestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**"))
+                .headers().frameOptions().disable()
                 .and()
-                .headers().frameOptions().sameOrigin();
+                .csrf().ignoringRequestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**"));
         return httpSecurity.build();
     }
 
     @Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder() {
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
@@ -60,7 +59,7 @@ public class WebSecurityConfig {
         for (com.example.SpringPetstore.model.User user : userService.getAllUsers()) {
             UserDetails userDetails = org.springframework.security.core.userdetails.User.builder()
                     .username(user.getUsername())
-                    .password(bCryptPasswordEncoder().encode(user.getPassword()))
+                    .password(passwordEncoder().encode(user.getPassword()))
                     .roles(user.getUserRole().toString())
                     .build();
             userDetailsList.add(userDetails);
