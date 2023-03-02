@@ -19,7 +19,8 @@ import java.util.List;
 
 @Configuration
 @EnableWebSecurity
-public class WebSecurityConfig {
+public class WebSecurityConfig
+{
 
     @Autowired
     UserService userService;
@@ -34,7 +35,7 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests()
                 .requestMatchers("/admin").hasRole("ADMIN")
                 .requestMatchers("/store").hasAnyRole("ADMIN", "USER")
-                .requestMatchers("/images/**", "/register", "/").permitAll()
+                .requestMatchers("/", "/register", "/images/**").permitAll()
                 .requestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**")).permitAll()
                 .anyRequest().denyAll()
                 .and()
@@ -44,12 +45,12 @@ public class WebSecurityConfig {
                 .and()
                 .headers().frameOptions().disable()
                 .and()
-                .csrf().ignoringRequestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**"));
+                .csrf().disable();
         return httpSecurity.build();
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
+    public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
@@ -59,7 +60,7 @@ public class WebSecurityConfig {
         for (com.example.SpringPetstore.model.User user : userService.getAllUsers()) {
             UserDetails userDetails = org.springframework.security.core.userdetails.User.builder()
                     .username(user.getUsername())
-                    .password(passwordEncoder().encode(user.getPassword()))
+                    .password(bCryptPasswordEncoder().encode(user.getPassword()))
                     .roles(user.getUserRole().toString())
                     .build();
             userDetailsList.add(userDetails);
