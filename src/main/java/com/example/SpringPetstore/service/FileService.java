@@ -1,7 +1,5 @@
 package com.example.SpringPetstore.service;
 
-import com.example.SpringPetstore.model.Pet;
-import com.example.SpringPetstore.model.Photo;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -57,7 +57,6 @@ public class WebSecurityConfig
         return new BCryptPasswordEncoder();
     }
 
-    // TODO There must be only one instance of inMemoryUSerDetailsManager (singleton?)
     @Bean
     public InMemoryUserDetailsManager inMemoryUserDetailsManager() {
         List<UserDetails> userDetailsList = new ArrayList<>();
@@ -67,7 +66,6 @@ public class WebSecurityConfig
                     .password(bCryptPasswordEncoder().encode(user.getPassword()))
                     .roles(user.getUserRole().toString())
                     .build();
-            userDetailsList.add(userDetails);
         }
         return new InMemoryUserDetailsManager(userDetailsList);
     }
