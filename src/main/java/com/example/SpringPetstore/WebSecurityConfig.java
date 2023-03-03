@@ -4,6 +4,9 @@ import com.example.SpringPetstore.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -54,8 +57,9 @@ public class WebSecurityConfig
         return new BCryptPasswordEncoder();
     }
 
+    // TODO There must be only one instance of inMemoryUSerDetailsManager (singleton?)
     @Bean
-    public UserDetailsService userDetailsService() {
+    public InMemoryUserDetailsManager inMemoryUserDetailsManager() {
         List<UserDetails> userDetailsList = new ArrayList<>();
         for (com.example.SpringPetstore.model.User user : userService.getAllUsers()) {
             UserDetails userDetails = org.springframework.security.core.userdetails.User.builder()
@@ -67,4 +71,26 @@ public class WebSecurityConfig
         }
         return new InMemoryUserDetailsManager(userDetailsList);
     }
+
+    @Bean
+    public AuthenticationManager authenticationManager(HttpSecurity httpSecurity) throws Exception {
+        AuthenticationManagerBuilder authenticationManagerBuilder = httpSecurity.getSharedObject(AuthenticationManagerBuilder.class);
+        authenticationManagerBuilder.userDetailsService(inMemoryUserDetailsManager()).passwordEncoder(bCryptPasswordEncoder());
+        return authenticationManagerBuilder.build();
+    }
+
+    //    @Bean
+//    public UserDetailsService userDetailsService() {
+//        List<UserDetails> userDetailsList = new ArrayList<>();
+//        for (com.example.SpringPetstore.model.User user : userService.getAllUsers()) {
+//            UserDetails userDetails = org.springframework.security.core.userdetails.User.builder()
+//                    .username(user.getUsername())
+//                    .password(bCryptPasswordEncoder().encode(user.getPassword()))
+//                    .roles(user.getUserRole().toString())
+//                    .build();
+//            userDetailsList.add(userDetails);
+//        }
+//        return new InMemoryUserDetailsManager(userDetailsList);
+//    }
+
 }

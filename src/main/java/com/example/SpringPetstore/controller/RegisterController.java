@@ -16,11 +16,11 @@ public class RegisterController {
 
     @Autowired
     private UserService userService;
-//    private InMemoryUserDetailsManager inMemoryUserDetailsManager;
+    private InMemoryUserDetailsManager inMemoryUserDetailsManager;
 
-    public RegisterController(UserService userService) {
+    public RegisterController(UserService userService, InMemoryUserDetailsManager inMemoryUserDetailsManager) {
         this.userService = userService;
-//        this.inMemoryUserDetailsManager = inMemoryUserDetailsManager;
+        this.inMemoryUserDetailsManager = inMemoryUserDetailsManager;
     }
 
     @PostMapping(path = "/register")
@@ -33,11 +33,11 @@ public class RegisterController {
                 .userRole(UserRole.USER)
                 .build());
         // Add to memory
-//        inMemoryUserDetailsManager.createUser(org.springframework.security.core.userdetails.User.builder()
-//                .username(user_name)
-//                .password(password)
-//                .roles(UserRole.USER.toString())
-//                .build());
-        return "OK";
+        inMemoryUserDetailsManager.createUser(org.springframework.security.core.userdetails.User.builder()
+                .username(user_name)
+                .password(password)
+                .roles(UserRole.USER.toString())
+                .build());
+        return (inMemoryUserDetailsManager.loadUserByUsername(user_name)).toString();
     }
 }
