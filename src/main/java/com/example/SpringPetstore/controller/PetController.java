@@ -59,7 +59,7 @@ public class PetController {
                 fileService.storePetPhoto(file, photoUID);
                 Photo newPhoto = photoService.addPhoto(Photo.builder()
                         .metaData(photo_metadata)
-                        .url(FileService.IMAGE_PATH_RELATIVE + photoUID + file.getOriginalFilename())
+                        .url(FileService.IMAGE_PATH_SERVER + photoUID + file.getOriginalFilename())
                         .pet(newPet)
                         .build());
             } catch (Exception e) {

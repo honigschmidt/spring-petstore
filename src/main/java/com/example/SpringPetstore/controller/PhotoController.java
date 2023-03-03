@@ -41,7 +41,7 @@ public class PhotoController {
             fileService.storePetPhoto(file , photoUID);
             Photo newPhoto = photoService.addPhoto(Photo.builder()
                     .metaData(photo_metadata)
-                    .url(FileService.IMAGE_PATH_RELATIVE + photoUID + file.getOriginalFilename())
+                    .url(FileService.IMAGE_PATH_SERVER + photoUID + file.getOriginalFilename())
                     .pet(petService.getPetById(pet_id).get())
                     .build());
             return ResponseEntity.ok(newPhoto);

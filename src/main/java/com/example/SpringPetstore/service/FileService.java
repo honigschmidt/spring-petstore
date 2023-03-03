@@ -21,17 +21,17 @@ public class FileService {
         this.petService = petService;
     }
 
-    public static final String IMAGE_PATH_ABSOLUTE = "src/main/resources/static/images/";
-    public static final String IMAGE_PATH_RELATIVE = "images/";
+    public static final String IMAGE_PATH_FILESYSTEM = "src/main/resources/static/images/";
+    public static final String IMAGE_PATH_SERVER = "images/";
 
     public void storePetPhoto(MultipartFile file, String photoUID) throws Exception {
         InputStream inputStream = file.getInputStream();
-        Path path = Paths.get(IMAGE_PATH_ABSOLUTE + photoUID + file.getOriginalFilename());
+        Path path = Paths.get(IMAGE_PATH_FILESYSTEM + photoUID + file.getOriginalFilename());
         Files.copy(inputStream, path, StandardCopyOption.REPLACE_EXISTING);
     }
 
     public void deletePhoto(String url) throws Exception {
-        url = url.replace(IMAGE_PATH_RELATIVE, IMAGE_PATH_ABSOLUTE);
+        url = url.replace(IMAGE_PATH_SERVER, IMAGE_PATH_FILESYSTEM);
         Path path = Paths.get(url);
         Files.delete(path);
     }
