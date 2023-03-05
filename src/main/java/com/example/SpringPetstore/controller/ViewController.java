@@ -46,6 +46,7 @@ public class ViewController implements WebMvcConfigurer {
 
     @GetMapping(path = "/")
     public String getHome(Model model) {
+        // TODO Add pet photos here
         model.addAttribute("available_pet_list", petService.getPetsByStatus(PetStatus.AVAILABLE).get());
         return "template_home";
     }

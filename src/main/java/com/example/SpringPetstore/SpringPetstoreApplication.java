@@ -113,7 +113,7 @@ public class SpringPetstoreApplication {
                 .email("admin@nomail.com")
                 .password("admin")
                 .phone("1234567890")
-                .userStatus(0)
+                .userStatus(1)
                 .userRole(UserRole.ADMIN)
                 .build());
 
@@ -124,7 +124,7 @@ public class SpringPetstoreApplication {
                 .email("user@nomail.com")
                 .password("user")
                 .phone("1234567890")
-                .userStatus(0)
+                .userStatus(1)
                 .userRole(UserRole.USER)
                 .build());
     }

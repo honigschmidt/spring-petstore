@@ -25,23 +25,22 @@ public class RegisterController {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
-    // TODO Finalize the /register controller
     @PostMapping(path = "/register")
     @ResponseBody
-    public String registerUser(@RequestParam String user_name, @RequestParam String password) {
-        // Add to DB
+    public String registerUser(@RequestParam String user_name, @RequestParam String password, @RequestParam String first_name, @RequestParam String last_name, @RequestParam String email, @RequestParam String phone) {
+
         userService.addUser(User.builder()
                 .username(user_name)
                 .password(password)
                 .userRole(UserRole.USER)
                 .build());
-        // Add to memory
+
         inMemoryUserDetailsManager.createUser(org.springframework.security.core.userdetails.User.builder()
                 .username(user_name)
                 .password(bCryptPasswordEncoder.encode(password))
                 .roles(UserRole.USER.toString())
                 .build());
 
-        return (inMemoryUserDetailsManager.loadUserByUsername(user_name)).toString();
+        return ("Hello " + user_name + ", thank you for your registration. Please <a href=\"/store\">log in</a> to enter the store.");
     }
 }
