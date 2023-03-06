@@ -46,8 +46,20 @@ public class ViewController implements WebMvcConfigurer {
 
     @GetMapping(path = "/")
     public String getHome(Model model) {
-        // TODO Add pet photos here
-        model.addAttribute("available_pet_list", petService.getPetsByStatus(PetStatus.AVAILABLE).get());
+        Iterable<Pet> availablePets = petService.getPetsByStatus(PetStatus.AVAILABLE).get();
+        Map<String, String> availablePetsPhotoMap = new HashMap<>();
+        List<String> petPhotoList = new ArrayList<>();
+        for (Pet pet : availablePets) {
+            for (Photo photo : pet.getPhotoSet()) {
+                petPhotoList.add(photo.getUrl());
+            }
+            if (!petPhotoList.isEmpty())
+            availablePetsPhotoMap.put(pet.getName(), petPhotoList.get(0));
+            petPhotoList.clear();
+        }
+        model.addAttribute("available_pet_list", availablePets);
+        model.addAttribute("pet_photo_list", availablePetsPhotoMap);
+        System.out.println(availablePetsPhotoMap);
         return "template_home";
     }
 

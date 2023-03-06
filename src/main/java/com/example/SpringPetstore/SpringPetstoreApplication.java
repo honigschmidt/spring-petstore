@@ -7,6 +7,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @SpringBootApplication
 public class SpringPetstoreApplication {
@@ -15,14 +18,16 @@ public class SpringPetstoreApplication {
     PetRepository petRepository;
     OrderRepository orderRepository;
     UserRepository userRepository;
+    PhotoRepository photoRepository;
     TagRepository tagRepository;
     CategoryRepository categoryRepository;
     ApiResponseRepository apiResponseRepository;
 
-    public SpringPetstoreApplication(PetRepository petRepository, OrderRepository orderRepository, UserRepository userRepository, TagRepository tagRepository, CategoryRepository categoryRepository, ApiResponseRepository apiResponseRepository) {
+    public SpringPetstoreApplication(PetRepository petRepository, OrderRepository orderRepository, UserRepository userRepository, PhotoRepository photoRepository, TagRepository tagRepository, CategoryRepository categoryRepository, ApiResponseRepository apiResponseRepository) {
         this.petRepository = petRepository;
         this.orderRepository = orderRepository;
         this.userRepository = userRepository;
+        this.photoRepository = photoRepository;
         this.tagRepository = tagRepository;
         this.categoryRepository = categoryRepository;
         this.apiResponseRepository = apiResponseRepository;
@@ -39,6 +44,7 @@ public class SpringPetstoreApplication {
 
     public void prepDB() {
 
+        // Create tags
         tagRepository.save(Tag.builder()
                 .name("Tag_1")
                 .build());
@@ -49,6 +55,7 @@ public class SpringPetstoreApplication {
                 .name("Tag_3")
                 .build());
 
+        // Create categories
         categoryRepository.save(Category.builder()
                 .name("Category_1")
                 .build());
@@ -59,6 +66,7 @@ public class SpringPetstoreApplication {
                 .name("Category_3")
                 .build());
 
+        // Create API responses
         apiResponseRepository.save(ApiResponse.builder()
                 .code(404)
                 .type("pet")
@@ -83,29 +91,50 @@ public class SpringPetstoreApplication {
                 .message("Photo not found")
                 .build());
 
-        Pet newPet = petRepository.save(Pet.builder()
+        // Create pets and pet photos
+        Pet newPet = new Pet();
+        Photo newPhoto = new Photo();
+
+        newPet = petRepository.save(Pet.builder()
                 .name("Alpha")
-                .status(PetStatus.PENDING)
+                .status(PetStatus.AVAILABLE)
                 .build());
 
-        orderRepository.save(Order.builder()
-                .quantity(0)
+        newPhoto = photoRepository.save(Photo.builder()
+                .url("images/Alpha.jpg")
                 .pet(newPet)
-                .shipDate(LocalDate.EPOCH)
-                .status(OrderStatus.DUMMY)
-                .complete(Boolean.FALSE)
                 .build());
 
-        petRepository.save(Pet.builder()
+        newPet = petRepository.save(Pet.builder()
                 .name("Beta")
                 .status(PetStatus.AVAILABLE)
                 .build());
 
-        petRepository.save(Pet.builder()
+        newPhoto = photoRepository.save(Photo.builder()
+                .url("images/Beta.jpg")
+                .pet(newPet)
+                .build());
+
+        newPet = petRepository.save(Pet.builder()
                 .name("Charlie")
                 .status(PetStatus.AVAILABLE)
                 .build());
 
+        newPhoto = photoRepository.save(Photo.builder()
+                .url("images/Charlie.jpg")
+                .pet(newPet)
+                .build());
+
+//        // Create orders
+//        orderRepository.save(Order.builder()
+//                .quantity(0)
+//                .pet(newPet)
+//                .shipDate(LocalDate.EPOCH)
+//                .status(OrderStatus.DUMMY)
+//                .complete(Boolean.FALSE)
+//                .build());
+
+        // Create users
         userRepository.save(User.builder()
                 .username("admin")
                 .firstName("John")

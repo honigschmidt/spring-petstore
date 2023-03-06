@@ -1,7 +1,11 @@
 package com.example.SpringPetstore.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.Map;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -42,4 +46,8 @@ public class User {
 
     @Column(name = "user_role")
     private UserRole userRole;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private Set<Order> orderSet;
 }

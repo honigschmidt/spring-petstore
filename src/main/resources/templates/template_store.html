@@ -5,16 +5,12 @@
     <title>Store</title>
 </head>
 <body>
-<div>@STORE<span th:insert="fragments/fragment_menu :: menu"></span></div>
+<div>@STORE<span th:insert="fragments/fragment_header :: header"></span></div>
 <hr>
 <br>
 <div>Store content...</div>
 <br>
 <hr>
-<!--<p th:inline="text">Logged in as <span th:remove="tag" sec:authentication="name">username</span> with roles(s) <span th:remove="tag" sec:authentication="principal.authorities">role</span></p>-->
-<!--<form th:action="@{/logout}" method="post">-->
-<!--    <input type="submit" value="LOGOUT"/>-->
-<!--</form>-->
 <br>
 </body>
 </html>

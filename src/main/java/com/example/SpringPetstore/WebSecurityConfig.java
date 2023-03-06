@@ -33,7 +33,7 @@ public class WebSecurityConfig
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 .authorizeHttpRequests()
-                .requestMatchers("/admin").hasRole("ADMIN")
+                .requestMatchers("/admin", "/pet/**", "/order/**", "/user/**", "/photo/**").hasRole("ADMIN")
                 .requestMatchers("/store").hasAnyRole("ADMIN", "USER")
                 .requestMatchers("/", "/register", "/images/**").permitAll()
                 .requestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**")).permitAll()
@@ -63,6 +63,7 @@ public class WebSecurityConfig
                     .password(bCryptPasswordEncoder().encode(user.getPassword()))
                     .roles(user.getUserRole().toString())
                     .build();
+            userDetailsList.add(userDetails);
         }
         return new InMemoryUserDetailsManager(userDetailsList);
     }

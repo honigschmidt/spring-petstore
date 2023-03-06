@@ -81,17 +81,17 @@ public class PetController {
     public String getAllPetsHTML(Model model) {
         model.addAttribute("pet_list", petService.getAllPets());
 
-        Map<String, List<String>> petPhotoList = new HashMap<>();
+        Map<String, List<String>> petPhotoMap = new HashMap<>();
         Iterable<Pet> petList = petService.getAllPets();
         for (Pet pet : petList) {
             List<String> photoUrlList = new ArrayList<>();
             for (Photo photo : pet.getPhotoSet()) {
                 photoUrlList.add(photo.getUrl());
             }
-            petPhotoList.put(pet.getName(), photoUrlList);
+            petPhotoMap.put(pet.getName(), photoUrlList);
         }
-        System.out.println(petPhotoList);
-        model.addAttribute("pet_photo_list", petPhotoList);
+        System.out.println(petPhotoMap);
+        model.addAttribute("pet_photo_list", petPhotoMap);
 
         return ("template_pet_list");
     }

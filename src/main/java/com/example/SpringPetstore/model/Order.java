@@ -1,5 +1,6 @@
 package com.example.SpringPetstore.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
@@ -38,6 +39,11 @@ public class Order {
 
     @Column(name = "complete")
     private Boolean complete;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JsonBackReference
+    private User user;
 
     @Override
     public String toString() {
