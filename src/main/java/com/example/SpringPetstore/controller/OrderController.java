@@ -3,6 +3,7 @@ package com.example.SpringPetstore.controller;
 import com.example.SpringPetstore.model.*;
 import com.example.SpringPetstore.service.OrderService;
 import com.example.SpringPetstore.service.PetService;
+import com.example.SpringPetstore.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -21,17 +22,19 @@ public class OrderController {
     @Autowired
     OrderService orderService;
     PetService petService;
+    UserService userService;
     ApiResponseRepository apiResponseRepository;
 
-    public OrderController(OrderService orderService, PetService petService, ApiResponseRepository apiResponseRepository) {
+    public OrderController(OrderService orderService, PetService petService, UserService userService, ApiResponseRepository apiResponseRepository) {
         this.orderService = orderService;
         this.petService = petService;
+        this.userService = userService;
         this.apiResponseRepository = apiResponseRepository;
     }
 
     @PostMapping(path = "/order/form/add")
     @ResponseBody
-    public ResponseEntity<Order> addOrder(@RequestParam Long pet_id, @RequestParam Integer quantity, @RequestParam LocalDate ship_date) {
+    public ResponseEntity<Order> addOrder(@RequestParam Long pet_id, @RequestParam Integer quantity, @RequestParam LocalDate ship_date, @RequestParam Long user_id) {
         Pet orderedPet = (petService.getPetById(pet_id)).get();
         Order newOrder = Order.builder()
                 .pet(orderedPet)
@@ -39,6 +42,7 @@ public class OrderController {
                 .shipDate(ship_date)
                 .status(OrderStatus.PLACED)
                 .complete(Boolean.FALSE)
+                .user(userService.getUserById(user_id).get())
                 .build();
         orderedPet.setOrder(newOrder);
         orderedPet.setStatus(PetStatus.PENDING);

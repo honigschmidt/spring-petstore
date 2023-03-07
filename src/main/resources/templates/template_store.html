@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
     <meta charset="UTF-8">
     <title>Store</title>
@@ -8,9 +9,21 @@
 <div>@STORE<span th:insert="fragments/fragment_header :: header"></span></div>
 <hr>
 <br>
-<div>Store content:</div>
+<div>Available pets:</div>
 <br>
-<div>+ Available pets... (ORDER)</div>
+<table>
+    <tr th:each="pet:${available_pet_list}">
+        <td th:text="${pet.name}"></td>
+        <td th:text="${pet.description}"></td>
+        <td><img th:src="@{${pet_photo_list.get(pet.name)}}"></img></td>
+        <td>
+            <form action="/store" method="post">
+                <input type="hidden" name="pet_id" th:value=${pet.id}>
+                <button type="submit">ORDER PET</button>
+            </form>
+        </td>
+    </tr>
+</table>
 <div>+ My current orders... (CANCEL ORDER)</div>
 <br>
 <hr>

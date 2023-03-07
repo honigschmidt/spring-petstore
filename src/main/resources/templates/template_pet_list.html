@@ -15,6 +15,7 @@
     <tr th:each="pet:${pet_list}">
         <td th:text="${pet.id}"></td>
         <td th:text="${pet.name}"></td>
+        <td th:text="${pet.description}"></td>
         <td th:text="${pet.status}"></td>
         <td th:text=${pet_photo_list.get(pet.name)}></td>
     </tr>

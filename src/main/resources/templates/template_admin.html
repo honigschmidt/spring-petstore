@@ -16,21 +16,25 @@
         <option th:each="category : ${category_list}"
                 th:value="${category.id}"
                 th:text="${category.name}">
+        </option>
+        >
     </select>
-    <input type="text" name="name" placeholder="Pet name" required>
+    <input type="text" name="name" placeholder="Pet name*" required>
+    <input type="text" name="description" placeholder="Description">
     <input type="file" name="file" placeholder="Photo">
     <input type="text" name="photo_metadata" placeholder="Photo metadata">
     <select name="tag_id" th:size="${#lists.size(tag_list)}" multiple required>-->
         <option th:each="tag : ${tag_list}"
                 th:value="${tag.id}"
                 th:text="${tag.name}">
+        </option>
     </select>
     <button type="submit">ADD</button>
 </form>
 <br>
 <div>Search pet by ID</div>
 <form action="/pet/form/getbyid" method="get">
-    <input type="number" name="pet_id" placeholder="Pet ID" required>
+    <input type="number" name="pet_id" placeholder="Pet ID*" required>
     <button type="submit">SEARCH</button>
 </form>
 <br>
@@ -54,17 +58,21 @@
         <option th:each="category : ${category_list}"
                 th:value="${category.id}"
                 th:text="${category.name}">
+        </option>
     </select>
-    <input type="text" name="name" placeholder="Pet name" required>
+    <input type="text" name="name" placeholder="Pet name*" required>
+    <input type="text" name="description" placeholder="Description">
     <select name="tag_id" th:size="${#lists.size(tag_list)}" multiple required>-->
         <option th:each="tag : ${tag_list}"
                 th:value="${tag.id}"
                 th:text="${tag.name}">
+        </option>
     </select>
     <select name="pet_status" th:size=1>
         <option th:each="pet_status : ${pet_status_list}"
                 th:value="${pet_status}"
                 th:text="${pet_status}">
+        </option>
     </select>
     <button type="submit">UPDATE</button>
 </form>
@@ -75,6 +83,7 @@
         <option th:each="pet : ${pet_list}"
                 th:value="${pet.id}"
                 th:text="${pet.name}">
+        </option>
     </select>
     <button type="submit">DELETE</button>
 </form>
@@ -88,9 +97,16 @@
         <option th:each="pet : ${available_pet_list}"
                 th:value="${pet.id}"
                 th:text="${pet.name}">
+        </option>
     </select>
     <input type="number" name="quantity" placeholder="Quantity" required>
     <input type="date" name="ship_date" placeholder="Ship date" required>
+    <select name="user_id" th:size=1>
+        <option th:each="user : ${user_list}"
+                th:value="${user.id}"
+                th:text="${user.username}">
+        </option>
+    </select>
     <button type="submit">ADD</button>
 </form>
 <br>
@@ -115,11 +131,13 @@
         <option th:each="order : ${order_list}"
                 th:value="${order.id}"
                 th:text="${order.id}">
+        </option>
     </select>
     <select name="order_status" th:size=1>
         <option th:each="order_status : ${order_status_list}"
                 th:value="${order_status}"
                 th:text="${order_status}">
+        </option>
     </select>
     <select name="order_complete" size=1>
         <option value="true">Completed</option>
@@ -134,8 +152,9 @@
         <option th:each="order : ${order_list}"
                 th:value="${order.id}"
                 th:text="${order.id}">
+        </option>
     </select>
-    <button type="submit" id="submit_delete_order">DELETE</button>
+    <button type="submit">DELETE</button>
 </form>
 <br>
 <hr>
@@ -173,6 +192,7 @@
         <option th:each="user : ${user_list}"
                 th:value="${user.id}"
                 th:text="${user.username}">
+        </option>
     </select>
     <input type="text" name="user_name" placeholder="Username" required>
     <input type="text" name="first_name" placeholder="First name">
@@ -189,6 +209,7 @@
         <option th:each="user : ${user_list}"
                 th:value="${user.id}"
                 th:text="${user.username}">
+        </option>
     </select>
     <button type="submit">DELETE</button>
 </form>
@@ -202,6 +223,7 @@
         <option th:each="pet : ${pet_list}"
                 th:value="${pet.id}"
                 th:text="${pet.name}">
+        </option>
     </select>
     <input type="text" name="photo_metadata" placeholder="Photo metadata">
     <input type="file" name="file" placeholder="Photo" required>
@@ -229,6 +251,7 @@
         <option th:each="photo : ${photo_list}"
                 th:value="${photo.id}"
                 th:text="${photo.url}">
+        </option>
     </select>
     <button type="submit">DELETE</button>
 </form>

@@ -97,6 +97,7 @@ public class SpringPetstoreApplication {
 
         newPet = petRepository.save(Pet.builder()
                 .name("Alpha")
+                .description("Eats you alive.")
                 .status(PetStatus.AVAILABLE)
                 .build());
 
@@ -107,6 +108,7 @@ public class SpringPetstoreApplication {
 
         newPet = petRepository.save(Pet.builder()
                 .name("Beta")
+                .description("Returned good. Buyer unavailable.")
                 .status(PetStatus.AVAILABLE)
                 .build());
 
@@ -117,6 +119,7 @@ public class SpringPetstoreApplication {
 
         newPet = petRepository.save(Pet.builder()
                 .name("Charlie")
+                .description("He will hear your scream.")
                 .status(PetStatus.AVAILABLE)
                 .build());
 

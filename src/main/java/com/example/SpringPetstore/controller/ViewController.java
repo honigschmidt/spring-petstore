@@ -59,7 +59,6 @@ public class ViewController implements WebMvcConfigurer {
         }
         model.addAttribute("available_pet_list", availablePets);
         model.addAttribute("pet_photo_list", availablePetsPhotoMap);
-        System.out.println(availablePetsPhotoMap);
         return "template_home";
     }
 
@@ -87,6 +86,19 @@ public class ViewController implements WebMvcConfigurer {
 
     @GetMapping(path = "/store")
     public String getStore(Model model) {
+        Iterable<Pet> availablePets = petService.getPetsByStatus(PetStatus.AVAILABLE).get();
+        Map<String, String> availablePetsPhotoMap = new HashMap<>();
+        List<String> petPhotoList = new ArrayList<>();
+        for (Pet pet : availablePets) {
+            for (Photo photo : pet.getPhotoSet()) {
+                petPhotoList.add(photo.getUrl());
+            }
+            if (!petPhotoList.isEmpty())
+                availablePetsPhotoMap.put(pet.getName(), petPhotoList.get(0));
+            petPhotoList.clear();
+        }
+        model.addAttribute("available_pet_list", availablePets);
+        model.addAttribute("pet_photo_list", availablePetsPhotoMap);
         return "template_store";
     }
 

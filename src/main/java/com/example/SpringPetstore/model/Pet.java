@@ -46,6 +46,9 @@ public class Pet {
     @JsonManagedReference
     private Set<Tag> tagSet;
 
+    @Column(name = "description")
+    private String description;
+
     @Column(name = "status")
     private PetStatus status;
 

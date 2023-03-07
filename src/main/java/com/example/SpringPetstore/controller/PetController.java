@@ -42,7 +42,7 @@ public class PetController {
 
     @PostMapping(path = "/pet/form/add")
     @ResponseBody
-    public ResponseEntity<Pet> addPet(@RequestParam Long category_id, @RequestParam String name, @RequestParam MultipartFile file, @RequestParam String photo_metadata, @RequestParam(value = "tag_id") String[] tag_id_list) {
+    public ResponseEntity<Pet> addPet(@RequestParam Long category_id, @RequestParam String name, @RequestParam String description, @RequestParam MultipartFile file, @RequestParam String photo_metadata, @RequestParam(value = "tag_id") String[] tag_id_list) {
         Set<Tag> newTagList = new HashSet<>();
         for (String tag_id : tag_id_list) {
             newTagList.add((tagRepository.findById(Long.valueOf(tag_id))).get());
@@ -51,6 +51,7 @@ public class PetController {
                 .category((categoryRepository.findById(category_id)).get())
                 .name(name)
                 .tagSet(newTagList)
+                .description(description)
                 .status(PetStatus.AVAILABLE)
                 .build());
         if (file.getSize() != 0) {
@@ -103,15 +104,17 @@ public class PetController {
 
     @GetMapping(path = "/pet/form/update")
     @ResponseBody
-    public ResponseEntity updatePetWithForm(@RequestParam Long pet_id, @RequestParam Long category_id, @RequestParam String name, @RequestParam(value = "tag_id") String[] tag_id_list, @RequestParam String pet_status) {
+    public ResponseEntity updatePetWithForm(@RequestParam Long pet_id, @RequestParam Long category_id, @RequestParam String name, @RequestParam String description, @RequestParam(value = "tag_id") String[] tag_id_list, @RequestParam String pet_status) {
         Pet updatedPet = petService.getPetById(pet_id).get();
         updatedPet.setCategory(categoryRepository.findById(category_id).get());
         updatedPet.setName(name);
+        updatedPet.setDescription(description);
         Set<Tag> newTagSet = new HashSet<>();
         for (String tag_id : tag_id_list) {
             newTagSet.add((tagRepository.findById(Long.valueOf(tag_id))).get());
         }
         updatedPet.setTagSet(newTagSet);
+
         switch (pet_status) {
             case "AVAILABLE":
                 updatedPet.setStatus(PetStatus.AVAILABLE);

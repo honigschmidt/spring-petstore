@@ -13,6 +13,7 @@
     <td>Ship date</td>
     <td>Status</td>
     <td>Complete</td>
+    <td>User</td>
   </tr>
   <tr th:each="order:${order_list}">
     <td th:text="${order.id}"></td>
@@ -21,6 +22,7 @@
     <td th:text="${order.shipDate}"></td>
     <td th:text="${order.status}"></td>
     <td th:text="${order.complete}"></td>
+    <td th:text="${order.user.username}"></td>
   </tr>
 </table>
 </body>
