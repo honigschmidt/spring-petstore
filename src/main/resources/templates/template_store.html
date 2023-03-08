@@ -6,7 +6,7 @@
     <title>Store</title>
 </head>
 <body>
-<div>@STORE<span th:insert="fragments/fragment_header :: header"></span></div>
+<div>@STORE<span th:insert="~{fragments/fragment_header :: header}"></span></div>
 <hr>
 <br>
 <div>Available pets:</div>
@@ -17,7 +17,7 @@
         <td th:text="${pet.description}"></td>
         <td><img th:src="@{${pet_photo_list.get(pet.name)}}"></img></td>
         <td>
-            <form action="/store" method="post">
+            <form action="/store/order/add" method="post">
                 <input type="hidden" name="pet_id" th:value=${pet.id}>
                 <button type="submit">ORDER PET</button>
             </form>
