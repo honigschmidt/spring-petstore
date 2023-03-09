@@ -62,6 +62,7 @@ public class ViewController implements WebMvcConfigurer {
         return "template_home";
     }
 
+    // TODO: Move this to an AdminController
     @GetMapping(path = "/admin")
     public String getAdmin(Model model) {
         model.addAttribute("category_list", categoryRepository.findAll());
@@ -70,40 +71,9 @@ public class ViewController implements WebMvcConfigurer {
         model.addAttribute("pet_list", petService.getAllPets());
         model.addAttribute("order_status_list", OrderStatus.getOrderStatusList());
         model.addAttribute("order_list", orderService.getAllOrders());
-
-        List<Pet> availablePets = new ArrayList<>();
-        for (Pet pet : petService.getAllPets()) {
-            if (pet.getStatus().equals(PetStatus.AVAILABLE)) {
-                availablePets.add(pet);
-            }
-        }
-        model.addAttribute("available_pet_list", availablePets);
-
+        model.addAttribute("available_pet_list", petService.getPetsByStatus(PetStatus.AVAILABLE).get());
         model.addAttribute("user_list", userService.getAllUsers());
         model.addAttribute("photo_list", photoService.getAllPhotos());
         return "template_admin";
-    }
-
-    @GetMapping(path = "/store")
-    public String getStore(Model model) {
-        Iterable<Pet> availablePets = petService.getPetsByStatus(PetStatus.AVAILABLE).get();
-        Map<String, String> availablePetsPhotoMap = new HashMap<>();
-        List<String> petPhotoList = new ArrayList<>();
-        for (Pet pet : availablePets) {
-            for (Photo photo : pet.getPhotoSet()) {
-                petPhotoList.add(photo.getUrl());
-            }
-            if (!petPhotoList.isEmpty())
-                availablePetsPhotoMap.put(pet.getName(), petPhotoList.get(0));
-            petPhotoList.clear();
-        }
-        model.addAttribute("available_pet_list", availablePets);
-        model.addAttribute("pet_photo_list", availablePetsPhotoMap);
-        return "template_store";
-    }
-
-    @GetMapping(path = "/register")
-    public String getRegister(Model model) {
-        return "template_register";
     }
 }

@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -23,6 +25,11 @@ public class RegisterController {
         this.userService = userService;
         this.inMemoryUserDetailsManager = inMemoryUserDetailsManager;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+    }
+
+    @GetMapping(path = "/register")
+    public String getRegisterView(Model model) {
+        return "template_register";
     }
 
     @PostMapping(path = "/register")

@@ -25,6 +25,10 @@ public class OrderService {
         return orderRepository.findById(id);
     }
 
+    public Optional<Iterable<Order>> getOrderByUserId(Long user_id) {
+        return orderRepository.findByUserId(user_id);
+    }
+
     public Iterable<Order> getAllOrders() {
         return orderRepository.findAll();
     }

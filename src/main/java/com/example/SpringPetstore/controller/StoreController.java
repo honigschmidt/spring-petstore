@@ -1,9 +1,6 @@
 package com.example.SpringPetstore.controller;
 
-import com.example.SpringPetstore.model.Order;
-import com.example.SpringPetstore.model.OrderStatus;
-import com.example.SpringPetstore.model.PetStatus;
-import com.example.SpringPetstore.model.User;
+import com.example.SpringPetstore.model.*;
 import com.example.SpringPetstore.service.OrderService;
 import com.example.SpringPetstore.service.PetService;
 import com.example.SpringPetstore.service.UserService;
@@ -13,11 +10,16 @@ import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class StoreController {
@@ -28,10 +30,38 @@ public class StoreController {
     PetService petService;
     UserService userService;
 
+    Iterable<Pet> availablePets = new ArrayList<>();
+    Map<String, String> availablePetsPhotoMap = new HashMap<>();
+    List<String> petPhotoList = new ArrayList<>();
+    Iterable<Order> userOrderList = new ArrayList<>();
+
     public StoreController(OrderService orderService, PetService petService, UserService userService) {
         this.orderService = orderService;
         this.petService = petService;
         this.userService = userService;
+    }
+
+    public void refreshModelAttributes(String loggedInUserName) {
+        availablePets = petService.getPetsByStatus(PetStatus.AVAILABLE).get();
+        for (Pet pet : availablePets) {
+            for (Photo photo : pet.getPhotoSet()) {
+                petPhotoList.add(photo.getUrl());
+            }
+            if (!petPhotoList.isEmpty())
+                availablePetsPhotoMap.put(pet.getName(), petPhotoList.get(0));
+            petPhotoList.clear();
+        }
+        userOrderList = orderService.getOrderByUserId(userService.getUserByUsername(loggedInUserName).get().getId()).get();
+    }
+
+    @GetMapping(path = "/store")
+    public String getStoreView(@CurrentSecurityContext(expression = "authentication?.name")
+                                   String loggedInUserName, Model model) {
+        refreshModelAttributes(loggedInUserName);
+        model.addAttribute("available_pet_list", availablePets);
+        model.addAttribute("pet_photo_list", availablePetsPhotoMap);
+        model.addAttribute("user_order_list", userOrderList);
+        return "template_store";
     }
 
     @PostMapping(path = "/store/order/add")
@@ -46,14 +76,15 @@ public class StoreController {
                 .complete(Boolean.FALSE)
                 .user(userService.getUserByUsername(loggedInUserName).get())
                 .build());
-        // TODO This won't work, use the update method of petService
-        petService.getPetById(pet_id).get().setStatus(PetStatus.SOLD);
+        Pet updatedPet = petService.getPetById(pet_id).get();
+        updatedPet.setStatus(PetStatus.SOLD);
+        petService.updatePetWithForm(updatedPet.getId(), updatedPet);
         return "Thank you for your order. Your new pet is already delivered to your home address. Please read the supplied instructions carefully. Go back to <a href=\"/store\">store</a>.";
     }
 
     @PostMapping(path = "/store/order/delete")
     public void deleteOrder(@RequestParam Long order_id) {
-        // TODO
+        // TODO:
 //        orderService.deleteOrder();
     }
 }
