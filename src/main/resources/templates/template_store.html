@@ -8,10 +8,14 @@
 <body>
 <div>@STORE<span th:insert="~{fragments/fragment_header :: header}"></span></div>
 <hr>
-<br>
 <div>Available pets:</div>
 <br>
 <table>
+    <tr>
+        <td>Pet name</td>
+        <td>Pet description</td>
+        <td>Pet photo</td>
+    </tr>
     <tr th:each="pet:${available_pet_list}">
         <td th:text="${pet.name}"></td>
         <td th:text="${pet.description}"></td>
@@ -24,9 +28,26 @@
         </td>
     </tr>
 </table>
-<div>+ My current orders... (CANCEL ORDER)</div>
-<br>
 <hr>
+<div>My current orders:</div>
 <br>
+<table>
+    <tr>
+        <td>Order Id</td>
+        <td>Pet name</td>
+    </tr>
+    <tr th:each="order:${user_order_list}">
+        <td th:text="${order.id}"></td>
+        <td th:text="${order.pet.name}"></td>
+        <td>
+            <form action="/store/order/delete" method="post">
+                <input type="hidden" name="order_id" th:value=${order.id}>
+                <input type="hidden" name="pet_id" th:value=${order.pet.id}>
+                <button type="submit">CANCEL ORDER</button>
+            </form>
+        </td>
+    </tr>
+</table>
+<hr>
 </body>
 </html>

@@ -5,9 +5,7 @@ import com.example.SpringPetstore.service.OrderService;
 import com.example.SpringPetstore.service.PetService;
 import com.example.SpringPetstore.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.CurrentSecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -56,7 +54,7 @@ public class StoreController {
 
     @GetMapping(path = "/store")
     public String getStoreView(@CurrentSecurityContext(expression = "authentication?.name")
-                                   String loggedInUserName, Model model) {
+                               String loggedInUserName, Model model) {
         refreshModelAttributes(loggedInUserName);
         model.addAttribute("available_pet_list", availablePets);
         model.addAttribute("pet_photo_list", availablePetsPhotoMap);
@@ -83,8 +81,12 @@ public class StoreController {
     }
 
     @PostMapping(path = "/store/order/delete")
-    public void deleteOrder(@RequestParam Long order_id) {
-        // TODO:
-//        orderService.deleteOrder();
+    @ResponseBody
+    public String deleteOrder(@RequestParam Long order_id, @RequestParam Long pet_id) {
+        orderService.deleteOrder(order_id);
+        Pet updatedPet = petService.getPetById(pet_id).get();
+        updatedPet.setStatus(PetStatus.AVAILABLE);
+        petService.updatePetWithForm(pet_id, updatedPet);
+        return "Order deleted. Go back to <a href=\"/store\">store</a>.";
     }
 }

@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.Map;
 import java.util.Set;
@@ -33,7 +35,7 @@ public class Pet {
     @Column(name = "name")
     private String name;
 
-    @OneToMany(mappedBy = "pet", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "pet", cascade = CascadeType.REMOVE)
     @JsonManagedReference
     private Set<Photo> photoSet;
 
@@ -52,7 +54,7 @@ public class Pet {
     @Column(name = "status")
     private PetStatus status;
 
-    @OneToOne(mappedBy = "pet", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "pet", cascade = CascadeType.REMOVE)
     @JsonBackReference
     private Order order;
 

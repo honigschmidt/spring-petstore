@@ -44,7 +44,6 @@ public class OrderController {
                 .complete(Boolean.FALSE)
                 .user(userService.getUserById(user_id).get())
                 .build();
-//        orderedPet.setOrder(newOrder);
         orderedPet.setStatus(PetStatus.PENDING);
         return ResponseEntity.ok(orderService.addOrder(newOrder));
     }
