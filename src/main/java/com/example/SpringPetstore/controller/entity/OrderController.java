@@ -1,4 +1,4 @@
-package com.example.SpringPetstore.controller;
+package com.example.SpringPetstore.controller.entity;
 
 import com.example.SpringPetstore.model.*;
 import com.example.SpringPetstore.service.OrderService;

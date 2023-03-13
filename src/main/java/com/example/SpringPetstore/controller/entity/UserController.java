@@ -1,4 +1,4 @@
-package com.example.SpringPetstore.controller;
+package com.example.SpringPetstore.controller.entity;
 
 import com.example.SpringPetstore.model.ApiResponseRepository;
 import com.example.SpringPetstore.model.User;

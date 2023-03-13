@@ -1,4 +1,4 @@
-package com.example.SpringPetstore.controller;
+package com.example.SpringPetstore.controller.view;
 
 import com.example.SpringPetstore.model.*;
 import com.example.SpringPetstore.service.OrderService;
@@ -36,31 +36,33 @@ public class ViewController implements WebMvcConfigurer {
         this.tagRepository = tagRepository;
     }
 
+    // TODO: Move this to a LoginController
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/").setViewName("template_home");
-        registry.addViewController("/login").setViewName("template_login");
+//        registry.addViewController("/").setViewName("template_home");
+//        registry.addViewController("/login").setViewName("template_login");
         registry.addViewController("/register").setViewName("template_register");
         registry.addViewController("/store").setViewName("template_store");
         registry.addViewController("/admin").setViewName("template_admin");
     }
 
-    @GetMapping(path = "/")
-    public String getHome(Model model) {
-        Iterable<Pet> availablePets = petService.getPetsByStatus(PetStatus.AVAILABLE).get();
-        Map<String, String> availablePetsPhotoMap = new HashMap<>();
-        List<String> petPhotoList = new ArrayList<>();
-        for (Pet pet : availablePets) {
-            for (Photo photo : pet.getPhotoSet()) {
-                petPhotoList.add(photo.getUrl());
-            }
-            if (!petPhotoList.isEmpty())
-            availablePetsPhotoMap.put(pet.getName(), petPhotoList.get(0));
-            petPhotoList.clear();
-        }
-        model.addAttribute("available_pet_list", availablePets);
-        model.addAttribute("pet_photo_list", availablePetsPhotoMap);
-        return "template_home";
-    }
+    // TODO: Move this to a HomeController
+//    @GetMapping(path = "/")
+//    public String getHome(Model model) {
+//        Iterable<Pet> availablePets = petService.getPetsByStatus(PetStatus.AVAILABLE).get();
+//        Map<String, String> availablePetsPhotoMap = new HashMap<>();
+//        List<String> petPhotoList = new ArrayList<>();
+//        for (Pet pet : availablePets) {
+//            for (Photo photo : pet.getPhotoSet()) {
+//                petPhotoList.add(photo.getUrl());
+//            }
+//            if (!petPhotoList.isEmpty())
+//            availablePetsPhotoMap.put(pet.getName(), petPhotoList.get(0));
+//            petPhotoList.clear();
+//        }
+//        model.addAttribute("available_pet_list", availablePets);
+//        model.addAttribute("pet_photo_list", availablePetsPhotoMap);
+//        return "template_home";
+//    }
 
     // TODO: Move this to an AdminController
     @GetMapping(path = "/admin")
