@@ -128,6 +128,39 @@ public class SpringPetstoreApplication {
                 .pet(newPet)
                 .build());
 
+        newPet = petRepository.save(Pet.builder()
+                .name("Delta")
+                .description("Former pet of Han Solo.")
+                .status(PetStatus.AVAILABLE)
+                .build());
+
+        newPhoto = photoRepository.save(Photo.builder()
+                .url("images/Delta.jpg")
+                .pet(newPet)
+                .build());
+
+        newPet = petRepository.save(Pet.builder()
+                .name("Echo")
+                .description("Non-proportional self defense.")
+                .status(PetStatus.AVAILABLE)
+                .build());
+
+        newPhoto = photoRepository.save(Photo.builder()
+                .url("images/Echo.jpg")
+                .pet(newPet)
+                .build());
+
+        newPet = petRepository.save(Pet.builder()
+                .name("Foxtrott")
+                .description("Destroyer of car batteries.")
+                .status(PetStatus.AVAILABLE)
+                .build());
+
+        newPhoto = photoRepository.save(Photo.builder()
+                .url("images/Foxtrott.jpg")
+                .pet(newPet)
+                .build());
+
         // Create users
         userRepository.save(User.builder()
                 .username("admin")

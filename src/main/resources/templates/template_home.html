@@ -2,26 +2,106 @@
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'>
     <title>Home</title>
+    <style>
+        * {
+            font-family: 'Open Sans', Helvetica; font-size: small;
+        }
+        body {
+            margin: auto;
+            width: 99%;
+            border: 1px solid red;
+            background-image: url("images/Background.jpg");
+            background-position: center;
+            background-repeat: no-repeat;
+            padding: 5px;
+        }
+        .main-container {
+            margin: auto;
+            width: 600px;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            border: 1px solid black;
+            padding: 5px;
+        }
+        .header-container {
+            width: fit-content;
+            border: 1px solid red;
+            padding: 5px;
+        }
+        .logo-container {
+            width: fit-content;
+            border: 1px solid blue;
+            padding: 5px;
+        }
+        .product-container {
+            width: fit-content;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: center;
+            border: 1px solid purple;
+            padding: 5px;
+        }
+        .product-box {
+            width: 150px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border: 1px solid green;
+            padding: 5px;
+        }
+        .product-box-photo {
+            max-width: 100%;
+            border: 1px solid orange;
+            padding: 5px;
+        }
+        .product-box-name {
+            border: 1px solid orange;
+            text-align: center;
+            padding: 5px;
+        }
+        .product-box-description {
+            border: 1px solid orange;
+            text-align: justified;
+            padding: 5px;
+        }
+        .product-photo {
+            max-width: 100%;
+        }
+        .text-container {
+            border: 1px solid green;
+            text-align: center;
+            padding: 5px;
+        }
+        .footer-container {
+            width: fit-content;
+            border: 1px solid red;
+            padding: 5px;
+        }
+    </style>
 </head>
 <body>
-<div>@HOME</div>
-<br>
-<div>Welcome to the Spring Pet Store!</div>
-<br>
-<img th:src="@{images/Welcome.jpg}"/>
-<br>
-<div>Currently available pets:</div>
-<table>
-    <tr th:each="pet:${available_pet_list}">
-        <td th:text="${pet.name}"></td>
-        <td th:text="${pet.description}"></td>
-        <td><img th:src="@{${pet_photo_list.get(pet.name)}}"></img></td>
-    </tr>
-</table>
-<br>
-<div>Please <a href="/store">log in</a> to order. (Default users: admin/admin & user/user)</div>
-<br>
-<div>New customer? Please <a href="/register">register</a>.</div>
+<div class="main-container">
+    <div class="logo-container">
+        <img th:src="@{images/Welcome.jpg}"/>
+    </div>
+    <div class="product-container">
+        <div class="product-box" th:each="pet:${available_pet_list}">
+            <div class="product-box-photo"><img class="product-photo" th:src="@{${pet_photo_list.get(pet.name)}}"></img></div>
+            <div class="product-box-name" th:text="${pet.name}"></div>
+            <div class="product-box-description" th:text="${pet.description}"></div>
+        </div>
+    </div>
+    <div class="text-container">
+        <div>Please <a href="/store">log in</a> to order. (Default users: admin/admin & user/user)</div>
+        <div>New customer? Please <a href="/register">register</a>.</div>
+    </div>
+    <div>
+        <div class="footer-container" th:insert="~{fragments/fragment_footer :: footer}"></div>
+    </div>
+</div>
 </body>
 </html>
