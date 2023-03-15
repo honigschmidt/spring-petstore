@@ -12,9 +12,6 @@
             margin: auto;
             width: 99%;
             border: 1px solid red;
-            background-image: url("images/Background.jpg");
-            background-position: center;
-            background-repeat: no-repeat;
             padding: 5px;
         }
         .main-container {
@@ -23,7 +20,7 @@
             display: flex;
             align-items: center;
             flex-direction: column;
-            border: 1px solid black;
+            border: 1px solid red;
             padding: 5px;
         }
         .header-container {
@@ -33,7 +30,7 @@
         }
         .logo-container {
             width: fit-content;
-            border: 1px solid blue;
+            border: 1px solid red;
             padding: 5px;
         }
         .product-container {
@@ -42,7 +39,7 @@
             flex-direction: row;
             flex-wrap: wrap;
             justify-content: center;
-            border: 1px solid purple;
+            border: 1px solid red;
             padding: 5px;
         }
         .product-box {
@@ -50,21 +47,21 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            border: 1px solid green;
+            border: 1px solid red;
             padding: 5px;
         }
         .product-box-photo {
             max-width: 100%;
-            border: 1px solid orange;
+            border: 1px solid red;
             padding: 5px;
         }
         .product-box-name {
-            border: 1px solid orange;
+            border: 1px solid red;
             text-align: center;
             padding: 5px;
         }
         .product-box-description {
-            border: 1px solid orange;
+            border: 1px solid red;
             text-align: justified;
             padding: 5px;
         }
@@ -72,7 +69,7 @@
             max-width: 100%;
         }
         .text-container {
-            border: 1px solid green;
+            border: 1px solid red;
             text-align: center;
             padding: 5px;
         }
@@ -95,13 +92,9 @@
             <div class="product-box-description" th:text="${pet.description}"></div>
         </div>
     </div>
-    <div class="text-container">
-        <div>Please <a href="/store">log in</a> to order. (Default users: admin/admin & user/user)</div>
-        <div>New customer? Please <a href="/register">register</a>.</div>
-    </div>
-    <div>
-        <div class="footer-container" th:insert="~{fragments/fragment_footer :: footer}"></div>
-    </div>
+    <div class="text-container">Please <a href="/store">log in</a> to order. New customer? Please <a href="/register">register</a>.</div>
+    <div class="text-container">(Default users: admin/admin & user/user)</div>
+    <div class="footer-container" th:insert="~{fragments/fragment_footer :: footer}"></div>
 </div>
 </body>
 </html>

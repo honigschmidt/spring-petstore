@@ -108,7 +108,7 @@ public class SpringPetstoreApplication {
 
         newPet = petRepository.save(Pet.builder()
                 .name("Beta")
-                .description("Returned good. Buyer unavailable.")
+                .description("Returned good. Customer unavailable.")
                 .status(PetStatus.AVAILABLE)
                 .build());
 
@@ -151,13 +151,13 @@ public class SpringPetstoreApplication {
                 .build());
 
         newPet = petRepository.save(Pet.builder()
-                .name("Foxtrott")
+                .name("Foxtrot")
                 .description("Destroyer of car batteries.")
                 .status(PetStatus.AVAILABLE)
                 .build());
 
         newPhoto = photoRepository.save(Photo.builder()
-                .url("images/Foxtrott.jpg")
+                .url("images/Foxtrot.jpg")
                 .pet(newPet)
                 .build());
 
