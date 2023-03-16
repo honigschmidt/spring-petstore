@@ -64,7 +64,7 @@ public class UserController {
         return ResponseEntity.ok(userService.getAllUsers());
     }
 
-    @GetMapping(path = "/user/form/update")
+    @PostMapping(path = "/user/form/update")
     public ResponseEntity<User> updateUser(@RequestParam Long user_id, @RequestParam String user_name, @RequestParam String first_name, @RequestParam String last_name, @RequestParam String email, @RequestParam String password, @RequestParam String phone) {
         User updatedUser = userService.getUserById(user_id).get();
         updatedUser.setUsername(user_name);
@@ -76,7 +76,7 @@ public class UserController {
         return ResponseEntity.ok(userService.updateUserWithForm(user_id, updatedUser).get());
     }
 
-    @GetMapping(path = "/user/form/delete")
+    @PostMapping(path = "/user/form/delete")
     @ResponseBody
     public ResponseEntity deleteUser(@RequestParam(value = "user_id") Long[] user_id_list) {
         for (Long user_id : user_id_list) {

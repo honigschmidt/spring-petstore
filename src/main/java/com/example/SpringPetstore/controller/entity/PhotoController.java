@@ -70,7 +70,7 @@ public class PhotoController {
         return ResponseEntity.ok(photoService.getAllPhotos());
     }
 
-    @GetMapping(path = "/photo/form/delete")
+    @PostMapping(path = "/photo/form/delete")
     @ResponseBody
     public ResponseEntity deletePhotoById(@RequestParam(value = "photo_id") Long[] photo_id_list) {
         String photoUrl = null;

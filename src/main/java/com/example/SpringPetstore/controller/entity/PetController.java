@@ -4,8 +4,6 @@ import com.example.SpringPetstore.model.*;
 import com.example.SpringPetstore.service.FileService;
 import com.example.SpringPetstore.service.PetService;
 import com.example.SpringPetstore.service.PhotoService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -28,8 +26,6 @@ public class PetController {
     TagRepository tagRepository;
     CategoryRepository categoryRepository;
     ApiResponseRepository apiResponseRepository;
-
-    Logger logger = LoggerFactory.getLogger(PetController.class);
 
     public PetController(PetService petService, PhotoService photoService, FileService fileService, TagRepository tagRepository, CategoryRepository categoryRepository, ApiResponseRepository apiResponseRepository) {
         this.petService = petService;
@@ -102,7 +98,7 @@ public class PetController {
         return ResponseEntity.ok(petService.getAllPets());
     }
 
-    @GetMapping(path = "/pet/form/update")
+    @PostMapping(path = "/pet/form/update")
     @ResponseBody
     public ResponseEntity updatePetWithForm(@RequestParam Long pet_id, @RequestParam Long category_id, @RequestParam String name, @RequestParam String description, @RequestParam(value = "tag_id") String[] tag_id_list, @RequestParam String pet_status) {
         Pet updatedPet = petService.getPetById(pet_id).get();
@@ -129,7 +125,7 @@ public class PetController {
         return ResponseEntity.ok(petService.updatePetWithForm(pet_id, updatedPet).get());
     }
 
-    @GetMapping(path = "/pet/form/delete")
+    @PostMapping(path = "/pet/form/delete")
     @ResponseBody
     public ResponseEntity deletePet(@RequestParam(value = "pet_id") Long[] pet_id_list) {
         Pet deletedPet = new Pet();

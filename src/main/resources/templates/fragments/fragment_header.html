@@ -5,6 +5,8 @@
     <title>Header</title>
 </head>
 <body>
-<span th:fragment="header"> | <a  sec:authorize="hasRole('ROLE_ADMIN')" href="/admin">ADMIN</a> <span sec:authorize="hasRole('ROLE_ADMIN')">|</span> <a href="/store">STORE</a> | <a href="/logout">LOGOUT</a> | Logged in as <span sec:authentication="name"></span> with role(s) <span sec:authentication="principal.authorities"></span></span>
+<span th:fragment="header">Logged in as <span style="font-weight:bold" sec:authentication="name"></span> with role(s) <span sec:authentication="principal.authorities"></span> |
+    <span sec:authorize="hasRole('ROLE_ADMIN')"><a  href="/admin">ADMIN</a> | <a href="/store">STORE</a> | </span>
+    <a href="/logout">LOGOUT</a> | <br><hr></span>
 </body>
 </html>

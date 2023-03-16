@@ -67,7 +67,7 @@ public class OrderController {
         return ResponseEntity.ok(orderService.getAllOrders());
     }
 
-    @GetMapping(path = "/order/form/update")
+    @PostMapping(path = "/order/form/update")
     @ResponseBody
     public ResponseEntity<Order> updateOrderWithForm(@RequestParam Long order_id, @RequestParam String order_status, @RequestParam String order_complete) {
         Order updatedOrder = orderService.getOrderById(order_id).get();
@@ -96,7 +96,7 @@ public class OrderController {
         return ResponseEntity.ok(orderService.updateOrderWithForm(order_id, updatedOrder).get());
     }
 
-    @GetMapping(path = "/order/form/delete")
+    @PostMapping(path = "/order/form/delete")
     public ResponseEntity deleteOrder(@RequestParam(value = "order_id") Long[] order_id_list) {
         for (Long order_id : order_id_list) {
             orderService.deleteOrder(order_id);
