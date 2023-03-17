@@ -1,27 +1,57 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>Login</title>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <style>
+    * {
+        font-family: 'Open Sans', Helvetica; font-size: small;
+    }
+    body {
+        margin: auto;
+        width: 99%;
+        padding: 5px;
+        border: 1px solid red;
+    }
+    .main-container {
+        margin: auto;
+        width: 600px;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        border: 1px solid red;
+        padding: 5px;
+    }
+    .login-container {
+        text-align: center;
+        border: 1px solid red;
+        padding: 5px;
+    }
+    </style>
 </head>
 <body>
-  <div th:if="${param.error}">
-    <br>
-    Invalid username and password.
-    <br>
-  </div>
-  <div th:if="${param.logout}">
-    <br>
-    You have been logged out.
-    <br>
-  </div>
-  <form th:action="@{/login}" method="post">
-    <br>
-    <div>User Name<br><input type="text" name="username"/></div>
-    <br>
-    <div>Password<br><input type="password" name="password"/></div>
-    <br>
-    <div><input type="submit" value="Login"/></div>
-  </form>
-  </body>
+<div class="main-container">
+    <div class="login-container">
+        <form th:action="@{/login}" method="post">
+            <div>LOGIN</div>
+            <div th:if="${param.error}">
+                <br>
+                Invalid username and password.
+                <br>
+            </div>
+            <div th:if="${param.logout}">
+                <br>
+                You have been logged out.
+                <br>
+            </div>
+            <br>
+            <div>User Name<br><input type="text" name="username"/></div>
+            <br>
+            <div>Password<br><input type="password" name="password"/></div>
+            <br>
+            <div style="text-align: center"><input type="submit" value="Login"/></div>
+        </form>
+    </div>
+</div>
+</body>
 </html>

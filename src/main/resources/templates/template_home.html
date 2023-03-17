@@ -18,19 +18,14 @@
             margin: auto;
             width: 600px;
             display: flex;
-            align-items: center;
             flex-direction: column;
             border: 1px solid red;
             padding: 5px;
         }
-        .header-container {
-            width: fit-content;
-            border: 1px solid red;
-            padding: 5px;
-        }
         .logo-container {
-            width: fit-content;
+            text-align: center;
             border: 1px solid red;
+            align-items: center;
             padding: 5px;
         }
         .product-container {
@@ -74,16 +69,15 @@
             padding: 5px;
         }
         .footer-container {
-            width: fit-content;
             border: 1px solid red;
             padding: 5px;
-        }
+            text-align: center;
     </style>
 </head>
 <body>
 <div class="main-container">
     <div class="logo-container">
-        <img th:src="@{images/Welcome.jpg}"/>
+        <img style="border: 1px solid red" th:src="@{images/Welcome.jpg}"/>
     </div>
     <div class="product-container">
         <div class="product-box" th:each="pet:${available_pet_list}">
