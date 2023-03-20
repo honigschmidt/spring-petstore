@@ -76,12 +76,15 @@ public class StoreController {
         Pet updatedPet = petService.getPetById(pet_id).get();
         updatedPet.setStatus(PetStatus.SOLD);
         petService.updatePetWithForm(updatedPet);
+        // TODO: Put a happy pet here
+        model.addAttribute("image", "~/images/MessageboxImagePlaceholder.svg");
         model.addAttribute("message", "Thank you for your order.");
         model.addAttribute("link", "/store");
-        model.addAttribute("link_name", "Back to store.");
+        model.addAttribute("link_name", "Back to store");
         return "template_messagebox";
     }
 
+    // TODO: Move to a separate view
     @PostMapping(path = "/store/order/delete")
     @ResponseBody
     public String deleteOrder(@RequestParam Long order_id, @RequestParam Long pet_id) {

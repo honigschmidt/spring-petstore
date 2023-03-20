@@ -3,8 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <title>Spring Pet Store</title>
+    <style>
+         * {
+            font-family: 'Open Sans', Helvetica; font-size: small;
+        }
+        body {
+            margin: auto;
+            width: 99%;
+            border: 1px solid red;
+            padding: 5px;
+        }
+        .main-container {
+            margin: auto;
+            width: 600px;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid red;
+            padding: 5px;
+        }
+        .image_container {
+            border: 1px solid red;
+            text-align: center;
+            padding: 5px;
+        }
+        .text-container {
+            border: 1px solid red;
+            text-align: center;
+            padding: 5px;
+        }
+        img {
+            border: 1px solid red;
+        }
+    </style>
 </head>
 <body>
-<div><span th:text="${message}"></span><a th:href="@{${link}}"><span th:text="${link_name}"></span></a></div>
+<div class="main-container">
+    <div class="image_container">
+        <img th:src="@{${image}}"/>
+    </div>
+    <div class="text-container">
+        <span th:text="${message}"></span>
+    </div>
+    <div class="text-container">
+        <a th:href="@{${link}}"><span th:text="${link_name}"></span></a>
+    </div>
+</div>
 </body>
 </html>
