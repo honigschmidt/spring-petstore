@@ -3,51 +3,82 @@
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
     <meta charset="UTF-8">
-    <title>Store</title>
+    <title>Spring Pet Store</title>
+    <style>
+        * {
+            font-family: 'Open Sans', Helvetica;
+        }
+        body {
+            margin: auto;
+            width: 99%;
+            border: 1px solid red;
+            padding: 5px;
+        }
+        .header-container {
+            font-size: small;
+        }
+        .main-container {
+            margin: auto;
+            width: 600px;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid red;
+            padding: 5px;
+        }
+        .footer-container {
+            font-size: small;
+            text-align: center;
+        }
+        a:visited {
+            color: black;
+        }
+
+
+    </style>
 </head>
 <body>
-<div th:insert="~{fragments/fragment_header :: header}"></div>
-<hr>
-<div>Available pets:</div>
-<br>
-<table>
-    <tr>
-        <td>Pet name</td>
-        <td>Pet description</td>
-        <td>Pet photo</td>
-    </tr>
-    <tr th:each="pet:${available_pet_list}">
-        <td th:text="${pet.name}"></td>
-        <td th:text="${pet.description}"></td>
-        <td><img th:src="@{${pet_photo_list.get(pet.name)}}"></img></td>
-        <td>
-            <form action="/store/order/add" method="post">
-                <input type="hidden" name="pet_id" th:value=${pet.id}>
-                <button type="submit">ORDER PET</button>
-            </form>
-        </td>
-    </tr>
-</table>
-<hr>
-<div>My current orders:</div>
-<br>
-<table>
-    <tr>
-        <td>Order Id</td>
-        <td>Pet name</td>
-    </tr>
-    <tr th:each="order:${user_order_list}">
-        <td th:text="${order.id}"></td>
-        <td th:text="${order.pet.name}"></td>
-        <td>
-            <form action="/store/order/delete" method="post">
-                <input type="hidden" name="order_id" th:value=${order.id}>
-                <input type="hidden" name="pet_id" th:value=${order.pet.id}>
-                <button type="submit">CANCEL ORDER</button>
-            </form>
-        </td>
-    </tr>
-</table>
-<hr>
+<div class="main-container">
+    <div class="header-container" th:insert="~{fragments/fragment_header :: header}"></div>
+    <div>Available pets:</div>
+    <br>
+    <table>
+        <tr>
+            <td>Pet name</td>
+            <td>Pet description</td>
+            <td>Pet photo</td>
+        </tr>
+        <tr th:each="pet:${available_pet_list}">
+            <td th:text="${pet.name}"></td>
+            <td th:text="${pet.description}"></td>
+            <td><img th:src="@{${pet_photo_list.get(pet.name)}}"></img></td>
+            <td>
+                <form action="/store/order/add" method="post">
+                    <input type="hidden" name="pet_id" th:value=${pet.id}>
+                    <button type="submit">ORDER PET</button>
+                </form>
+            </td>
+        </tr>
+    </table>
+    <hr>
+    <div>My current orders:</div>
+    <br>
+    <table>
+        <tr>
+            <td>Order Id</td>
+            <td>Pet name</td>
+        </tr>
+        <tr th:each="order:${user_order_list}">
+            <td th:text="${order.id}"></td>
+            <td th:text="${order.pet.name}"></td>
+            <td>
+                <form action="/store/order/delete" method="post">
+                    <input type="hidden" name="order_id" th:value=${order.id}>
+                    <input type="hidden" name="pet_id" th:value=${order.pet.id}>
+                    <button type="submit">CANCEL ORDER</button>
+                </form>
+            </td>
+        </tr>
+    </table>
+</div>
 </body>
 </html>

@@ -63,8 +63,7 @@ public class StoreController {
     }
 
     @PostMapping(path = "/store/order/add")
-    @ResponseBody
-    public String addOrder(@CurrentSecurityContext(expression = "authentication?.name")
+    public String addOrder(Model model, @CurrentSecurityContext(expression = "authentication?.name")
                            String loggedInUserName, @RequestParam Long pet_id) {
         orderService.addOrder(Order.builder()
                 .pet(petService.getPetById(pet_id).get())
@@ -76,8 +75,11 @@ public class StoreController {
                 .build());
         Pet updatedPet = petService.getPetById(pet_id).get();
         updatedPet.setStatus(PetStatus.SOLD);
-        petService.updatePetWithForm(updatedPet.getId(), updatedPet);
-        return "Thank you for your order. Your new pet is already delivered to your home address. Please read the supplied instructions carefully. Go back to <a href=\"/store\">store</a>.";
+        petService.updatePetWithForm(updatedPet);
+        model.addAttribute("message", "Thank you for your order.");
+        model.addAttribute("link", "/store");
+        model.addAttribute("link_name", "Back to store.");
+        return "template_messagebox";
     }
 
     @PostMapping(path = "/store/order/delete")
@@ -86,7 +88,7 @@ public class StoreController {
         orderService.deleteOrder(order_id);
         Pet updatedPet = petService.getPetById(pet_id).get();
         updatedPet.setStatus(PetStatus.AVAILABLE);
-        petService.updatePetWithForm(pet_id, updatedPet);
+        petService.updatePetWithForm(updatedPet);
         return "Order deleted. Go back to <a href=\"/store\">store</a>.";
     }
 }

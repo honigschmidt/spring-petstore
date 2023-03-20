@@ -73,7 +73,7 @@ public class UserController {
         updatedUser.setEmail(email);
         updatedUser.setPassword(password);
         updatedUser.setPhone(phone);
-        return ResponseEntity.ok(userService.updateUserWithForm(user_id, updatedUser).get());
+        return ResponseEntity.ok(userService.updateUserWithForm(updatedUser));
     }
 
     @PostMapping(path = "/user/form/delete")

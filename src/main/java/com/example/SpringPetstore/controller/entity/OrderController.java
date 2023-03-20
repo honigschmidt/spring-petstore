@@ -93,7 +93,7 @@ public class OrderController {
                 updatedOrder.setComplete(Boolean.FALSE);
                 break;
         }
-        return ResponseEntity.ok(orderService.updateOrderWithForm(order_id, updatedOrder).get());
+        return ResponseEntity.ok(orderService.updateOrderWithForm(updatedOrder));
     }
 
     @PostMapping(path = "/order/form/delete")

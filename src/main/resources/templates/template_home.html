@@ -77,8 +77,9 @@
 <body>
 <div class="main-container">
     <div class="logo-container">
-        <img style="border: 1px solid red" th:src="@{images/Welcome.jpg}"/>
+        <img style="border: 1px solid red" th:src="@{images/LogoPlaceholder.svg}"/>
     </div>
+    <div class="text-container">New arrivals:</div>
     <div class="product-container">
         <div class="product-box" th:each="pet:${available_pet_list}">
             <div class="product-box-photo"><img class="product-photo" th:src="@{${pet_photo_list.get(pet.name)}}"></img></div>

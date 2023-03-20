@@ -23,6 +23,10 @@ public class SpringPetstoreApplication {
     CategoryRepository categoryRepository;
     ApiResponseRepository apiResponseRepository;
 
+    String loremIpsum = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut in sodales eros. Sed pharetra tincidunt felis, quis gravida massa vestibulum vel. Aliquam erat volutpat. Pellentesque efficitur augue ut posuere dignissim.";
+
+    String productImagePlaceholder = "images/ProductImagePlaceholder.svg";
+
     public SpringPetstoreApplication(PetRepository petRepository, OrderRepository orderRepository, UserRepository userRepository, PhotoRepository photoRepository, TagRepository tagRepository, CategoryRepository categoryRepository, ApiResponseRepository apiResponseRepository) {
         this.petRepository = petRepository;
         this.orderRepository = orderRepository;
@@ -97,67 +101,67 @@ public class SpringPetstoreApplication {
 
         newPet = petRepository.save(Pet.builder()
                 .name("Alpha")
-                .description("Eats you alive.")
+                .description(loremIpsum)
                 .status(PetStatus.AVAILABLE)
                 .build());
 
         newPhoto = photoRepository.save(Photo.builder()
-                .url("images/Alpha.jpg")
+                .url(productImagePlaceholder)
                 .pet(newPet)
                 .build());
 
         newPet = petRepository.save(Pet.builder()
                 .name("Beta")
-                .description("Returned good. Customer unavailable.")
+                .description(loremIpsum)
                 .status(PetStatus.AVAILABLE)
                 .build());
 
         newPhoto = photoRepository.save(Photo.builder()
-                .url("images/Beta.jpg")
+                .url(productImagePlaceholder)
                 .pet(newPet)
                 .build());
 
         newPet = petRepository.save(Pet.builder()
                 .name("Charlie")
-                .description("He will hear your scream.")
+                .description(loremIpsum)
                 .status(PetStatus.AVAILABLE)
                 .build());
 
         newPhoto = photoRepository.save(Photo.builder()
-                .url("images/Charlie.jpg")
+                .url(productImagePlaceholder)
                 .pet(newPet)
                 .build());
 
         newPet = petRepository.save(Pet.builder()
                 .name("Delta")
-                .description("Former pet of Han Solo.")
+                .description(loremIpsum)
                 .status(PetStatus.AVAILABLE)
                 .build());
 
         newPhoto = photoRepository.save(Photo.builder()
-                .url("images/Delta.jpg")
+                .url(productImagePlaceholder)
                 .pet(newPet)
                 .build());
 
         newPet = petRepository.save(Pet.builder()
                 .name("Echo")
-                .description("Non-proportional self defense.")
+                .description(loremIpsum)
                 .status(PetStatus.AVAILABLE)
                 .build());
 
         newPhoto = photoRepository.save(Photo.builder()
-                .url("images/Echo.jpg")
+                .url(productImagePlaceholder)
                 .pet(newPet)
                 .build());
 
         newPet = petRepository.save(Pet.builder()
                 .name("Foxtrot")
-                .description("Destroyer of car batteries.")
+                .description(loremIpsum)
                 .status(PetStatus.AVAILABLE)
                 .build());
 
         newPhoto = photoRepository.save(Photo.builder()
-                .url("images/Foxtrot.jpg")
+                .url(productImagePlaceholder)
                 .pet(newPet)
                 .build());
 

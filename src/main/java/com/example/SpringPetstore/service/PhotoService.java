@@ -29,6 +29,10 @@ public class PhotoService {
         return photoRepository.findAll();
     }
 
+    public Photo updatePhotoWithForm(Photo photo) {
+        return photoRepository.save(photo);
+    }
+
     public void deletePhoto(Long id) {
         photoRepository.deleteById(id);
     }

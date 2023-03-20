@@ -33,16 +33,8 @@ public class OrderService {
         return orderRepository.findAll();
     }
 
-    public Optional<Order> updateOrderWithForm(Long id, Order order) {
-        Optional<Order> searchResult = orderRepository.findById(id);
-        if (searchResult.isPresent()) {
-            Order updatedOrder = searchResult.get();
-            updatedOrder.setQuantity(order.getQuantity());
-            updatedOrder.setShipDate(order.getShipDate());
-            updatedOrder.setStatus(order.getStatus());
-            updatedOrder.setComplete(order.getComplete());
-            return Optional.of(orderRepository.save(updatedOrder));
-        } else return Optional.empty();
+    public Order updateOrderWithForm(Order order) {
+        return (orderRepository.save(order));
     }
 
     public void deleteOrder(Long id) {

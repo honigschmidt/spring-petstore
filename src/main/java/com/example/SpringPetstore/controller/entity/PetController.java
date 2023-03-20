@@ -122,7 +122,7 @@ public class PetController {
                 updatedPet.setStatus(PetStatus.SOLD);
                 break;
         }
-        return ResponseEntity.ok(petService.updatePetWithForm(pet_id, updatedPet).get());
+        return ResponseEntity.ok(petService.updatePetWithForm(updatedPet));
     }
 
     @PostMapping(path = "/pet/form/delete")

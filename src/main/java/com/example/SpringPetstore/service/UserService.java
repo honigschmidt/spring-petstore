@@ -33,18 +33,8 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public Optional<User> updateUserWithForm(Long id, User user) {
-        Optional<User> searchResult = userRepository.findById(id);
-        if (searchResult.isPresent()) {
-            User updatedUser = searchResult.get();
-            updatedUser.setUsername(user.getUsername());
-            updatedUser.setFirstName(user.getFirstName());
-            updatedUser.setLastName(user.getLastName());
-            updatedUser.setEmail(user.getEmail());
-            updatedUser.setPassword(user.getPassword());
-            updatedUser.setPhone(user.getPhone());
-            return Optional.of(userRepository.save(updatedUser));
-        } else return Optional.empty();
+    public User updateUserWithForm(User user) {
+        return userRepository.save(user);
     }
 
     public void deleteUser(Long id) {

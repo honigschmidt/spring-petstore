@@ -70,6 +70,14 @@ public class PhotoController {
         return ResponseEntity.ok(photoService.getAllPhotos());
     }
 
+    @PostMapping(path = "/photo/form/update")
+    @ResponseBody
+    public Photo updatePhotoWithForm(@RequestParam Long photo_id, @RequestParam String metadata) {
+        Photo updatedPhoto = photoService.getPhotoById(photo_id).get();
+        updatedPhoto.setMetaData(metadata);
+        return photoService.updatePhotoWithForm(updatedPhoto);
+    }
+
     @PostMapping(path = "/photo/form/delete")
     @ResponseBody
     public ResponseEntity deletePhotoById(@RequestParam(value = "photo_id") Long[] photo_id_list) {
