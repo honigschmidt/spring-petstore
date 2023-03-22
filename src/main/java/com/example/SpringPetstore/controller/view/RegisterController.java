@@ -28,7 +28,7 @@ public class RegisterController {
     }
 
     @GetMapping(path = "/register")
-    public String getRegisterView(Model model) {
+    public String getView(Model model) {
         return "template_register";
     }
 

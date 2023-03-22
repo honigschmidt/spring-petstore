@@ -1,20 +1,60 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Register</title>
+    <style>
+    * {
+        font-family: 'Open Sans', Helvetica; font-size: small;
+    }
+    body {
+        margin: auto;
+        width: 99%;
+        padding: 5px;
+        border: 1px solid red;
+    }
+    .main-container {
+        margin: auto;
+        width: 600px;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        border: 1px solid red;
+        padding: 5px;
+    }
+    .register-container {
+        text-align: center;
+        border: 1px solid red;
+        padding: 5px;
+    }
+    .form-element {
+        border: 1px solid red;
+        padding: 5px;
+        }
+    .title {
+        font-weight: bold;
+        }
+    </style>
 </head>
 <body>
-<form action="/register" method="post">
-    <div>Please fill in your details and push the [REGISTER] button. Fields marked with "*" are required.</div>
-    <br>
-    <input type="text" name="user_name" placeholder="Username*" required>
-    <input type="password" name="password" placeholder="Password*" required>
-    <input type="text" name="first_name" placeholder="First name">
-    <input type="text" name="last_name" placeholder="Last name">
-    <input type="email" name="email" placeholder="Email">
-    <input type="text" name="phone" placeholder="Phone">
-    <button type="submit">REGISTER</button>
-</form>
+<div class="main-container">
+    <div class="register-container">
+        <form action="/register" method="post">
+            <div class="form-element title">Register</div>
+            <div class="form-element">Please fill in your details and push the [REGISTER] button. Fields marked with "*"
+                are required.
+            </div>
+            <div class="form-element"><input type="text" name="user_name" placeholder="Username*" required></div>
+            <div class="form-element"><input type="password" name="password" placeholder="Password*" required></div>
+            <div class="form-element"><input type="text" name="first_name" placeholder="First name"></div>
+            <div class="form-element"><input type="text" name="last_name" placeholder="Last name"></div>
+            <div class="form-element"><input type="email" name="email" placeholder="Email"></div>
+            <div class="form-element"><input type="text" name="phone" placeholder="Phone"></div>
+            <div class="form-element">
+                <button type="submit">REGISTER</button>
+            </div>
+        </form>
+    </div>
+</div>
 </body>
 </html>

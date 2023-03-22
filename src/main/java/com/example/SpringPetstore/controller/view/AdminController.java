@@ -34,7 +34,7 @@ public class AdminController {
     }
 
     @GetMapping(path = "/admin")
-    public String getAdmin(Model model) {
+    public String getView(Model model) {
         model.addAttribute("category_list", categoryRepository.findAll());
         model.addAttribute("tag_list", tagRepository.findAll());
         model.addAttribute("pet_status_list", PetStatus.getPetStatusList());

@@ -53,7 +53,7 @@ public class StoreController {
     }
 
     @GetMapping(path = "/store")
-    public String getStoreView(@CurrentSecurityContext(expression = "authentication?.name")
+    public String getView(@CurrentSecurityContext(expression = "authentication?.name")
                                String loggedInUserName, Model model) {
         refreshModelAttributes(loggedInUserName);
         model.addAttribute("available_pet_list", availablePets);
@@ -82,16 +82,5 @@ public class StoreController {
         model.addAttribute("link", "/store");
         model.addAttribute("link_name", "Back to store");
         return "template_messagebox";
-    }
-
-    // TODO: Move to a separate view
-    @PostMapping(path = "/store/order/delete")
-    @ResponseBody
-    public String deleteOrder(@RequestParam Long order_id, @RequestParam Long pet_id) {
-        orderService.deleteOrder(order_id);
-        Pet updatedPet = petService.getPetById(pet_id).get();
-        updatedPet.setStatus(PetStatus.AVAILABLE);
-        petService.updatePetWithForm(updatedPet);
-        return "Order deleted. Go back to <a href=\"/store\">store</a>.";
     }
 }

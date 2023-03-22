@@ -25,7 +25,7 @@ public class HomeController {
     }
 
     @GetMapping(path = "/")
-    public String getHome(Model model) {
+    public String getView(Model model) {
         Iterable<Pet> availablePets = petService.getPetsByStatus(PetStatus.AVAILABLE).get();
         Map<String, String> availablePetsPhotoMap = new HashMap<>();
         List<String> petPhotoList = new ArrayList<>();
