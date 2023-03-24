@@ -1,12 +1,57 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Spring Pet Store</title>
+    <style>
+        * {
+            font-family: 'Open Sans', Helvetica; font-size: small;
+        }
+        body {
+            margin: auto;
+            width: 99%;
+            border: 1px solid red;
+            padding: 5px;
+        }
+        .main-container {
+            margin: auto;
+            width: 600px;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid red;
+            padding: 5px;
+        }
+        .header-container {
+            font-size: small;
+        }
+        .title-container {
+            margin-top: 5px;
+            margin-bottom: 5px;
+            padding: 5px;
+            font-size: small;
+        }
+        .profile-container {
+        }
+        .order-container {
+        }
+        .footer-container {
+            border: 1px solid red;
+            padding: 5px;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
-  <div>MY PROFILE:</div>
-  <div>+ Order list</div>
-  <div>+ Order delete</div>
+<div class="main-container">
+    <div class="header-container" th:insert="~{fragments/fragment_header :: header}"></div>
+    <div class="title-container">
+        <div class="title">MY PROFILE</div>
+    </div>
+        <div>MY PROFILE:</div>
+        <div>+ User profile data</div>
+        <div>+ Order list</div>
+        <div>+ Order delete</div>
+    <div class="footer-container" th:insert="~{fragments/fragment_footer :: footer}"></div>
+</div>
 </body>
 </html>

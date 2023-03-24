@@ -31,6 +31,8 @@ public class MyProfileController {
     @GetMapping(path = "/myprofile")
     public String getView(@CurrentSecurityContext(expression = "authentication?.name")
                                       String loggedInUserName, Model model) {
+        // Add template attributes
+        model.addAttribute("user_profile_data", userService.getUserByUsername(loggedInUserName).get());
         model.addAttribute("user_order_list", orderService.getOrderByUserId(userService.getUserByUsername(loggedInUserName).get().getId()));
         return "template_my_profile";
     }
