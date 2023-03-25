@@ -15,36 +15,40 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-public class MyProfileController {
+public class AccountController {
 
     @Autowired
     OrderService orderService;
     UserService userService;
     PetService petService;
 
-    public MyProfileController(OrderService orderService, UserService userService, PetService petService) {
+    public AccountController(OrderService orderService, UserService userService, PetService petService) {
         this.orderService = orderService;
         this.userService = userService;
         this.petService = petService;
     }
 
-    @GetMapping(path = "/myprofile")
-    public String getView(@CurrentSecurityContext(expression = "authentication?.name")
-                                      String loggedInUserName, Model model) {
-        // Add template attributes
-        model.addAttribute("user_profile_data", userService.getUserByUsername(loggedInUserName).get());
-        model.addAttribute("user_order_list", orderService.getOrderByUserId(userService.getUserByUsername(loggedInUserName).get().getId()));
-        return "template_my_profile";
+    @GetMapping(path = "/account")
+    public String getView(@CurrentSecurityContext(expression = "authentication?.name") String loggedInUserName, Model model) {
+        model.addAttribute("user", userService.getUserByUsername(loggedInUserName).get());
+        model.addAttribute("orders", orderService.getOrderByUserId(userService.getUserByUsername(loggedInUserName).get().getId()));
+        return "template_account";
     }
 
-    @PostMapping(path = "/myprofile/order/delete")
+    @PostMapping(path = "/account/password/change")
+    @ResponseBody
+    public String changePassword (String loggedInUserPassword, @RequestParam Long user_id, @RequestParam String old_password, @RequestParam String new_password) {
+        return null;
+    }
+
+    @PostMapping(path = "/account/order/delete")
     @ResponseBody
     public String deleteOrder(@RequestParam Long order_id, @RequestParam Long pet_id) {
         orderService.deleteOrder(order_id);
         Pet updatedPet = petService.getPetById(pet_id).get();
         updatedPet.setStatus(PetStatus.AVAILABLE);
         petService.updatePetWithForm(updatedPet);
-        // TODO: Use the messagebox template here
+        // TODO: Use the messagebox template here, clear @Responsebody
         return "Order deleted. Go back to <a href=\"/store\">store</a>.";
     }
 }

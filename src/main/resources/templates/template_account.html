@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <meta charset="UTF-8">
+    <title>Spring Pet Store</title>
+    <style>
+        * {
+            font-family: 'Open Sans', Helvetica; font-size: small;
+        }
+        body {
+            margin: auto;
+            width: 99%;
+            border: 1px solid red;
+            padding: 5px;
+        }
+        .main-container {
+            margin: auto;
+            width: 600px;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid red;
+            padding: 5px;
+        }
+        .header-container {
+            font-size: small;
+        }
+        .title-container {
+            margin-top: 5px;
+            margin-bottom: 5px;
+            padding: 5px;
+            font-size: small;
+            border: 1px solid red;
+        }
+        .profile-container {
+            margin-top: 5px;
+            margin-bottom: 5px;
+            padding: 5px;
+            font-size: small;
+            border: 1px solid red;
+        }
+        .profile-subcontainer {
+            margin-top: 5px;
+            margin-bottom: 5px;
+            padding: 5px;
+            font-size: small;
+            border: 1px solid red;
+        }
+        .order-container {
+        }
+        .footer-container {
+            border: 1px solid red;
+            padding: 5px;
+            text-align: center;
+        }
+
+
+
+
+    </style>
+</head>
+<body>
+<div class="main-container">
+    <div class="header-container" th:insert="~{fragments/fragment_header :: header}"></div>
+    <div class="title-container">
+        <div class="title">ACCOUNT</div>
+    </div>
+    <div class="profile-container">
+        <div>PROFILE</div>
+        <div class="profile-subcontainer">
+            <table>
+                <tr>
+                    <td>Username:</td>
+                    <td th:text="${user.username}"></td>
+                </tr>
+                <tr>
+                    <td>Change password:</td>
+                    <td>
+                        <form action="/account/password/change" method="post">
+                            <input type="text" name="old_password" placeholder="Old password*" required>
+                            <input type="text" name="new_password" placeholder="New password*">
+                            <button type="submit">CHANGE PASSWORD</button>
+                        </form>
+                    </td>
+                </tr>
+                <tr>
+                    <td>User role:</td>
+                    <td sec:authentication="principal.authorities"></td>
+                </tr>
+                <tr>
+                    <td>First name:</td>
+                    <td th:text="${user.firstName}"></td>
+                </tr>
+                <tr>
+                    <td>Last name:</td>
+                    <td th:text="${user.lastName}"></td>
+                </tr>
+                <tr>
+                    <td>Email:</td>
+                    <td th:text="${user.email}"></td>
+                </tr>
+                <tr>
+                    <td>Phone:</td>
+                    <td th:text="${user.phone}"></td>
+                </tr>
+                <tr>
+                    <td colspan="2" align="center">
+                        <form action="/user/form/delete" method="post">
+                            <input type="hidden" name="user_id" th:value=${user.id}>
+                            <button type="submit">DELETE ACCOUNT</button>
+                        </form>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <!--    <div>+ User profile data</div>-->
+    <!--    <div>+ Order list</div>-->
+    <!--    <div>+ Order delete</div>-->
+    <div class="footer-container" th:insert="~{fragments/fragment_footer :: footer}"></div>
+</div>
+</body>
+</html>

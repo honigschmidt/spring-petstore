@@ -38,6 +38,7 @@ public class RegisterController {
 
         userService.addUser(User.builder()
                 .username(user_name)
+                // TODO: Encode with bCrypt before saving
                 .password(password)
                 .userRole(UserRole.USER)
                 .build());
