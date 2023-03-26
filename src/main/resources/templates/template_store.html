@@ -23,7 +23,7 @@
             padding: 5px;
         }
         .header-container {
-            border: 1px solid red;
+            font-size: small;
         }
         .title-container {
             margin-top: 5px;
@@ -93,51 +93,24 @@
     <div class="title-container">
         <div class="title">STORE</div>
     </div>
-    <div class="product-container">
-        <div class="product-box" th:each="pet:${available_pet_list}">
-            <div class="product-box-photo"><img class="product-photo" th:src="@{${pet_photo_list.get(pet.name)}}"></img></div>
-            <div class="product-box-name" th:text="${pet.name}"></div>
-            <div class="product-box-description" th:text="${pet.description}"></div>
-            <div class="product-order-button">
-                <form action="/store/order/add" method="post">
-                    <input type="hidden" name="pet_id" th:value=${pet.id}>
-                    <button type="submit">ORDER PET</button>
-                </form>
+    <div class="product-container" th:if="${available_pet_list.empty}">Sorry, we have currently no available pets. Please come back later.</div>
+    <div th:unless="${available_pet_list.empty}">
+        <div class="product-container">
+            <div class="product-box" th:each="pet:${available_pet_list}">
+                <div class="product-box-photo"><img class="product-photo"
+                                                    th:src="@{${pet_photo_list.get(pet.name)}}"></img>
+                </div>
+                <div class="product-box-name" th:text="${pet.name}"></div>
+                <div class="product-box-description" th:text="${pet.description}"></div>
+                <div class="product-order-button">
+                    <form action="/store/order/add" method="post">
+                        <input type="hidden" name="pet_id" th:value=${pet.id}>
+                        <button type="submit">ORDER PET</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-<!--    <table>-->
-<!--        <tr th:each="pet:${available_pet_list}">-->
-<!--            <td th:text="${pet.name}"></td>-->
-<!--            <td th:text="${pet.description}"></td>-->
-<!--            <td><img th:src="@{${pet_photo_list.get(pet.name)}}"></img></td>-->
-<!--            <td>-->
-    <!--                <form action="/store/order/add" method="post">-->
-    <!--                    <input type="hidden" name="pet_id" th:value=${pet.id}>-->
-    <!--                    <button type="submit">ORDER PET</button>-->
-    <!--                </form>-->
-    <!--            </td>-->
-<!--        </tr>-->
-<!--    </table>-->
-    <!--    <div>My current orders:</div>-->
-    <!--    <br>-->
-    <!--    <table>-->
-    <!--        <tr>-->
-    <!--            <td>Order Id</td>-->
-    <!--            <td>Pet name</td>-->
-    <!--        </tr>-->
-    <!--        <tr th:each="order:${user_order_list}">-->
-    <!--            <td th:text="${order.id}"></td>-->
-    <!--            <td th:text="${order.pet.name}"></td>-->
-    <!--            <td>-->
-    <!--                <form action="/store/order/delete" method="post">-->
-    <!--                    <input type="hidden" name="order_id" th:value=${order.id}>-->
-    <!--                    <input type="hidden" name="pet_id" th:value=${order.pet.id}>-->
-    <!--                    <button type="submit">CANCEL ORDER</button>-->
-    <!--                </form>-->
-    <!--            </td>-->
-    <!--        </tr>-->
-    <!--    </table>-->
     <div class="footer-container" th:insert="~{fragments/fragment_footer :: footer}"></div>
 </div>
 </body>

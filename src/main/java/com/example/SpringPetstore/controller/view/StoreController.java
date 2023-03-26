@@ -63,8 +63,8 @@ public class StoreController {
     }
 
     @PostMapping(path = "/store/order/add")
-    public String addOrder(Model model, @CurrentSecurityContext(expression = "authentication?.name")
-                           String loggedInUserName, @RequestParam Long pet_id) {
+    public String addOrder(@CurrentSecurityContext(expression = "authentication?.name")
+                           String loggedInUserName, @RequestParam Long pet_id, Model model) {
         orderService.addOrder(Order.builder()
                 .pet(petService.getPetById(pet_id).get())
                 .quantity(1)
@@ -76,11 +76,10 @@ public class StoreController {
         Pet updatedPet = petService.getPetById(pet_id).get();
         updatedPet.setStatus(PetStatus.SOLD);
         petService.updatePetWithForm(updatedPet);
-        // TODO: Put a happy pet here
         model.addAttribute("image", "~/images/MessageboxImagePlaceholder.svg");
         model.addAttribute("message", "Thank you for your order.");
         model.addAttribute("link", "/store");
-        model.addAttribute("link_name", "Back to store");
+        model.addAttribute("link_name", "Back to the store");
         return "template_messagebox";
     }
 }

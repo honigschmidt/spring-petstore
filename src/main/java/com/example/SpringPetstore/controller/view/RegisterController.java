@@ -33,13 +33,11 @@ public class RegisterController {
     }
 
     @PostMapping(path = "/register")
-    @ResponseBody
-    public String registerUser(@RequestParam String user_name, @RequestParam String password, @RequestParam String first_name, @RequestParam String last_name, @RequestParam String email, @RequestParam String phone) {
+    public String registerUser(@RequestParam String user_name, @RequestParam String password, @RequestParam String first_name, @RequestParam String last_name, @RequestParam String email, @RequestParam String phone, Model model) {
 
         userService.addUser(User.builder()
                 .username(user_name)
-                // TODO: Encode with bCrypt before saving
-                .password(password)
+                .password(bCryptPasswordEncoder.encode(password))
                 .userRole(UserRole.USER)
                 .build());
 
@@ -49,6 +47,10 @@ public class RegisterController {
                 .roles(UserRole.USER.toString())
                 .build());
 
-        return ("Hello " + user_name + ", thank you for your registration. Please <a href=\"/store\">log in</a> to enter the store.");
+        model.addAttribute("image", "~/images/MessageboxImagePlaceholder.svg");
+        model.addAttribute("message", "Welcome " + user_name + ", thank you for your registration!");
+        model.addAttribute("link", "/");
+        model.addAttribute("link_name", "Back to the welcome page");
+        return "template_messagebox";
     }
 }

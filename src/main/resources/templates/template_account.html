@@ -47,14 +47,36 @@
             border: 1px solid red;
         }
         .order-container {
+            margin-top: 5px;
+            margin-bottom: 5px;
+            padding: 5px;
+            font-size: small;
+            border: 1px solid red;
+        }
+        .order-subcontainer {
+            margin-top: 5px;
+            margin-bottom: 5px;
+            padding: 5px;
+            font-size: small;
+            border: 1px solid red;
         }
         .footer-container {
             border: 1px solid red;
             padding: 5px;
             text-align: center;
         }
-
-
+        .button:disabled {
+            color: #666;
+        }
+        .title {
+            font-weight: bold;
+        }
+          a {
+            color: black;
+        }
+        a:visited {
+            color: black;
+        }
 
 
     </style>
@@ -66,7 +88,7 @@
         <div class="title">ACCOUNT</div>
     </div>
     <div class="profile-container">
-        <div>PROFILE</div>
+        <div class="title">PROFILE</div>
         <div class="profile-subcontainer">
             <table>
                 <tr>
@@ -77,8 +99,8 @@
                     <td>Change password:</td>
                     <td>
                         <form action="/account/password/change" method="post">
-                            <input type="text" name="old_password" placeholder="Old password*" required>
-                            <input type="text" name="new_password" placeholder="New password*">
+                            <input type="text" size="16" name="old_password" placeholder="Old password*" required>
+                            <input type="text" size="16" name="new_password" placeholder="New password*">
                             <button type="submit">CHANGE PASSWORD</button>
                         </form>
                     </td>
@@ -107,14 +129,49 @@
                     <td colspan="2" align="center">
                         <form action="/user/form/delete" method="post">
                             <input type="hidden" name="user_id" th:value=${user.id}>
-                            <button type="submit">DELETE ACCOUNT</button>
+                            <span sec:authorize="!hasRole('ROLE_ADMIN')"><button
+                                    type="submit">DELETE ACCOUNT</button></span>
+                            <span sec:authorize="hasRole('ROLE_ADMIN')"><button type="submit"
+                                                                                disabled>DELETE ACCOUNT</button></span>
                         </form>
                     </td>
                 </tr>
             </table>
         </div>
     </div>
-    <!--    <div>+ User profile data</div>-->
+    <div class="order-container">
+        <div class="title">ORDERS</div>
+        <div class="order-subcontainer">
+            <table>
+                <div style="text-align: center" th:if="${orders.empty}">You have no orders.</div>
+                <div th:unless="${orders.empty}">
+                    <tr>
+                        <td>Order Id</td>
+                        <td>Pet name</td>
+                        <td>Quantity</td>
+                        <td>Ship date</td>
+                        <td>Status</td>
+                        <td>Order complete</td>
+                    </tr>
+                </div>
+                <tr th:each="order:${orders}">
+                    <td th:text="${order.id}"></td>
+                    <td th:text="${order.pet.name}"></td>
+                    <td th:text="${order.quantity}"></td>
+                    <td th:text="${order.shipDate}"></td>
+                    <td th:text="${order.status}"></td>
+                    <td th:text="${order.complete}"></td>
+                    <td>
+                        <form action="/account/order/delete" method="post">
+                            <input type="hidden" name="order_id" th:value=${order.id}>
+                            <input type="hidden" name="pet_id" th:value=${order.pet.id}>
+                            <button type="submit">CANCEL ORDER</button>
+                        </form>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
     <!--    <div>+ Order list</div>-->
     <!--    <div>+ Order delete</div>-->
     <div class="footer-container" th:insert="~{fragments/fragment_footer :: footer}"></div>
