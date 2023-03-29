@@ -2,49 +2,88 @@ package com.example.SpringPetstore.controller.view;
 
 import com.example.SpringPetstore.model.Pet;
 import com.example.SpringPetstore.model.PetStatus;
+import com.example.SpringPetstore.model.User;
 import com.example.SpringPetstore.service.OrderService;
 import com.example.SpringPetstore.service.PetService;
 import com.example.SpringPetstore.service.UserService;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.CurrentSecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class AccountController {
 
     @Autowired
-    OrderService orderService;
-    UserService userService;
-    PetService petService;
+    private OrderService orderService;
+    private UserService userService;
+    private PetService petService;
+    private InMemoryUserDetailsManager inMemoryUserDetailsManager;
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public AccountController(OrderService orderService, UserService userService, PetService petService) {
+
+    public AccountController(OrderService orderService, UserService userService, PetService petService, InMemoryUserDetailsManager inMemoryUserDetailsManager, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.orderService = orderService;
         this.userService = userService;
         this.petService = petService;
+        this.inMemoryUserDetailsManager = inMemoryUserDetailsManager;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
     @GetMapping(path = "/account")
-    public String getView(@CurrentSecurityContext(expression = "authentication?.name") String loggedInUserName, Model model) {
-        model.addAttribute("user", userService.getUserByUsername(loggedInUserName).get());
-        model.addAttribute("orders", orderService.getOrderByUserId(userService.getUserByUsername(loggedInUserName).get().getId()).get());
+    public String getView(@CurrentSecurityContext(expression = "authentication?.name") String currentUser, Model model) {
+        model.addAttribute("user", userService.getUserByUsername(currentUser).get());
+        model.addAttribute("orders", orderService.getOrderByUserId(userService.getUserByUsername(currentUser).get().getId()).get());
         return "template_account";
     }
 
-    // TODO: PW change
     @PostMapping(path = "/account/password/change")
-    @ResponseBody
-    public String changePassword (String loggedInUserPassword, @RequestParam Long user_id, @RequestParam String old_password, @RequestParam String new_password) {
-        return null;
+    public String changePassword(@CurrentSecurityContext(expression = "authentication?.name") String currentUser, @RequestParam String old_password, @RequestParam String new_password, Model model) {
+        if (bCryptPasswordEncoder.matches(old_password, userService.getUserByUsername(currentUser).get().getPassword())) {
+            User updatedUserDb = userService.getUserByUsername(currentUser).get();
+            updatedUserDb.setPassword(bCryptPasswordEncoder.encode(new_password));
+            userService.updateUserWithForm(updatedUserDb);
+            inMemoryUserDetailsManager.updatePassword(inMemoryUserDetailsManager.loadUserByUsername(currentUser), bCryptPasswordEncoder.encode(new_password));
+            model.addAttribute("image", "~/images/MessageboxImagePlaceholder.svg");
+            model.addAttribute("message", "Password change successful.");
+            model.addAttribute("link", "/account");
+            model.addAttribute("link_name", "Back to the account page");
+            return "template_messagebox";
+        } else {
+            model.addAttribute("image", "~/images/MessageboxImagePlaceholder.svg");
+            model.addAttribute("message", "Old password does not match, current password unchanged.");
+            model.addAttribute("link", "/account");
+            model.addAttribute("link_name", "Back to the account page");
+            return "template_messagebox";
+        }
     }
 
     // TODO: Account deletion
+    @GetMapping(path = "/account/user/delete")
+    public String getDeleteUserConfirmView(Model model) {
+        model.addAttribute("image", "~/images/MessageboxImagePlaceholder.svg");
+        model.addAttribute("message", "Your account will be deleted. Are you sure?");
+        return "template_dialogbox";
+    }
+
+    @PostMapping(path = "/account/user/delete")
+    public String deleteUser(@CurrentSecurityContext(expression = "authentication?.name") String currentUser, HttpServletRequest request, Model model) throws ServletException {
+        userService.deleteUser(userService.getUserByUsername(currentUser).get().getId());
+        inMemoryUserDetailsManager.deleteUser(currentUser);
+        request.logout();
+        return "redirect:/";
+    }
+
     @PostMapping(path = "/account/order/delete")
-    public String deleteOrder(@RequestParam Long order_id, @RequestParam Long pet_id, Model model) {
+    public String deleteOrder(@CurrentSecurityContext(expression = "authentication?.name") String currentUser, @RequestParam Long order_id, @RequestParam Long pet_id, Model model) {
         orderService.deleteOrder(order_id);
         Pet updatedPet = petService.getPetById(pet_id).get();
         updatedPet.setStatus(PetStatus.AVAILABLE);

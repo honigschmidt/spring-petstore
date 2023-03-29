@@ -11,7 +11,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class RegisterController {
@@ -34,23 +33,28 @@ public class RegisterController {
 
     @PostMapping(path = "/register")
     public String registerUser(@RequestParam String user_name, @RequestParam String password, @RequestParam String first_name, @RequestParam String last_name, @RequestParam String email, @RequestParam String phone, Model model) {
-
-        userService.addUser(User.builder()
-                .username(user_name)
-                .password(bCryptPasswordEncoder.encode(password))
-                .userRole(UserRole.USER)
-                .build());
-
-        inMemoryUserDetailsManager.createUser(org.springframework.security.core.userdetails.User.builder()
-                .username(user_name)
-                .password(bCryptPasswordEncoder.encode(password))
-                .roles(UserRole.USER.toString())
-                .build());
-
-        model.addAttribute("image", "~/images/MessageboxImagePlaceholder.svg");
-        model.addAttribute("message", "Welcome " + user_name + ", thank you for your registration!");
-        model.addAttribute("link", "/");
-        model.addAttribute("link_name", "Back to the welcome page");
-        return "template_messagebox";
+        if (userService.getUserByUsername(user_name).isEmpty()) {
+            userService.addUser(User.builder()
+                    .username(user_name)
+                    .password(bCryptPasswordEncoder.encode(password))
+                    .userRole(UserRole.USER)
+                    .build());
+            inMemoryUserDetailsManager.createUser(org.springframework.security.core.userdetails.User.builder()
+                    .username(user_name)
+                    .password(bCryptPasswordEncoder.encode(password))
+                    .roles(UserRole.USER.toString())
+                    .build());
+            model.addAttribute("image", "~/images/MessageboxImagePlaceholder.svg");
+            model.addAttribute("message", "Welcome " + user_name + ", thank you for your registration!");
+            model.addAttribute("link", "/");
+            model.addAttribute("link_name", "Back to the welcome page");
+            return "template_messagebox";
+        } else {
+            model.addAttribute("image", "~/images/MessageboxImagePlaceholder.svg");
+            model.addAttribute("message", "Username " + user_name + " already exist, please choose a different username.");
+            model.addAttribute("link", "/register");
+            model.addAttribute("link_name", "Back to the registration");
+            return "template_messagebox";
+        }
     }
 }

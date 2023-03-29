@@ -43,6 +43,8 @@ public class WebSecurityConfig
                 .and()
                 .logout().logoutSuccessUrl("/").permitAll()
                 .and()
+                .logout().invalidateHttpSession(true)
+                .and()
                 .headers().frameOptions().disable()
                 .and()
                 .csrf().disable();

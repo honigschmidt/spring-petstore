@@ -127,7 +127,7 @@
                 </tr>
                 <tr>
                     <td colspan="2" align="center">
-                        <form action="/user/form/delete" method="post">
+                        <form action="/account/user/delete" method="get">
                             <input type="hidden" name="user_id" th:value=${user.id}>
                             <span sec:authorize="!hasRole('ROLE_ADMIN')"><button
                                     type="submit">DELETE ACCOUNT</button></span>
@@ -172,8 +172,6 @@
             </table>
         </div>
     </div>
-    <!--    <div>+ Order list</div>-->
-    <!--    <div>+ Order delete</div>-->
     <div class="footer-container" th:insert="~{fragments/fragment_footer :: footer}"></div>
 </div>
 </body>
