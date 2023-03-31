@@ -1,5 +1,6 @@
 package com.example.SpringPetstore.controller.view;
 
+import com.example.SpringPetstore.model.Order;
 import com.example.SpringPetstore.model.Pet;
 import com.example.SpringPetstore.model.PetStatus;
 import com.example.SpringPetstore.model.User;
@@ -10,7 +11,6 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.CurrentSecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.stereotype.Controller;
@@ -41,7 +41,7 @@ public class AccountController {
     @GetMapping(path = "/account")
     public String getView(@CurrentSecurityContext(expression = "authentication?.name") String currentUser, Model model) {
         model.addAttribute("user", userService.getUserByUsername(currentUser).get());
-        model.addAttribute("orders", orderService.getOrderByUserId(userService.getUserByUsername(currentUser).get().getId()).get());
+        model.addAttribute("orders", orderService.getOrdersByUserId(userService.getUserByUsername(currentUser).get().getId()).get());
         return "template_account";
     }
 
@@ -66,16 +66,24 @@ public class AccountController {
         }
     }
 
-    // TODO: Account deletion
     @GetMapping(path = "/account/user/delete")
     public String getDeleteUserConfirmView(Model model) {
         model.addAttribute("image", "~/images/MessageboxImagePlaceholder.svg");
         model.addAttribute("message", "Your account will be deleted. Are you sure?");
+        model.addAttribute("action", "/account/user/delete");
+        model.addAttribute("method", "post");
+        model.addAttribute("button", "DELETE");
         return "template_dialogbox";
     }
 
     @PostMapping(path = "/account/user/delete")
     public String deleteUser(@CurrentSecurityContext(expression = "authentication?.name") String currentUser, HttpServletRequest request, Model model) throws ServletException {
+        Iterable<Order> orderList = orderService.getOrdersByUserId(userService.getUserByUsername(currentUser).get().getId()).get();
+        for (Order order: orderList) {
+            Pet updatedPet = order.getPet();
+            updatedPet.setStatus(PetStatus.AVAILABLE);
+            petService.updatePetWithForm(updatedPet);
+        }
         userService.deleteUser(userService.getUserByUsername(currentUser).get().getId());
         inMemoryUserDetailsManager.deleteUser(currentUser);
         request.logout();

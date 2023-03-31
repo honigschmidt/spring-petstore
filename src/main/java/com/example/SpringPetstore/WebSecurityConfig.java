@@ -35,7 +35,7 @@ public class WebSecurityConfig
                 .authorizeHttpRequests()
                 .requestMatchers("/admin/**", "/pet/**", "/order/**", "/user/**", "/photo/**").hasRole("ADMIN")
                 .requestMatchers("/store/**", "/account/**").hasAnyRole("ADMIN", "USER")
-                .requestMatchers("/", "/register", "/images/**").permitAll()
+                .requestMatchers("/", "/register/**", "/images/**").permitAll()
                 .requestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**")).permitAll()
                 .anyRequest().denyAll()
                 .and()

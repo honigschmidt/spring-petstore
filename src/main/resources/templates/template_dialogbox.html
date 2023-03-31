@@ -56,8 +56,8 @@
         <span th:text="${message}"></span>
     </div>
     <div class="button-container">
-        <form action="/account/delete" method="post">
-            <button type="submit">DELETE</button>
+        <form th:action="${action}" th:method="${method}">
+            <button type="submit" th:text="${button}"></button>
         </form>
     </div>
 </div>
