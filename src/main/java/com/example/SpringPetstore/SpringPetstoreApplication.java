@@ -106,7 +106,7 @@ public class SpringPetstoreApplication {
                 .build());
 
         newPhoto = photoRepository.save(Photo.builder()
-                .url(productImagePlaceholder)
+                .url("images/Alpha.svg")
                 .pet(newPet)
                 .build());
 

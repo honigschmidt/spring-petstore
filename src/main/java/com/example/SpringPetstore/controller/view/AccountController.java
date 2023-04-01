@@ -68,10 +68,11 @@ public class AccountController {
 
     @GetMapping(path = "/account/user/delete")
     public String getDeleteUserConfirmView(Model model) {
-        model.addAttribute("image", "~/images/MessageboxImagePlaceholder.svg");
+        model.addAttribute("image", "~/images/DialogboxImageSad.svg");
         model.addAttribute("message", "Your account will be deleted. Are you sure?");
         model.addAttribute("action", "/account/user/delete");
         model.addAttribute("method", "post");
+        // TODO: Make a CANCEL here
         model.addAttribute("button", "DELETE");
         return "template_dialogbox";
     }
