@@ -21,7 +21,6 @@ import java.util.Map;
 @Controller
 public class StoreController {
 
-
     @Autowired
     OrderService orderService;
     PetService petService;
@@ -75,7 +74,7 @@ public class StoreController {
         Pet updatedPet = petService.getPetById(pet_id).get();
         updatedPet.setStatus(PetStatus.SOLD);
         petService.updatePetWithForm(updatedPet);
-        model.addAttribute("image", "~/images/MessageboxImagePlaceholder.svg");
+        model.addAttribute("image", "~/images/MessageboxImageHappy.svg");
         model.addAttribute("message", "Thank you for your order.");
         model.addAttribute("link", "/store");
         model.addAttribute("link_name", "Back to the store");

@@ -23,7 +23,7 @@ public class SpringPetstoreApplication {
     CategoryRepository categoryRepository;
     ApiResponseRepository apiResponseRepository;
 
-    String loremIpsum = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut in sodales eros. Sed pharetra tincidunt felis, quis gravida massa vestibulum vel. Aliquam erat volutpat. Pellentesque efficitur augue ut posuere dignissim.";
+    String loremIpsum = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut in sodales eros. Sed pharetra tincidunt felis, quis gravida massa vestibulum vel.";
 
     String productImagePlaceholder = "images/ProductImagePlaceholder.svg";
 
@@ -48,7 +48,6 @@ public class SpringPetstoreApplication {
 
     public void prepDB() {
 
-        // Create tags
         tagRepository.save(Tag.builder()
                 .name("Tag_1")
                 .build());
@@ -58,8 +57,6 @@ public class SpringPetstoreApplication {
         tagRepository.save(Tag.builder()
                 .name("Tag_3")
                 .build());
-
-        // Create categories
         categoryRepository.save(Category.builder()
                 .name("Category_1")
                 .build());
@@ -70,7 +67,6 @@ public class SpringPetstoreApplication {
                 .name("Category_3")
                 .build());
 
-        // Create API responses
         apiResponseRepository.save(ApiResponse.builder()
                 .code(404)
                 .type("pet")
@@ -95,7 +91,6 @@ public class SpringPetstoreApplication {
                 .message("Photo not found")
                 .build());
 
-        // Create pets and pet photos
         Pet newPet = new Pet();
         Photo newPhoto = new Photo();
 
@@ -117,7 +112,7 @@ public class SpringPetstoreApplication {
                 .build());
 
         newPhoto = photoRepository.save(Photo.builder()
-                .url(productImagePlaceholder)
+                .url("images/Beta.svg")
                 .pet(newPet)
                 .build());
 
@@ -128,7 +123,7 @@ public class SpringPetstoreApplication {
                 .build());
 
         newPhoto = photoRepository.save(Photo.builder()
-                .url(productImagePlaceholder)
+                .url("images/Charlie.svg")
                 .pet(newPet)
                 .build());
 
@@ -139,7 +134,7 @@ public class SpringPetstoreApplication {
                 .build());
 
         newPhoto = photoRepository.save(Photo.builder()
-                .url(productImagePlaceholder)
+                .url("images/Delta.svg")
                 .pet(newPet)
                 .build());
 
@@ -150,7 +145,7 @@ public class SpringPetstoreApplication {
                 .build());
 
         newPhoto = photoRepository.save(Photo.builder()
-                .url(productImagePlaceholder)
+                .url("images/Echo.svg")
                 .pet(newPet)
                 .build());
 
@@ -161,11 +156,10 @@ public class SpringPetstoreApplication {
                 .build());
 
         newPhoto = photoRepository.save(Photo.builder()
-                .url(productImagePlaceholder)
+                .url("images/Foxtrot.svg")
                 .pet(newPet)
                 .build());
 
-        // Create users
         userRepository.save(User.builder()
                 .username("admin")
                 .firstName("John")
@@ -199,7 +193,6 @@ public class SpringPetstoreApplication {
                 .userRole(UserRole.USER)
                 .build());
 
-        // Create orders
         orderRepository.save(Order.builder()
                 .quantity(1)
                 .pet(newPet)

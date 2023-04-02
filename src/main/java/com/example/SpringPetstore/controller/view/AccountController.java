@@ -52,13 +52,13 @@ public class AccountController {
             updatedUserDb.setPassword(bCryptPasswordEncoder.encode(new_password));
             userService.updateUserWithForm(updatedUserDb);
             inMemoryUserDetailsManager.updatePassword(inMemoryUserDetailsManager.loadUserByUsername(currentUser), bCryptPasswordEncoder.encode(new_password));
-            model.addAttribute("image", "~/images/MessageboxImagePlaceholder.svg");
+            model.addAttribute("image", "~/images/MessageboxImageHappy.svg");
             model.addAttribute("message", "Password change successful.");
             model.addAttribute("link", "/account");
             model.addAttribute("link_name", "Back to the account page");
             return "template_messagebox";
         } else {
-            model.addAttribute("image", "~/images/MessageboxImagePlaceholder.svg");
+            model.addAttribute("image", "~/images/MessageboxImageNeutral.svg");
             model.addAttribute("message", "Old password does not match, current password unchanged.");
             model.addAttribute("link", "/account");
             model.addAttribute("link_name", "Back to the account page");
@@ -70,17 +70,19 @@ public class AccountController {
     public String getDeleteUserConfirmView(Model model) {
         model.addAttribute("image", "~/images/DialogboxImageSad.svg");
         model.addAttribute("message", "Your account will be deleted. Are you sure?");
-        model.addAttribute("action", "/account/user/delete");
-        model.addAttribute("method", "post");
-        // TODO: Make a CANCEL here
-        model.addAttribute("button", "DELETE");
+        model.addAttribute("action_ok", "/account/user/delete");
+        model.addAttribute("action_nok", "/account");
+        model.addAttribute("method_ok", "post");
+        model.addAttribute("method_nok", "get");
+        model.addAttribute("button_ok", "OK");
+        model.addAttribute("button_nok", "CANCEL");
         return "template_dialogbox";
     }
 
     @PostMapping(path = "/account/user/delete")
     public String deleteUser(@CurrentSecurityContext(expression = "authentication?.name") String currentUser, HttpServletRequest request, Model model) throws ServletException {
         Iterable<Order> orderList = orderService.getOrdersByUserId(userService.getUserByUsername(currentUser).get().getId()).get();
-        for (Order order: orderList) {
+        for (Order order : orderList) {
             Pet updatedPet = order.getPet();
             updatedPet.setStatus(PetStatus.AVAILABLE);
             petService.updatePetWithForm(updatedPet);
@@ -97,7 +99,7 @@ public class AccountController {
         Pet updatedPet = petService.getPetById(pet_id).get();
         updatedPet.setStatus(PetStatus.AVAILABLE);
         petService.updatePetWithForm(updatedPet);
-        model.addAttribute("image", "~/images/MessageboxImagePlaceholder.svg");
+        model.addAttribute("image", "~/images/MessageboxImageNeutral.svg");
         model.addAttribute("message", "Order cancelled.");
         model.addAttribute("link", "/account");
         model.addAttribute("link_name", "Back to the account page");

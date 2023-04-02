@@ -44,13 +44,13 @@ public class RegisterController {
                     .password(bCryptPasswordEncoder.encode(password))
                     .roles(UserRole.USER.toString())
                     .build());
-            model.addAttribute("image", "~/images/MessageboxImagePlaceholder.svg");
+            model.addAttribute("image", "~/images/MessageboxImageHappy.svg");
             model.addAttribute("message", "Welcome " + user_name + ", thank you for your registration!");
             model.addAttribute("link", "/");
             model.addAttribute("link_name", "Back to the welcome page");
             return "template_messagebox";
         } else {
-            model.addAttribute("image", "~/images/MessageboxImagePlaceholder.svg");
+            model.addAttribute("image", "~/images/MessageboxImageNeutral.svg");
             model.addAttribute("message", "Username " + user_name + " already exist, please choose a different username.");
             model.addAttribute("link", "/register");
             model.addAttribute("link_name", "Back to the registration");
