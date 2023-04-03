@@ -11,7 +11,6 @@
         margin: auto;
         width: 99%;
         padding: 5px;
-        border: 1px solid red;
     }
     .main-container {
         margin: auto;
@@ -19,20 +18,20 @@
         display: flex;
         align-items: center;
         flex-direction: column;
-        border: 1px solid red;
         padding: 5px;
     }
     .login-container {
         text-align: center;
-        border: 1px solid red;
         padding: 5px;
     }
     .form-element, .error-message {
-        border: 1px solid red;
         padding: 5px;
         }
     .title {
         font-weight: bold;
+        }
+    .debug {
+        border: 1px solid red;
         }
     </style>
 </head>
@@ -43,9 +42,12 @@
             <div class="form-element title">Login</div>
             <div class="error-message" th:if="${param.error}">Invalid username and password.</div>
             <div class="error-message" th:if="${param.logout}">You have been logged out.</div>
-            <div class="form-element"><input style="text-align: center" type="text" name="username" placeholder="Username"></div>
-            <div class="form-element"><input style="text-align: center" type="password" name="password" placeholder="Password"></div>
-            <div class="form-element"><button type="submit">LOGIN</button>
+            <div class="form-element"><input style="text-align: center" type="text" name="username"
+                                             placeholder="Username"></div>
+            <div class="form-element"><input style="text-align: center" type="password" name="password"
+                                             placeholder="Password"></div>
+            <div class="form-element">
+                <button type="submit">LOGIN</button>
             </div>
         </form>
     </div>
