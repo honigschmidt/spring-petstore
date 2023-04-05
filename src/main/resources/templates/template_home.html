@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'>
-    <title>Home</title>
+    <title>Spring Pet Store</title>
     <style>
         * {
             font-family: 'Open Sans', Helvetica; font-size: small;
@@ -31,6 +31,9 @@
             flex-wrap: wrap;
             justify-content: center;
             padding: 5px;
+            background-color: #ebf5fb;
+            border: 1px solid white;
+            border-radius: 5px;
         }
         .product-box {
             width: 150px;
@@ -39,7 +42,7 @@
             align-items: center;
             padding: 5px;
             background-color: #aed6f1;
-            border: 1px solid white;
+            border: 1px solid #ebf5fb;
             border-radius: 5px;
         }
         .product-box-photo {
@@ -60,15 +63,18 @@
         .text-container {
             text-align: center;
             padding: 5px;
+            background-color: #ebf5fb;
+            border: 1px solid white;
+            border-radius: 5px;
         }
         .footer-container {
-            padding: 5px;
+            padding: 5px 1px 5px 1px;
             text-align: center;
         }
-         .title {
+        .title {
             font-weight: bold;
         }
-         a {
+        a {
             color: black;
         }
         a:visited {
@@ -84,16 +90,19 @@
     <div class="logo-container">
         <img th:src="@{images/Logo.svg}"/>
     </div>
-    <div class="text-container">Please check out our new arrivals:</div>
-    <div class="product-container">
-        <div class="product-box" th:each="pet:${available_pet_list}">
-            <div class="product-box-photo"><img class="product-photo" th:src="@{${pet_photo_list.get(pet.name)}}"></img></div>
-            <div class="product-box-name title" th:text="${pet.name}"></div>
-            <div class="product-box-description" th:text="${pet.description}"></div>
+    <div class="product-container" th:if="${available_pet_list.empty}">Sorry, currently we have no available pets. Please come back later.</div>
+    <div th:unless="${available_pet_list.empty}">
+        <div class="text-container title">New Arrivals</div>
+        <div class="product-container">
+            <div class="product-box" th:each="pet:${available_pet_list}">
+                <div class="product-box-photo"><img class="product-photo" th:src="@{${pet_photo_list.get(pet.name)}}"></img></div>
+                <div class="product-box-name title" th:text="${pet.name}"></div>
+                <div class="product-box-description" th:text="${pet.description}"></div>
+            </div>
         </div>
     </div>
-    <div class="text-container">Please <a href="/store">log in</a> to order. New customer? Please <a href="/register">register</a>.</div>
-    <div class="text-container">(Default users: admin/admin & user/user)</div>
+    <div class="text-container">Please <a href="/store">log in</a> to order. New customer? Please <a href="/register">register</a>.
+        <br>(Default users: admin/admin & user/user)</div>
     <div class="text-container"><a href="/admin">Admin</a></div>
     <div class="footer-container" th:insert="~{fragments/fragment_footer :: footer}"></div>
 </div>

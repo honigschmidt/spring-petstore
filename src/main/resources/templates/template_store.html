@@ -3,6 +3,7 @@
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
     <meta charset="UTF-8">
+    <link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'>
     <title>Spring Pet Store</title>
     <style>
         * {
@@ -11,7 +12,6 @@
         body {
             margin: auto;
             width: 99%;
-            border: 1px solid red;
             padding: 5px;
         }
         .main-container {
@@ -19,7 +19,6 @@
             width: 600px;
             display: flex;
             flex-direction: column;
-            border: 1px solid red;
             padding: 5px;
         }
         .header-container {
@@ -29,41 +28,42 @@
             margin-top: 5px;
             margin-bottom: 5px;
             padding: 5px;
-            border: 1px solid red;
+            background-color: #ebf5fb;
+            border-radius: 5px;
+            text-align: center;
         }
         .product-container {
             display: flex;
             flex-direction: row;
             flex-wrap: wrap;
             justify-content: center;
-            border: 1px solid red;
             padding: 5px;
+            background-color: #ebf5fb;
+            border-radius: 5px;
         }
         .product-box {
             width: 150px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            border: 1px solid red;
             padding: 5px;
+            background-color: #aed6f1;
+            border: 1px solid #ebf5fb;
+            border-radius: 5px;
         }
         .product-box-photo {
             max-width: 100%;
-            border: 1px solid red;
             padding: 5px;
         }
         .product-box-name {
-            border: 1px solid red;
             text-align: center;
             padding: 5px;
         }
         .product-box-description {
-            border: 1px solid red;
-            text-align: justified;
+            text-align: center;
             padding: 5px;
         }
         .product-order-button {
-            border: 1px solid red;
             text-align: center;
             padding: 5px;
         }
@@ -71,8 +71,7 @@
             max-width: 100%;
         }
         .footer-container {
-            border: 1px solid red;
-            padding: 5px;
+            padding: 5px 1px 5px 1px;
             text-align: center;
         }
         .title {
@@ -84,7 +83,9 @@
         a:visited {
             color: black;
         }
-
+        .debug {
+            border: 1px solid red;
+        }
     </style>
 </head>
 <body>
@@ -93,14 +94,14 @@
     <div class="title-container">
         <div class="title">STORE</div>
     </div>
-    <div class="product-container" th:if="${available_pet_list.empty}">Sorry, we have currently no available pets. Please come back later.</div>
+    <div class="product-container" th:if="${available_pet_list.empty}">Sorry, currently we have no available pets. Please come back later.</div>
     <div th:unless="${available_pet_list.empty}">
         <div class="product-container">
             <div class="product-box" th:each="pet:${available_pet_list}">
                 <div class="product-box-photo"><img class="product-photo"
                                                     th:src="@{${pet_photo_list.get(pet.name)}}"></img>
                 </div>
-                <div class="product-box-name" th:text="${pet.name}"></div>
+                <div class="product-box-name title" th:text="${pet.name}"></div>
                 <div class="product-box-description" th:text="${pet.description}"></div>
                 <div class="product-order-button">
                     <form action="/store/order/add" method="post">

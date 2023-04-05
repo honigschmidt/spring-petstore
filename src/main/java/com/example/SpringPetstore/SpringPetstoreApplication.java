@@ -7,9 +7,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 @SpringBootApplication
 public class SpringPetstoreApplication {
@@ -180,26 +177,6 @@ public class SpringPetstoreApplication {
                 .phone("1234567890")
                 .userStatus(1)
                 .userRole(UserRole.USER)
-                .build());
-
-        User newUser = userRepository.save(User.builder()
-                .username("test")
-                .firstName("test")
-                .lastName("test")
-                .email("test@nomail.com")
-                .password("test")
-                .phone("1234567890")
-                .userStatus(1)
-                .userRole(UserRole.USER)
-                .build());
-
-        orderRepository.save(Order.builder()
-                .quantity(1)
-                .pet(newPet)
-                .shipDate(LocalDate.EPOCH)
-                .status(OrderStatus.DUMMY)
-                .complete(Boolean.FALSE)
-                .user(newUser)
                 .build());
     }
 }

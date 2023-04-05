@@ -3,6 +3,7 @@
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
     <meta charset="UTF-8">
+    <link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'>
     <title>Spring Pet Store</title>
     <style>
         * {
@@ -11,7 +12,6 @@
         body {
             margin: auto;
             width: 99%;
-            border: 1px solid red;
             padding: 5px;
         }
         .main-container {
@@ -19,7 +19,6 @@
             width: 600px;
             display: flex;
             flex-direction: column;
-            border: 1px solid red;
             padding: 5px;
         }
         .header-container {
@@ -29,40 +28,43 @@
             margin-top: 5px;
             margin-bottom: 5px;
             padding: 5px;
+            background-color: #ebf5fb;
+            border-radius: 5px;
             font-size: small;
-            border: 1px solid red;
+            text-align: center;
+        }
+        .account-container {
+            margin-top: 5px;
+            margin-bottom: 5px;
+            padding: 5px;
+            background-color: #ebf5fb;
+            border-radius: 5px;
+            font-size: small;
+            text-align: center;
         }
         .profile-container {
             margin-top: 5px;
             margin-bottom: 5px;
             padding: 5px;
             font-size: small;
-            border: 1px solid red;
-        }
-        .profile-subcontainer {
-            margin-top: 5px;
-            margin-bottom: 5px;
-            padding: 5px;
-            font-size: small;
-            border: 1px solid red;
+            text-align: left;
         }
         .order-container {
             margin-top: 5px;
             margin-bottom: 5px;
             padding: 5px;
             font-size: small;
-            border: 1px solid red;
+            text-align: left;
         }
-        .order-subcontainer {
+        .delete-container {
             margin-top: 5px;
             margin-bottom: 5px;
             padding: 5px;
             font-size: small;
-            border: 1px solid red;
+            text-align: center;
         }
         .footer-container {
-            border: 1px solid red;
-            padding: 5px;
+            padding: 5px 1px 5px 1px;
             text-align: center;
         }
         .button:disabled {
@@ -77,6 +79,15 @@
         a:visited {
             color: black;
         }
+        .debug {
+            border: 1px solid red;
+        }
+        .table-center {
+            margin-left:auto;
+            margin-right:auto;
+        }
+
+
     </style>
 </head>
 <body>
@@ -85,16 +96,16 @@
     <div class="title-container">
         <div class="title">ACCOUNT</div>
     </div>
-    <div class="profile-container">
-        <div class="title">PROFILE</div>
-        <div class="profile-subcontainer">
-            <table>
+    <div class="account-container">
+        <div class="title">Profile</div>
+        <div class="profile-container">
+            <table class="table-center">
                 <tr>
-                    <td>Username:</td>
+                    <td class="title">Username:</td>
                     <td th:text="${user.username}"></td>
                 </tr>
                 <tr>
-                    <td>Change password:</td>
+                    <td class="title">Change password:</td>
                     <td>
                         <form action="/account/password/change" method="post">
                             <input type="text" size="16" name="old_password" placeholder="Old password*" required>
@@ -104,45 +115,34 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>User role:</td>
+                    <td class="title">User role:</td>
                     <td sec:authentication="principal.authorities"></td>
                 </tr>
                 <tr>
-                    <td>First name:</td>
+                    <td class="title">First name:</td>
                     <td th:text="${user.firstName}"></td>
                 </tr>
                 <tr>
-                    <td>Last name:</td>
+                    <td class="title">Last name:</td>
                     <td th:text="${user.lastName}"></td>
                 </tr>
                 <tr>
-                    <td>Email:</td>
+                    <td class="title">Email:</td>
                     <td th:text="${user.email}"></td>
                 </tr>
                 <tr>
-                    <td>Phone:</td>
+                    <td class="title">Phone:</td>
                     <td th:text="${user.phone}"></td>
-                </tr>
-                <tr>
-                    <td colspan="2" align="center">
-                        <form action="/account/user/delete" method="get">
-                            <input type="hidden" name="user_id" th:value=${user.id}>
-                            <span sec:authorize="!hasRole('ROLE_ADMIN')"><button
-                                    type="submit">DELETE ACCOUNT</button></span>
-                            <span sec:authorize="hasRole('ROLE_ADMIN')"><button type="submit"
-                                                                                disabled>DELETE ACCOUNT</button></span>
-                        </form>
-                    </td>
                 </tr>
             </table>
         </div>
     </div>
-    <div class="order-container">
-        <div class="title">ORDERS</div>
-        <div class="order-subcontainer">
-            <table>
-                <div style="text-align: center" th:if="${orders.empty}">You have no orders.</div>
-                <div th:unless="${orders.empty}">
+    <div class="account-container">
+        <div class="title">Orders</div>
+        <div class="order-container">
+            <div style="text-align: center" th:if="${orders.empty}">You have no orders.</div>
+            <div th:unless="${orders.empty}">
+                <table class="table-center">
                     <tr>
                         <td>Order Id</td>
                         <td>Pet name</td>
@@ -151,23 +151,35 @@
                         <td>Status</td>
                         <td>Order complete</td>
                     </tr>
-                </div>
-                <tr th:each="order:${orders}">
-                    <td th:text="${order.id}"></td>
-                    <td th:text="${order.pet.name}"></td>
-                    <td th:text="${order.quantity}"></td>
-                    <td th:text="${order.shipDate}"></td>
-                    <td th:text="${order.status}"></td>
-                    <td th:text="${order.complete}"></td>
-                    <td>
-                        <form action="/account/order/delete" method="post">
-                            <input type="hidden" name="order_id" th:value=${order.id}>
-                            <input type="hidden" name="pet_id" th:value=${order.pet.id}>
-                            <button type="submit">CANCEL ORDER</button>
-                        </form>
-                    </td>
-                </tr>
-            </table>
+                    <tr th:each="order:${orders}">
+                        <td th:text="${order.id}"></td>
+                        <td th:text="${order.pet.name}"></td>
+                        <td th:text="${order.quantity}"></td>
+                        <td th:text="${order.shipDate}"></td>
+                        <td th:text="${order.status}"></td>
+                        <td th:text="${order.complete}"></td>
+                        <td>
+                            <form action="/account/order/delete" method="post">
+                                <input type="hidden" name="order_id" th:value=${order.id}>
+                                <input type="hidden" name="pet_id" th:value=${order.pet.id}>
+                                <button type="submit">CANCEL ORDER</button>
+                            </form>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="account-container">
+        <div class="title">Delete Account</div>
+        <div class="delete-container">
+            <form action="/account/user/delete" method="get">
+                <input type="hidden" name="user_id" th:value=${user.id}>
+                <span sec:authorize="!hasRole('ROLE_ADMIN')"><button
+                        type="submit">DELETE ACCOUNT</button></span>
+                <span sec:authorize="hasRole('ROLE_ADMIN')"><button type="submit"
+                                                                    disabled>DELETE ACCOUNT</button></span>
+            </form>
         </div>
     </div>
     <div class="footer-container" th:insert="~{fragments/fragment_footer :: footer}"></div>
