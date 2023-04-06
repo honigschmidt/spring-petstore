@@ -25,15 +25,24 @@
             align-items: center;
             padding: 5px;
         }
+        .product-container-head {
+            text-align: center;
+            padding: 15px;
+            background-color: #ebf5fb;
+            border-radius: 5px 5px 0px 0px;
+            border-style: solid;
+            border-width: 1px 1px 0px 1px;
+            border-color: white;
+        }
         .product-container {
             display: flex;
             flex-direction: row;
             flex-wrap: wrap;
             justify-content: center;
-            padding: 5px;
+            padding: 5px 5px 40px 5px;
             background-color: #ebf5fb;
-            border: 1px solid white;
-            border-radius: 5px;
+            border-radius: 0px 0px 5px 5px;
+            margin-bottom: 2px;
         }
         .product-box {
             width: 150px;
@@ -42,7 +51,7 @@
             align-items: center;
             padding: 5px;
             background-color: #aed6f1;
-            border: 1px solid #ebf5fb;
+            border: 2px solid #ebf5fb;
             border-radius: 5px;
         }
         .product-box-photo {
@@ -64,8 +73,9 @@
             text-align: center;
             padding: 5px;
             background-color: #ebf5fb;
-            border: 1px solid white;
             border-radius: 5px;
+            margin-top: 2px;
+            margin-bottom: 2px;
         }
         .footer-container {
             padding: 5px 1px 5px 1px;
@@ -92,7 +102,7 @@
     </div>
     <div class="product-container" th:if="${available_pet_list.empty}">Sorry, currently we have no available pets. Please come back later.</div>
     <div th:unless="${available_pet_list.empty}">
-        <div class="text-container title">New Arrivals</div>
+        <div class="product-container-head title">New Arrivals</div>
         <div class="product-container">
             <div class="product-box" th:each="pet:${available_pet_list}">
                 <div class="product-box-photo"><img class="product-photo" th:src="@{${pet_photo_list.get(pet.name)}}"></img></div>
@@ -104,6 +114,7 @@
     <div class="text-container">Please <a href="/store">log in</a> to order. New customer? Please <a href="/register">register</a>.
         <br>(Default users: admin/admin & user/user)</div>
     <div class="text-container"><a href="/admin">Admin</a></div>
+    <div><hr></div>
     <div class="footer-container" th:insert="~{fragments/fragment_footer :: footer}"></div>
 </div>
 </body>

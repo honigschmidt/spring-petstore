@@ -22,22 +22,32 @@
             padding: 5px;
         }
         .header-container {
+            display: flex;
+            justify-content: space-between;
+            font-size: small;
+        }
+        .header-container-login {
+            font-size: small;
+        }
+        .header-container-navigation {
             font-size: small;
         }
         .title-container {
-            margin-top: 5px;
-            margin-bottom: 5px;
+            margin-top: 2px;
+            margin-bottom: 2px;
             padding: 5px;
             background-color: #ebf5fb;
             border-radius: 5px;
             text-align: center;
         }
         .product-container {
+            margin-top: 2px;
+            margin-bottom: 2px;
             display: flex;
             flex-direction: row;
             flex-wrap: wrap;
             justify-content: center;
-            padding: 5px;
+            padding: 40px;
             background-color: #ebf5fb;
             border-radius: 5px;
         }
@@ -48,7 +58,7 @@
             align-items: center;
             padding: 5px;
             background-color: #aed6f1;
-            border: 1px solid #ebf5fb;
+            border: 2px solid #ebf5fb;
             border-radius: 5px;
         }
         .product-box-photo {
@@ -90,11 +100,17 @@
 </head>
 <body>
 <div class="main-container">
-    <div class="header-container" th:insert="~{fragments/fragment_header :: header}"></div>
+    <div class="header-container">
+        <div class="header-container-login" th:insert="~{fragments/fragment_header_login :: header_login}"></div>
+        <div class="header-container-navigation" th:insert="~{fragments/fragment_header_navigation :: header_navigation}"></div>
+    </div>
+    <div><hr></div>
     <div class="title-container">
         <div class="title">STORE</div>
     </div>
-    <div class="product-container" th:if="${available_pet_list.empty}">Sorry, currently we have no available pets. Please come back later.</div>
+    <div class="product-container" th:if="${available_pet_list.empty}">Sorry, currently we have no available pets.
+        Please come back later.
+    </div>
     <div th:unless="${available_pet_list.empty}">
         <div class="product-container">
             <div class="product-box" th:each="pet:${available_pet_list}">
@@ -112,6 +128,7 @@
             </div>
         </div>
     </div>
+    <div><hr></div>
     <div class="footer-container" th:insert="~{fragments/fragment_footer :: footer}"></div>
 </div>
 </body>
