@@ -20,8 +20,16 @@
             padding: 5px;
         }
         .header-container {
+            display: flex;
+            justify-content: space-between;
             font-size: small;
-            }
+        }
+        .header-container-login {
+            font-size: small;
+        }
+        .header-container-navigation {
+            font-size: small;
+        }
         .title-container {
             background-color: #ebedef;
             margin-top: 5px;
@@ -60,7 +68,11 @@
 </head>
 <body>
 <div class="main-container">
-    <div class="header-container" th:insert="~{fragments/fragment_header :: header}"></div>
+    <div class="header-container">
+        <div class="header-container-login" th:insert="~{fragments/fragment_header_login :: header_login}"></div>
+        <div class="header-container-navigation"
+             th:insert="~{fragments/fragment_header_navigation :: header_navigation}"></div>
+    </div>
     <div class="title-container">
         <div class="title">ADMIN</div>
     </div>

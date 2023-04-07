@@ -100,7 +100,9 @@
     <div class="logo-container">
         <img th:src="@{images/Logo.svg}"/>
     </div>
-    <div class="product-container" th:if="${available_pet_list.empty}">Sorry, currently we have no available pets. Please come back later.</div>
+    <div th:if="${available_pet_list.empty}">
+        <div class="text-container">Sorry, currently we have no available pets. Please come back later.</div>
+    </div>
     <div th:unless="${available_pet_list.empty}">
         <div class="product-container-head title">New Arrivals</div>
         <div class="product-container">

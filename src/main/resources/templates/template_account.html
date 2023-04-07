@@ -22,6 +22,14 @@
             padding: 5px;
         }
         .header-container {
+            display: flex;
+            justify-content: space-between;
+            font-size: small;
+        }
+        .header-container-login {
+            font-size: small;
+        }
+        .header-container-navigation {
             font-size: small;
         }
         .title-container {
@@ -73,7 +81,7 @@
         .title {
             font-weight: bold;
         }
-          a {
+        a {
             color: black;
         }
         a:visited {
@@ -86,13 +94,29 @@
             margin-left:auto;
             margin-right:auto;
         }
-
-
+        .cell-center {
+            text-align: center;
+        }
+       th, td {
+            border-radius: 5px;
+            background-color: #d3eaf9;
+            padding: 10px;
+       }
+       th {
+            font-weight: bold;
+       }
     </style>
 </head>
 <body>
 <div class="main-container">
-    <div class="header-container" th:insert="~{fragments/fragment_header :: header}"></div>
+    <div class="header-container">
+        <div class="header-container-login" th:insert="~{fragments/fragment_header_login :: header_login}"></div>
+        <div class="header-container-navigation"
+             th:insert="~{fragments/fragment_header_navigation :: header_navigation}"></div>
+    </div>
+    <div>
+        <hr>
+    </div>
     <div class="title-container">
         <div class="title">ACCOUNT</div>
     </div>
@@ -101,11 +125,11 @@
         <div class="profile-container">
             <table class="table-center">
                 <tr>
-                    <td class="title">Username:</td>
+                    <th>Username:</th>
                     <td th:text="${user.username}"></td>
                 </tr>
                 <tr>
-                    <td class="title">Change password:</td>
+                    <th>Change password:</th>
                     <td>
                         <form action="/account/password/change" method="post">
                             <input type="text" size="16" name="old_password" placeholder="Old password*" required>
@@ -115,23 +139,23 @@
                     </td>
                 </tr>
                 <tr>
-                    <td class="title">User role:</td>
+                    <th>User role:</th>
                     <td sec:authentication="principal.authorities"></td>
                 </tr>
                 <tr>
-                    <td class="title">First name:</td>
+                    <th>First name:</th>
                     <td th:text="${user.firstName}"></td>
                 </tr>
                 <tr>
-                    <td class="title">Last name:</td>
+                    <th>Last name:</th>
                     <td th:text="${user.lastName}"></td>
                 </tr>
                 <tr>
-                    <td class="title">Email:</td>
+                    <th>Email:</th>
                     <td th:text="${user.email}"></td>
                 </tr>
                 <tr>
-                    <td class="title">Phone:</td>
+                    <th>Phone:</th>
                     <td th:text="${user.phone}"></td>
                 </tr>
             </table>
@@ -144,20 +168,21 @@
             <div th:unless="${orders.empty}">
                 <table class="table-center">
                     <tr>
-                        <td>Order Id</td>
-                        <td>Pet name</td>
-                        <td>Quantity</td>
-                        <td>Ship date</td>
-                        <td>Status</td>
-                        <td>Order complete</td>
+                        <th class="cell-center">Order Id</th>
+                        <th class="cell-center">Pet Name</th>
+                        <th class="cell-center">Quantity</th>
+                        <th class="cell-center">Ship Date</th>
+                        <th class="cell-center">Status</th>
+                        <th class="cell-center">Order Complete</th>
+                        <th class="cell-center"></th>
                     </tr>
                     <tr th:each="order:${orders}">
-                        <td th:text="${order.id}"></td>
-                        <td th:text="${order.pet.name}"></td>
-                        <td th:text="${order.quantity}"></td>
-                        <td th:text="${order.shipDate}"></td>
-                        <td th:text="${order.status}"></td>
-                        <td th:text="${order.complete}"></td>
+                        <td class="cell-center" th:text="${order.id}"></td>
+                        <td class="cell-center" th:text="${order.pet.name}"></td>
+                        <td class="cell-center" th:text="${order.quantity}"></td>
+                        <td class="cell-center" th:text="${order.shipDate}"></td>
+                        <td class="cell-center" th:text="${order.status}"></td>
+                        <td class="cell-center" th:text="${order.complete}"></td>
                         <td>
                             <form action="/account/order/delete" method="post">
                                 <input type="hidden" name="order_id" th:value=${order.id}>
@@ -181,6 +206,9 @@
                                                                     disabled>DELETE ACCOUNT</button></span>
             </form>
         </div>
+    </div>
+    <div>
+        <hr>
     </div>
     <div class="footer-container" th:insert="~{fragments/fragment_footer :: footer}"></div>
 </div>
