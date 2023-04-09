@@ -1,29 +1,35 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>Order list</title>
+    <meta charset="UTF-8">
+    <link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'>
+    <title>Spring Pet Store</title>
+    <style>
+        * {
+            font-family: 'Open Sans', Helvetica; font-size: small;
+        }
+    </style>
 </head>
 <body>
 <table>
-  <tr>
-    <td>Id</td>
-    <td>Ordered pet</td>
-    <td>Quantity</td>
-    <td>Ship date</td>
-    <td>Status</td>
-    <td>Complete</td>
-    <td>User</td>
-  </tr>
-  <tr th:each="order:${order_list}">
-    <td th:text="${order.id}"></td>
-    <td th:text="${order.pet.name}"></td>
-    <td th:text="${order.quantity}"></td>
-    <td th:text="${order.shipDate}"></td>
-    <td th:text="${order.status}"></td>
-    <td th:text="${order.complete}"></td>
-    <td th:text="${order.user.username}"></td>
-  </tr>
+    <tr>
+        <td>Id</td>
+        <td>Ordered pet</td>
+        <td>Quantity</td>
+        <td>Ship date</td>
+        <td>Status</td>
+        <td>Complete</td>
+        <td>User</td>
+    </tr>
+    <tr th:each="order:${order_list}">
+        <td th:text="${order.id}"></td>
+        <td th:text="${order.pet.name}"></td>
+        <td th:text="${order.quantity}"></td>
+        <td th:text="${order.shipDate}"></td>
+        <td th:text="${order.status}"></td>
+        <td th:text="${order.complete}"></td>
+        <td th:text="${order.user.username}"></td>
+    </tr>
 </table>
 </body>
 </html>

@@ -74,7 +74,7 @@ public class AccountController {
         model.addAttribute("action_nok", "/account");
         model.addAttribute("method_ok", "post");
         model.addAttribute("method_nok", "get");
-        model.addAttribute("button_ok", "OK");
+        model.addAttribute("button_ok", "DELETE ACCOUNT");
         model.addAttribute("button_nok", "CANCEL");
         return "template_dialogbox";
     }
@@ -100,7 +100,7 @@ public class AccountController {
         updatedPet.setStatus(PetStatus.AVAILABLE);
         petService.updatePetWithForm(updatedPet);
         model.addAttribute("image", "~/images/MessageboxImageNeutral.svg");
-        model.addAttribute("message", "Order cancelled.");
+        model.addAttribute("message", "Your order has been cancelled.");
         model.addAttribute("link", "/account");
         model.addAttribute("link_name", "Back to the account page");
         return "template_messagebox";
