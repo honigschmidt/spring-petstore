@@ -6,8 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import java.time.LocalDate;
-
 @SpringBootApplication
 public class SpringPetstoreApplication {
 
@@ -21,8 +19,6 @@ public class SpringPetstoreApplication {
     ApiResponseRepository apiResponseRepository;
 
     String loremIpsum = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut in sodales eros. Sed pharetra tincidunt felis, quis gravida massa vestibulum vel.";
-
-    String productImagePlaceholder = "images/ProductImagePlaceholder.svg";
 
     public SpringPetstoreApplication(PetRepository petRepository, OrderRepository orderRepository, UserRepository userRepository, PhotoRepository photoRepository, TagRepository tagRepository, CategoryRepository categoryRepository, ApiResponseRepository apiResponseRepository) {
         this.petRepository = petRepository;
