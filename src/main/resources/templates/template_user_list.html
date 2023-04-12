@@ -8,19 +8,28 @@
         * {
             font-family: 'Open Sans', Helvetica; font-size: small;
         }
+        table, th, td {
+            text-align: center;
+            border: 1px solid grey;
+            border-collapse: collapse;
+            padding: 3px;
+        }
+        th {
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
 <table>
     <tr>
-        <td>Id</td>
-        <td>Username</td>
-        <td>First Name</td>
-        <td>Last Name</td>
-        <td>Email</td>
-        <td>Password</td>
-        <td>Phone</td>
-        <td>User Status</td>
+        <th>Id</th>
+        <th>Username</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Email</th>
+        <th>Password</th>
+        <th>Phone</th>
+        <th>User Status</th>
     </tr>
     <tr th:each="user:${allUsers}">
         <td th:text="${user.id}"></td>

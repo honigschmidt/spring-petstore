@@ -8,16 +8,25 @@
         * {
             font-family: 'Open Sans', Helvetica; font-size: small;
         }
+        table, th, td {
+            text-align: center;
+            border: 1px solid grey;
+            border-collapse: collapse;
+            padding: 3px;
+        }
+        th {
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
 <table>
     <tr>
-        <td>Id</td>
-        <td>Name</td>
-        <td>Description</td>
-        <td>Pet status</td>
-        <td>Photos</td>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Pet Status</th>
+        <th>Photos</th>
     </tr>
     <tr th:each="pet:${pet_list}">
         <td th:text="${pet.id}"></td>
