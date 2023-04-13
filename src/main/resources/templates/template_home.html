@@ -107,7 +107,7 @@
         <div class="product-container-head title">New Arrivals</div>
         <div class="product-container">
             <div class="product-box" th:each="pet:${available_pet_list}">
-                <div class="product-box-photo"><img class="product-photo" th:src="@{${pet_photo_list.get(pet.name)}}"></img></div>
+                <div class="product-box-photo"><img class="product-photo" th:src="@{${pet_photo_list.get(pet.name)}}"></div>
                 <div class="product-box-name title" th:text="${pet.name}"></div>
                 <div class="product-box-description" th:text="${pet.description}"></div>
             </div>

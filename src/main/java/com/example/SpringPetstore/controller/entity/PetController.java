@@ -53,10 +53,10 @@ public class PetController {
         if (file.getSize() != 0) {
             try {
                 String photoUID = fileService.generatePhotoUID();
-                fileService.storePetPhoto(file, photoUID);
+                fileService.savePhoto(file, photoUID);
                 Photo newPhoto = photoService.addPhoto(Photo.builder()
                         .metaData(photo_metadata)
-                        .url(FileService.IMAGE_PATH_SERVER + photoUID + file.getOriginalFilename())
+                        .url(FileService.FILE_PATH_SERVER + photoUID + file.getOriginalFilename())
                         .pet(newPet)
                         .build());
             } catch (Exception e) {

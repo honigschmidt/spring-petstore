@@ -26,6 +26,10 @@ public class Photo {
     @Column(name = "url")
     private String url;
 
+    @Lob
+    @Column(name = "file")
+    private byte[] file;
+
     @ManyToOne
     @JoinColumn(name = "pet_id", referencedColumnName = "id")
     @JsonBackReference

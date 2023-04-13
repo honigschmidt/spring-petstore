@@ -38,10 +38,10 @@ public class PhotoController {
     public ResponseEntity<Photo> addPhoto(@RequestParam Long pet_id, @RequestParam String photo_metadata, @RequestParam MultipartFile file) {
         try {
             String photoUID = fileService.generatePhotoUID();
-            fileService.storePetPhoto(file, photoUID);
+            fileService.savePhoto(file, photoUID);
             Photo newPhoto = photoService.addPhoto(Photo.builder()
                     .metaData(photo_metadata)
-                    .url(FileService.IMAGE_PATH_SERVER + photoUID + file.getOriginalFilename())
+                    .url(FileService.FILE_PATH_LOCAL + photoUID + file.getOriginalFilename())
                     .pet(petService.getPetById(pet_id).get())
                     .build());
             return ResponseEntity.ok(newPhoto);
