@@ -9,6 +9,7 @@ import com.example.SpringPetstore.service.PetService;
 import com.example.SpringPetstore.service.PhotoService;
 import com.example.SpringPetstore.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +24,9 @@ public class AdminController {
     PhotoService photoService;
     CategoryRepository categoryRepository;
     TagRepository tagRepository;
+
+    @Value("${app.deployed}")
+    private boolean appDeployed;
 
     public AdminController(PetService petService, OrderService orderService, UserService userService, CategoryRepository categoryRepository, TagRepository tagRepository, PhotoService photoService) {
         this.petService = petService;
@@ -44,6 +48,7 @@ public class AdminController {
         model.addAttribute("available_pet_list", petService.getPetsByStatus(PetStatus.AVAILABLE).get());
         model.addAttribute("user_list", userService.getAllUsers());
         model.addAttribute("photo_list", photoService.getAllPhotos());
+        model.addAttribute("app_deployed", appDeployed);
         return "template_admin";
     }
 }

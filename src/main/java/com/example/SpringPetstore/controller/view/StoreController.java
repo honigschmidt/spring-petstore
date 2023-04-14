@@ -5,6 +5,7 @@ import com.example.SpringPetstore.service.OrderService;
 import com.example.SpringPetstore.service.PetService;
 import com.example.SpringPetstore.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,6 +26,9 @@ public class StoreController {
     OrderService orderService;
     PetService petService;
     UserService userService;
+
+    @Value("${app.deployed}")
+    private boolean appDeployed;
 
     Iterable<Pet> availablePets = new ArrayList<>();
     Map<String, String> availablePetsPhotoMap = new HashMap<>();
@@ -57,6 +61,7 @@ public class StoreController {
         model.addAttribute("available_pet_list", availablePets);
         model.addAttribute("pet_photo_list", availablePetsPhotoMap);
         model.addAttribute("user_order_list", userOrderList);
+        model.addAttribute("app_deployed", appDeployed);
         return "template_store";
     }
 

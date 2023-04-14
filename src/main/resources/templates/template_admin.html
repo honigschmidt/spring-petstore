@@ -75,8 +75,7 @@
 <div class="main-container">
     <div class="header-container">
         <div class="header-container-login" th:insert="~{fragments/fragment_header_login :: header_login}"></div>
-        <div class="header-container-navigation"
-             th:insert="~{fragments/fragment_header_navigation :: header_navigation}"></div>
+        <div class="header-container-navigation" th:insert="~{fragments/fragment_header_navigation :: header_navigation}"></div>
     </div>
     <div>
         <hr>
@@ -97,9 +96,11 @@
                             th:text="${category.name}">
                 </select>
                 <input type="text" name="name" placeholder="Pet name*" required>
-                <input type="text" name="description" placeholder="Description">
-                <input type="file" name="file" placeholder="Photo">
-                <input type="text" name="photo_metadata" placeholder="Photo metadata">
+                <input type="text" name="description" placeholder="Pet description" maxlength="150">
+                <input th:if="${app_deployed}" type="text" name="photo_metadata" placeholder="Photo metadata" style="display:none">
+                <input th:if="${!app_deployed}" type="text" name="photo_metadata" placeholder="Photo metadata">
+                <input th:if="${app_deployed}" type="file" name="file" placeholder="Photo" style="display:none">
+                <input th:if="${!app_deployed}" type="file" name="file" placeholder="Photo">
                 <select name="tag_id" th:size="${#lists.size(tag_list)}" multiple required>-->
                     <option th:each="tag : ${tag_list}"
                             th:value="${tag.id}"
@@ -141,7 +142,7 @@
                             th:text="${category.name}">
                 </select>
                 <input type="text" name="name" placeholder="Pet name*" required>
-                <input type="text" name="description" placeholder="Description">
+                <input type="text" name="description" placeholder="Pet description" maxlength="150">
                 <select name="tag_id" th:size="${#lists.size(tag_list)}" multiple required>-->
                     <option th:each="tag : ${tag_list}"
                             th:value="${tag.id}"
@@ -318,7 +319,8 @@
                 </select>
                 <input type="text" name="photo_metadata" placeholder="Photo metadata">
                 <input type="file" name="file" placeholder="Photo" required>
-                <button type="submit">UPLOAD</button>
+                <button th:if="${app_deployed}" type="submit" disabled>UPLOAD</button>
+                <button th:if="${!app_deployed}" type="submit">UPLOAD</button>
             </form>
         </div>
         <div class="crud-container">
@@ -362,7 +364,8 @@
                             th:value="${photo.id}"
                             th:text="${photo.url}">
                 </select>
-                <button type="submit">DELETE</button>
+                <button th:if="${app_deployed}" type="submit" disabled>DELETE</button>
+                <button th:if="${!app_deployed}" type="submit">DELETE</button>
             </form>
         </div>
     </div>

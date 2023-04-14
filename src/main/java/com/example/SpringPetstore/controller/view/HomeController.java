@@ -5,6 +5,7 @@ import com.example.SpringPetstore.model.PetStatus;
 import com.example.SpringPetstore.model.Photo;
 import com.example.SpringPetstore.service.PetService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +20,9 @@ public class HomeController {
 
     @Autowired
     PetService petService;
+
+    @Value("${app.deployed}")
+    private boolean appDeployed;
 
     public HomeController(PetService petService) {
         this.petService = petService;
@@ -39,6 +43,7 @@ public class HomeController {
         }
         model.addAttribute("available_pet_list", availablePets);
         model.addAttribute("pet_photo_list", availablePetsPhotoMap);
+        model.addAttribute("app_deployed", appDeployed);
         return "template_home";
     }
 }

@@ -2,18 +2,11 @@ package com.example.SpringPetstore;
 
 import com.example.SpringPetstore.model.*;
 import jakarta.annotation.PostConstruct;
-import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 
 @SpringBootApplication
 public class SpringPetstoreApplication {
@@ -45,14 +38,10 @@ public class SpringPetstoreApplication {
 
     @PostConstruct
     public void init() {
-        try {
-            prepDB();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        prepDB();
     }
 
-    public void prepDB() throws IOException {
+    public void prepDB() {
 
         tagRepository.save(Tag.builder()
                 .name("Tag_1")
@@ -163,18 +152,6 @@ public class SpringPetstoreApplication {
 
         newPhoto = photoRepository.save(Photo.builder()
                 .url("images/Foxtrot.svg")
-                .pet(newPet)
-                .build());
-
-        // TODO: Test
-        newPet = petRepository.save(Pet.builder()
-                .name("Test")
-                .description("Test")
-                .status(PetStatus.AVAILABLE)
-                .build());
-
-        newPhoto = photoRepository.save(Photo.builder()
-                .url("images/Test.png")
                 .pet(newPet)
                 .build());
 

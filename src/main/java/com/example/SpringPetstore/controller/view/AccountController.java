@@ -10,6 +10,7 @@ import com.example.SpringPetstore.service.UserService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
@@ -29,6 +30,8 @@ public class AccountController {
     private InMemoryUserDetailsManager inMemoryUserDetailsManager;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    @Value("${app.deployed}")
+    private boolean appDeployed;
 
     public AccountController(OrderService orderService, UserService userService, PetService petService, InMemoryUserDetailsManager inMemoryUserDetailsManager, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.orderService = orderService;
@@ -42,6 +45,7 @@ public class AccountController {
     public String getView(@CurrentSecurityContext(expression = "authentication?.name") String currentUser, Model model) {
         model.addAttribute("user", userService.getUserByUsername(currentUser).get());
         model.addAttribute("orders", orderService.getOrdersByUserId(userService.getUserByUsername(currentUser).get().getId()).get());
+        model.addAttribute("app_deployed", appDeployed);
         return "template_account";
     }
 

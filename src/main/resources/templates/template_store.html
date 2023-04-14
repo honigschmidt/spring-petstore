@@ -64,6 +64,7 @@
         .product-box-photo {
             max-width: 100%;
             padding: 5px;
+            height: 150px;
         }
         .product-box-name {
             text-align: center;
@@ -72,6 +73,8 @@
         .product-box-description {
             text-align: center;
             padding: 5px;
+            height: 150px;
+            overflow-y: auto;
         }
         .product-order-button {
             text-align: center;
@@ -127,8 +130,9 @@
     <div th:unless="${available_pet_list.empty}">
         <div class="product-container">
             <div class="product-box" th:each="pet:${available_pet_list}">
-                <div class="product-box-photo"><img class="product-photo"
-                                                    th:src="@{${pet_photo_list.get(pet.name)}}"></img>
+                <div class="product-box-photo">
+                    <img class="product-photo" th:if="${pet_photo_list.get(pet.name)!=null}" th:src="@{${pet_photo_list.get(pet.name)}}">
+                    <img class="product-photo" th:if="${pet_photo_list.get(pet.name)==null}" th:src="@{images/MissingProductImage.svg}">
                 </div>
                 <div class="product-box-name title" th:text="${pet.name}"></div>
                 <div class="product-box-description" th:text="${pet.description}"></div>

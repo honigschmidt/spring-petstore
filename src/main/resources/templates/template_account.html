@@ -75,9 +75,6 @@
             padding: 5px 1px 5px 1px;
             text-align: center;
         }
-        .button:disabled {
-            color: #666;
-        }
         .title {
             font-weight: bold;
         }
@@ -164,7 +161,9 @@
     <div class="account-container">
         <div class="title">Orders</div>
         <div class="order-container">
-            <div style="text-align: center" th:if="${orders.empty}">You have no orders.</div>
+            <div th:if="${orders.empty}">
+                <div style="text-align: center">You have no orders.</div>
+            </div>
             <div th:unless="${orders.empty}">
                 <table class="table-center">
                     <tr>
@@ -200,10 +199,8 @@
         <div class="delete-container">
             <form action="/account/user/delete" method="get">
                 <input type="hidden" name="user_id" th:value=${user.id}>
-                <span sec:authorize="!hasRole('ROLE_ADMIN')"><button
-                        type="submit">DELETE ACCOUNT</button></span>
-                <span sec:authorize="hasRole('ROLE_ADMIN')"><button type="submit"
-                                                                    disabled>DELETE ACCOUNT</button></span>
+                <span sec:authorize="!hasRole('ROLE_ADMIN')"><button type="submit">DELETE ACCOUNT</button></span>
+                <span sec:authorize="hasRole('ROLE_ADMIN')"><button type="submit" disabled>DELETE ACCOUNT</button></span>
             </form>
         </div>
     </div>
