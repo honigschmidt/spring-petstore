@@ -52,9 +52,9 @@ public class AccountController {
     @PostMapping(path = "/account/password/change")
     public String changePassword(@CurrentSecurityContext(expression = "authentication?.name") String currentUser, @RequestParam String old_password, @RequestParam String new_password, Model model) {
         if (bCryptPasswordEncoder.matches(old_password, userService.getUserByUsername(currentUser).get().getPassword())) {
-            User updatedUserDb = userService.getUserByUsername(currentUser).get();
-            updatedUserDb.setPassword(bCryptPasswordEncoder.encode(new_password));
-            userService.updateUserWithForm(updatedUserDb);
+            User updatedUser = userService.getUserByUsername(currentUser).get();
+            updatedUser.setPassword(bCryptPasswordEncoder.encode(new_password));
+            userService.updateUserWithForm(updatedUser);
             inMemoryUserDetailsManager.updatePassword(inMemoryUserDetailsManager.loadUserByUsername(currentUser), bCryptPasswordEncoder.encode(new_password));
             model.addAttribute("image", "~/images/MessageboxImageHappy.svg");
             model.addAttribute("message", "Password change successful.");
@@ -69,6 +69,8 @@ public class AccountController {
             return "template_messagebox";
         }
     }
+
+    // TODO: Add option to change user fname, lname, email, phone
 
     @GetMapping(path = "/account/user/delete")
     public String getDeleteUserConfirmView(Model model) {

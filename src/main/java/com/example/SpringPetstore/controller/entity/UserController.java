@@ -5,8 +5,12 @@ import com.example.SpringPetstore.model.User;
 import com.example.SpringPetstore.model.UserRole;
 import com.example.SpringPetstore.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,28 +24,40 @@ import java.util.Optional;
 public class UserController {
 
     @Autowired
-    UserService userService;
-    ApiResponseRepository apiResponseRepository;
-    UserDetailsService userDetailsService;
+    private UserService userService;
+    private ApiResponseRepository apiResponseRepository;
+    private InMemoryUserDetailsManager inMemoryUserDetailsManager;
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public UserController(UserService userService, ApiResponseRepository apiResponseRepository, UserDetailsService userDetailsService) {
+    public UserController(UserService userService, ApiResponseRepository apiResponseRepository, InMemoryUserDetailsManager inMemoryUserDetailsManager, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userService = userService;
         this.apiResponseRepository = apiResponseRepository;
-        this.userDetailsService = userDetailsService;
+        this.inMemoryUserDetailsManager = inMemoryUserDetailsManager;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
     @PostMapping(path = "/user/form/add")
     @ResponseBody
-    public ResponseEntity<User> addUser(@RequestParam String user_name, @RequestParam String first_name, @RequestParam String last_name, @RequestParam String email, @RequestParam String password, @RequestParam String phone) {
-        return ResponseEntity.ok(userService.addUser(User.builder()
-                .username(user_name)
-                .firstName(first_name)
-                .lastName(last_name)
-                .email(email)
-                .password(password)
-                .phone(phone)
-                .userRole(UserRole.USER)
-                .build()));
+    public ResponseEntity addUser(@RequestParam String user_name, @RequestParam String first_name, @RequestParam String last_name, @RequestParam String email, @RequestParam String password, @RequestParam String phone) {
+        if (userService.getUserByUsername(user_name).isEmpty()) {
+            inMemoryUserDetailsManager.createUser(org.springframework.security.core.userdetails.User.builder()
+                    .username(user_name)
+                    .password(bCryptPasswordEncoder.encode(password))
+                    .roles(UserRole.USER.toString())
+                    .build());
+            return ResponseEntity
+                    .ok(userService.addUser(User.builder()
+                            .username(user_name)
+                            .firstName(first_name)
+                            .lastName(last_name)
+                            .email(email)
+                            .password(bCryptPasswordEncoder.encode(password))
+                            .phone(phone)
+                            .userRole(UserRole.USER)
+                            .build()));
+        } else return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body("User already exists.");
     }
 
     @GetMapping(path = "/user/form/getbyid")
@@ -65,14 +81,15 @@ public class UserController {
     }
 
     @PostMapping(path = "/user/form/update")
-    public ResponseEntity<User> updateUser(@RequestParam Long user_id, @RequestParam String user_name, @RequestParam String first_name, @RequestParam String last_name, @RequestParam String email, @RequestParam String password, @RequestParam String phone) {
+    public ResponseEntity<User> updateUser(@CurrentSecurityContext(expression = "authentication?.name") String currentUser, @RequestParam Long user_id, @RequestParam String user_name, @RequestParam String first_name, @RequestParam String last_name, @RequestParam String email, @RequestParam String password, @RequestParam String phone) {
         User updatedUser = userService.getUserById(user_id).get();
         updatedUser.setUsername(user_name);
         updatedUser.setFirstName(first_name);
         updatedUser.setLastName(last_name);
         updatedUser.setEmail(email);
-        updatedUser.setPassword(password);
+        updatedUser.setPassword(bCryptPasswordEncoder.encode(password));
         updatedUser.setPhone(phone);
+        inMemoryUserDetailsManager.updatePassword(inMemoryUserDetailsManager.loadUserByUsername(currentUser), bCryptPasswordEncoder.encode(password));
         return ResponseEntity.ok(userService.updateUserWithForm(updatedUser));
     }
 

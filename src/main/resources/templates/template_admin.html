@@ -69,13 +69,15 @@
         a:visited {
             color: black;
         }
+
     </style>
 </head>
 <body>
 <div class="main-container">
     <div class="header-container">
         <div class="header-container-login" th:insert="~{fragments/fragment_header_login :: header_login}"></div>
-        <div class="header-container-navigation" th:insert="~{fragments/fragment_header_navigation :: header_navigation}"></div>
+        <div class="header-container-navigation"
+             th:insert="~{fragments/fragment_header_navigation :: header_navigation}"></div>
     </div>
     <div>
         <hr>
@@ -97,7 +99,8 @@
                 </select>
                 <input type="text" name="name" placeholder="Pet name*" required>
                 <input type="text" name="description" placeholder="Pet description" maxlength="150">
-                <input th:if="${app_deployed}" type="text" name="photo_metadata" placeholder="Photo metadata" style="display:none">
+                <input th:if="${app_deployed}" type="text" name="photo_metadata" placeholder="Photo metadata"
+                       style="display:none">
                 <input th:if="${!app_deployed}" type="text" name="photo_metadata" placeholder="Photo metadata">
                 <input th:if="${app_deployed}" type="file" name="file" placeholder="Photo" style="display:none">
                 <input th:if="${!app_deployed}" type="file" name="file" placeholder="Photo">
@@ -260,7 +263,13 @@
                 <input type="text" name="phone" placeholder="Phone">
                 <button type="submit">ADD</button>
             </form>
-            <button type="submit">SEARCH</button>
+        </div>
+        <div class="crud-container">
+            <div class="title">Search user by ID</div>
+            <br>
+            <form action="/user/form/getbyid" method="get">
+                <input type="text" name="user_id" placeholder="User ID*" required>
+                <button type="submit">SEARCH</button>
             </form>
         </div>
         <div class="crud-container">
