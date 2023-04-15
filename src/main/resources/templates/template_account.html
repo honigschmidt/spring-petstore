@@ -141,7 +141,12 @@
                 </tr>
                 <tr>
                     <th>First name:</th>
-                    <td th:text="${user.firstName}"></td>
+                    <td>
+                        <form action="/account/user/change" method="post">
+                            <input type="text" name="new_name" th:placeholder="${user.firstName}">
+                            <button type="submit">CHANGE NAME</button>
+                        </form>
+                    </td>
                 </tr>
                 <tr>
                     <th>Last name:</th>
@@ -200,7 +205,8 @@
             <form action="/account/user/delete" method="get">
                 <input type="hidden" name="user_id" th:value=${user.id}>
                 <span sec:authorize="!hasRole('ROLE_ADMIN')"><button type="submit">DELETE ACCOUNT</button></span>
-                <span sec:authorize="hasRole('ROLE_ADMIN')"><button type="submit" disabled>DELETE ACCOUNT</button></span>
+                <span sec:authorize="hasRole('ROLE_ADMIN')"><button type="submit"
+                                                                    disabled>DELETE ACCOUNT</button></span>
             </form>
         </div>
     </div>

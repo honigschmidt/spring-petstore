@@ -71,6 +71,10 @@ public class AccountController {
     }
 
     // TODO: Add option to change user fname, lname, email, phone
+    @PostMapping(path = "/account/user/change")
+    public String changeUser() {
+        return "template_messagebox";
+    }
 
     @GetMapping(path = "/account/user/delete")
     public String getDeleteUserConfirmView(Model model) {
