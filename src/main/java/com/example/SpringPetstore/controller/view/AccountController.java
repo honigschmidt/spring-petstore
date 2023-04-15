@@ -72,7 +72,9 @@ public class AccountController {
 
     // TODO: Add option to change user fname, lname, email, phone
     @PostMapping(path = "/account/user/change")
-    public String changeUser() {
+    public String changeUser(@CurrentSecurityContext(expression = "authentication?.name") String currentUser) {
+//        User updatedUser = userService.getUserByUsername(currentUser).get();
+//        userService.updateUserWithForm(updatedUser);
         return "template_messagebox";
     }
 
