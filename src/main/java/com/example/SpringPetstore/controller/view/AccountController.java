@@ -71,9 +71,13 @@ public class AccountController {
     }
 
     // TODO: Add option to change user fname, lname, email, phone
+    // @Requestparam=null if not provided
     @PostMapping(path = "/account/user/change")
-    public String changeUser(@CurrentSecurityContext(expression = "authentication?.name") String currentUser) {
+    public String changeUser(@CurrentSecurityContext(expression = "authentication?.name") String currentUser, @RequestParam(required = false) String first_name, @RequestParam(required = false) String last_name, @RequestParam(required = false) String email, @RequestParam(required = false) String phone) {
 //        User updatedUser = userService.getUserByUsername(currentUser).get();
+//        if (first_name != null) {
+//            updatedUser.setFirstName(first_name);
+//        }
 //        userService.updateUserWithForm(updatedUser);
         return "template_messagebox";
     }

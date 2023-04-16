@@ -143,22 +143,37 @@
                     <th>First name:</th>
                     <td>
                         <form action="/account/user/change" method="post">
-                            <input type="text" name="new_name" th:placeholder="${user.firstName}">
+                            <input type="text" name="first_name" th:placeholder="${user.firstName}">
                             <button type="submit">CHANGE FIRST NAME</button>
                         </form>
                     </td>
                 </tr>
                 <tr>
                     <th>Last name:</th>
-                    <td th:text="${user.lastName}"></td>
+                    <td>
+                    <form action="/account/user/change" method="post">
+                        <input type="text" name="last_name" th:placeholder="${user.lastName}">
+                        <button type="submit">CHANGE LAST NAME</button>
+                    </form>
+                    </td>
                 </tr>
                 <tr>
                     <th>Email:</th>
-                    <td th:text="${user.email}"></td>
+                    <td>
+                        <form action="/account/user/change" method="post">
+                            <input type="text" name="email" th:placeholder="${user.email}">
+                            <button type="submit">CHANGE EMAIL</button>
+                        </form>
+                    </td>
                 </tr>
                 <tr>
                     <th>Phone:</th>
-                    <td th:text="${user.phone}"></td>
+                    <td>
+                        <form action="/account/user/change" method="post">
+                            <input type="text" name="phone" th:placeholder="${user.phone}">
+                            <button type="submit">CHANGE PHONE</button>
+                        </form>
+                    </td>
                 </tr>
             </table>
         </div>
