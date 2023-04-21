@@ -82,6 +82,10 @@
             padding: 5px 1px 5px 1px;
             text-align: center;
         }
+        .form-element {
+            text-align: center;
+            padding: 5px;
+        }
         .title {
             font-weight: bold;
         }
@@ -108,9 +112,6 @@
        th {
             font-weight: bold;
        }
-
-
-
     </style>
 </head>
 <body>
@@ -127,7 +128,7 @@
         <div class="title">ACCOUNT</div>
     </div>
     <div class="account-container">
-        <div class="title">Change Profile</div>
+        <div class="title">Profile</div>
         <div class="profile-container">
             <form action="/account/user/change" method="post">
                 <table class="table-center" style="width: 100%">
@@ -164,14 +165,9 @@
                             <input type="text" name="phone" th:placeholder="${user.phone}">
                         </td>
                     </tr>
-                    <!--                    <tr>-->
-                    <!--                        <td colspan="2" style="text-align: center; background-color: #ebf5fb">-->
-                    <!--                            <button type="submit">CHANGE</button>-->
-                    <!--                        </td>-->
-                    <!--                    </tr>-->
                 </table>
-                <div style="text-align: center">
-                    <button type="submit" style="margin-top: 10px">CHANGE PROFILE</button>
+                <div class="form-element" style="margin-top: 5px">
+                    <button type="submit">CHANGE PROFILE</button>
                 </div>
             </form>
         </div>
@@ -213,12 +209,21 @@
         </div>
     </div>
     <div class="account-container">
-        <div class="title">Change Password</div>
+        <div class="title">Password</div>
         <div class="password-container">
             <form action="/account/password/change" method="post">
-                <input type="password" size="16" name="old_password" placeholder="Current password*" required>
-                <input type="password" size="16" name="new_password" placeholder="New password*" required>
-                <button type="submit">CHANGE PASSWORD</button>
+                <div class="form-element">
+                    <input type="password" size="20" name="current_password" placeholder="Current password*" required>
+                </div>
+                <div class="form-element">
+                    <input type="password" size="20" name="new_password" placeholder="New password*" required>
+                </div>
+                <div class="form-element">
+                    <input type="password" size="20" name="confirm_password" placeholder="Confirm new password*" required>
+                </div>
+                <div class="form-element">
+                    <button type="submit">CHANGE PASSWORD</button>
+                </div>
             </form>
         </div>
     </div>
@@ -227,9 +232,10 @@
         <div class="delete-container">
             <form action="/account/user/delete" method="get">
                 <input type="hidden" name="user_id" th:value=${user.id}>
-                <span sec:authorize="!hasRole('ROLE_ADMIN')"><button type="submit">DELETE ACCOUNT</button></span>
-                <span sec:authorize="hasRole('ROLE_ADMIN')"><button type="submit"
-                                                                    disabled>DELETE ACCOUNT</button></span>
+                <div class="form-element">
+                    <span sec:authorize="!hasRole('ROLE_ADMIN')"><button type="submit">DELETE ACCOUNT</button></span>
+                    <span sec:authorize="hasRole('ROLE_ADMIN')"><button type="submit" disabled>DELETE ACCOUNT</button></span>
+                </div>
             </form>
         </div>
     </div>

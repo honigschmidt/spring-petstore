@@ -62,7 +62,7 @@ public class WebSecurityConfig
         for (com.example.SpringPetstore.model.User user : userService.getAllUsers()) {
             UserDetails userDetails = org.springframework.security.core.userdetails.User.builder()
                     .username(user.getUsername())
-                    .password(bCryptPasswordEncoder().encode(user.getPassword()))
+                    .password(user.getPassword())
                     .roles(user.getUserRole().toString())
                     .build();
             userDetailsList.add(userDetails);

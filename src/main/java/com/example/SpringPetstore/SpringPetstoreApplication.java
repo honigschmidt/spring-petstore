@@ -5,6 +5,7 @@ import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.io.IOException;
 
@@ -19,10 +20,11 @@ public class SpringPetstoreApplication {
     TagRepository tagRepository;
     CategoryRepository categoryRepository;
     ApiResponseRepository apiResponseRepository;
+    BCryptPasswordEncoder bCryptPasswordEncoder;
 
     String loremIpsum = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut in sodales eros. Sed pharetra tincidunt felis, quis gravida massa vestibulum vel.";
 
-    public SpringPetstoreApplication(PetRepository petRepository, OrderRepository orderRepository, UserRepository userRepository, PhotoRepository photoRepository, TagRepository tagRepository, CategoryRepository categoryRepository, ApiResponseRepository apiResponseRepository) {
+    public SpringPetstoreApplication(PetRepository petRepository, OrderRepository orderRepository, UserRepository userRepository, PhotoRepository photoRepository, TagRepository tagRepository, CategoryRepository categoryRepository, ApiResponseRepository apiResponseRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.petRepository = petRepository;
         this.orderRepository = orderRepository;
         this.userRepository = userRepository;
@@ -30,6 +32,7 @@ public class SpringPetstoreApplication {
         this.tagRepository = tagRepository;
         this.categoryRepository = categoryRepository;
         this.apiResponseRepository = apiResponseRepository;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
     public static void main(String[] args) {
@@ -160,7 +163,7 @@ public class SpringPetstoreApplication {
                 .firstName("John")
                 .lastName("Doe")
                 .email("admin@nomail.com")
-                .password("admin")
+                .password(bCryptPasswordEncoder.encode("admin"))
                 .phone("1234567890")
                 .userStatus(1)
                 .userRole(UserRole.ADMIN)
@@ -171,7 +174,7 @@ public class SpringPetstoreApplication {
                 .firstName("Jane")
                 .lastName("Doe")
                 .email("user@nomail.com")
-                .password("user")
+                .password(bCryptPasswordEncoder.encode("user"))
                 .phone("1234567890")
                 .userStatus(1)
                 .userRole(UserRole.USER)

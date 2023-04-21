@@ -50,30 +50,36 @@ public class AccountController {
     }
 
     @PostMapping(path = "/account/password/change")
-    public String changePassword(@CurrentSecurityContext(expression = "authentication?.name") String currentUser, @RequestParam String old_password, @RequestParam String new_password, Model model) {
-        if (bCryptPasswordEncoder.matches(old_password, userService.getUserByUsername(currentUser).get().getPassword())) {
-            User updatedUser = userService.getUserByUsername(currentUser).get();
-            updatedUser.setPassword(bCryptPasswordEncoder.encode(new_password));
-            userService.updateUserWithForm(updatedUser);
-            inMemoryUserDetailsManager.updatePassword(inMemoryUserDetailsManager.loadUserByUsername(currentUser), bCryptPasswordEncoder.encode(new_password));
-            model.addAttribute("image", "~/images/MessageboxImageHappy.svg");
-            model.addAttribute("message", "Password change successful.");
-            model.addAttribute("link", "/account");
-            model.addAttribute("link_name", "Back to the account page");
-            return "template_messagebox";
+    public String changePassword(@CurrentSecurityContext(expression = "authentication?.name") String currentUser, @RequestParam String current_password, @RequestParam String new_password, @RequestParam String confirm_password, Model model) {
+        if (bCryptPasswordEncoder.matches(current_password, userService.getUserByUsername(currentUser).get().getPassword())) {
+            if (new_password.equals(confirm_password)) {
+                User updatedUser = userService.getUserByUsername(currentUser).get();
+                updatedUser.setPassword(bCryptPasswordEncoder.encode(new_password));
+                userService.updateUserWithForm(updatedUser);
+                inMemoryUserDetailsManager.updatePassword(inMemoryUserDetailsManager.loadUserByUsername(currentUser), bCryptPasswordEncoder.encode(new_password));
+                model.addAttribute("image", "~/images/MessageboxImageHappy.svg");
+                model.addAttribute("message", "Password change successful.");
+                model.addAttribute("link", "/account");
+                model.addAttribute("link_name", "Back to the account page");
+                return "template_messagebox";
+            } else {
+                model.addAttribute("image", "~/images/MessageboxImageNeutral.svg");
+                model.addAttribute("message", "Confirm password does not match, password unchanged.");
+                model.addAttribute("link", "/account");
+                model.addAttribute("link_name", "Back to the account page");
+                return "template_messagebox";
+            }
         } else {
             model.addAttribute("image", "~/images/MessageboxImageNeutral.svg");
-            model.addAttribute("message", "Old password does not match, current password unchanged.");
+            model.addAttribute("message", "Current password does not match, password unchanged.");
             model.addAttribute("link", "/account");
             model.addAttribute("link_name", "Back to the account page");
             return "template_messagebox";
         }
     }
 
-    // TODO: Add option to change user fname, lname, email, phone
-    // @Requestparam=null if not provided
     @PostMapping(path = "/account/user/change")
-    public String changeUser(@CurrentSecurityContext(expression = "authentication?.name") String currentUser, @RequestParam(required = false) String first_name, @RequestParam(required = false) String last_name, @RequestParam(required = false) String email, @RequestParam(required = false) String phone) {
+    public String changeUser(@CurrentSecurityContext(expression = "authentication?.name") String currentUser, @RequestParam(required = false) String first_name, @RequestParam(required = false) String last_name, @RequestParam(required = false) String email, @RequestParam(required = false) String phone, Model model) {
         User updatedUser = userService.getUserByUsername(currentUser).get();
         if (first_name != "") {
             updatedUser.setFirstName(first_name);
@@ -88,6 +94,10 @@ public class AccountController {
             updatedUser.setPhone(phone);
         }
         userService.updateUserWithForm(updatedUser);
+        model.addAttribute("image", "~/images/MessageboxImageHappy.svg");
+        model.addAttribute("message", "Profile change successful.");
+        model.addAttribute("link", "/account");
+        model.addAttribute("link_name", "Back to the account page");
         return "template_messagebox";
     }
 
