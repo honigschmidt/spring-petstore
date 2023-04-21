@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6" xmlns="http://www.w3.org/1999/html">
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
     <meta charset="UTF-8">
     <link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'>
@@ -57,13 +57,6 @@
             font-size: small;
             text-align: left;
         }
-        .password-container {
-            margin-top: 2px;
-            margin-bottom: 2px;
-            padding: 5px;
-            font-size: small;
-            text-align: center;
-        }
         .order-container {
             margin-top: 2px;
             margin-bottom: 2px;
@@ -94,8 +87,9 @@
         .debug {
             border: 1px solid red;
         }
-        .table {
-            width: 100%;
+        .table-center {
+            margin-left:auto;
+            margin-right:auto;
         }
         .cell-center {
             text-align: center;
@@ -108,8 +102,6 @@
        th {
             font-weight: bold;
        }
-
-
 
     </style>
 </head>
@@ -127,53 +119,64 @@
         <div class="title">ACCOUNT</div>
     </div>
     <div class="account-container">
-        <div class="title">Change Profile</div>
+        <div class="title">Profile</div>
         <div class="profile-container">
-            <form action="/account/user/change" method="post">
-                <table class="table-center" style="width: 100%">
-                    <tr>
-                        <th>Username:</th>
-                        <td th:text="${user.username}"></td>
-                    </tr>
-                    <tr>
-                        <th>User role:</th>
-                        <td sec:authentication="principal.authorities"></td>
-                    </tr>
-                    <tr>
-                        <th>First name:</th>
-                        <td>
+            <table class="table-center">
+                <tr>
+                    <th>Username:</th>
+                    <td th:text="${user.username}"></td>
+                </tr>
+                <tr>
+                    <th>Change password:</th>
+                    <td>
+                        <form action="/account/password/change" method="post">
+                            <input type="password" size="16" name="old_password" placeholder="Old password*" required>
+                            <input type="password" size="16" name="new_password" placeholder="New password*" required>
+                            <button type="submit">CHANGE PASSWORD</button>
+                        </form>
+                    </td>
+                </tr>
+                <tr>
+                    <th>User role:</th>
+                    <td sec:authentication="principal.authorities"></td>
+                </tr>
+                <tr>
+                    <th>First name:</th>
+                    <td>
+                        <form action="/account/user/change" method="post">
                             <input type="text" name="first_name" th:placeholder="${user.firstName}">
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>Last name:</th>
-                        <td>
+                            <button type="submit">CHANGE FIRST NAME</button>
+                        </form>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Last name:</th>
+                    <td>
+                        <form action="/account/user/change" method="post">
                             <input type="text" name="last_name" th:placeholder="${user.lastName}">
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>Email:</th>
-                        <td>
+                            <button type="submit">CHANGE LAST NAME</button>
+                        </form>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Email:</th>
+                    <td>
+                        <form action="/account/user/change" method="post">
                             <input type="text" name="email" th:placeholder="${user.email}">
-
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>Phone:</th>
-                        <td>
+                            <button type="submit">CHANGE EMAIL</button>
+                        </form>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Phone:</th>
+                    <td>
+                        <form action="/account/user/change" method="post">
                             <input type="text" name="phone" th:placeholder="${user.phone}">
-                        </td>
-                    </tr>
-                    <!--                    <tr>-->
-                    <!--                        <td colspan="2" style="text-align: center; background-color: #ebf5fb">-->
-                    <!--                            <button type="submit">CHANGE</button>-->
-                    <!--                        </td>-->
-                    <!--                    </tr>-->
-                </table>
-                <div style="text-align: center">
-                    <button type="submit" style="margin-top: 10px">CHANGE PROFILE</button>
-                </div>
-            </form>
+                            <button type="submit">CHANGE PHONE</button>
+                        </form>
+                    </td>
+                </tr>
+            </table>
         </div>
     </div>
     <div class="account-container">
@@ -210,16 +213,6 @@
                     </tr>
                 </table>
             </div>
-        </div>
-    </div>
-    <div class="account-container">
-        <div class="title">Change Password</div>
-        <div class="password-container">
-            <form action="/account/password/change" method="post">
-                <input type="password" size="16" name="old_password" placeholder="Current password*" required>
-                <input type="password" size="16" name="new_password" placeholder="New password*" required>
-                <button type="submit">CHANGE PASSWORD</button>
-            </form>
         </div>
     </div>
     <div class="account-container">

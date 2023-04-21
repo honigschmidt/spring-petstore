@@ -74,11 +74,20 @@ public class AccountController {
     // @Requestparam=null if not provided
     @PostMapping(path = "/account/user/change")
     public String changeUser(@CurrentSecurityContext(expression = "authentication?.name") String currentUser, @RequestParam(required = false) String first_name, @RequestParam(required = false) String last_name, @RequestParam(required = false) String email, @RequestParam(required = false) String phone) {
-//        User updatedUser = userService.getUserByUsername(currentUser).get();
-//        if (first_name != null) {
-//            updatedUser.setFirstName(first_name);
-//        }
-//        userService.updateUserWithForm(updatedUser);
+        User updatedUser = userService.getUserByUsername(currentUser).get();
+        if (first_name != "") {
+            updatedUser.setFirstName(first_name);
+        }
+        if (last_name != "") {
+            updatedUser.setLastName(last_name);
+        }
+        if (email != "") {
+            updatedUser.setEmail(email);
+        }
+        if (phone != "") {
+            updatedUser.setPhone(phone);
+        }
+        userService.updateUserWithForm(updatedUser);
         return "template_messagebox";
     }
 
