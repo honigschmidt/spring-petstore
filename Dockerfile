@@ -1,3 +1,5 @@
+# --- Image ---
+
 FROM eclipse-temurin
  
 WORKDIR /app
@@ -13,6 +15,8 @@ RUN ./mvnw dependency:go-offline
 
 # Copy app source files
 COPY src ./src
+
+# --- Container ---
 
 # Run app
 CMD ["./mvnw", "spring-boot:run"]
