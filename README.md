@@ -1,0 +1,1 @@
+A SpringBoot implementation of the Swagger Petstore (https://petstore.swagger.io/). Check screenshots for details.
